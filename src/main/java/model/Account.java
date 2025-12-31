@@ -8,16 +8,8 @@ private String email;
 private int number;
 private String address;
 private boolean role;
-public Account(int idAccount, String userName, String password, String email, int number, String address,
-		boolean role) {
-	super();
-	this.idAccount = idAccount;
-	this.userName = userName;
-	this.password = password;
-	this.email = email;
-	this.number = number;
-	this.address = address;
-	this.role = role;
+public Account() {
+	
 }
 public int getIdAccount() {
 	return idAccount;

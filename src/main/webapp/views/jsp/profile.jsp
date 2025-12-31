@@ -7,7 +7,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Thông tin cá nhân</title>
-    <link rel="stylesheet" href="/FoodOrderWeb/views/Shared/profile.css">">
+    <link rel="stylesheet"
+	href="${pageContext.request.contextPath}/FoodOrderWeb/views/Shared/profile.css">
+    <jsp:include page="/views/jsp/demo.jsp"></jsp:include>
+    
 </head>
 <body>
 

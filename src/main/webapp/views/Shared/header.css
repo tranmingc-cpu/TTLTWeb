@@ -4,8 +4,11 @@
 .top-bar{
     background: linear-gradient(90deg,#ff7a18,#ff4d4f);
     color:#fff;
-    font-size:14px;
-    padding:6px 40px;
+
+    font-size:16px;         
+    letter-spacing:0.3px;    
+
+    padding:8px 40px;        
 
     display:flex;
     justify-content:space-between;
@@ -15,7 +18,8 @@
 .top-bar a{
     color:#fff;
     text-decoration:none;
-    margin:0 6px;
+    margin:0 8px;
+    font-weight:600;         
 }
 
 .top-bar a:hover{
@@ -29,8 +33,9 @@
 }
 
 .top-bar span{
-    opacity:0.7;
-    margin:0 6px;
+    opacity:0.85;          
+    margin:0 8px;
+    font-weight:500;
 }
 
 .header {

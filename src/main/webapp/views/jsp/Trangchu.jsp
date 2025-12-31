@@ -5,44 +5,25 @@
 <head>
 <meta charset="UTF-8">
 <title>Food Online</title>
-
-<link rel="stylesheet" href="/FoodOrderWeb/views/Shared/index.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/views/Shared/index.css">
 </head>
 <body>
-<div class="header">
-
-    <!-- LOGO -->
-    <a class="logo" href="#">
-        <div class="food-logo spoon">
-            <div class="spoon-head"></div>
-            <div class="spoon-handle"></div>
-        </div>
-        <span>FOOD ONLINE</span>
-    </a>
-
-    <!-- SEARCH -->
-    <div class="search-box">
-        <input type="text" placeholder="Tìm đồ ăn, đồ uống">
-        <button>🔍</button>
+<jsp:include page="/views/jsp/demo.jsp"></jsp:include>
+<!-- PROMO BANNER -->
+<!--  <div class="promo-banner">
+    <div class="promo-left">
+        <span class="promo-badge">🔥 HOT DEAL</span>
+        <h2>Giảm <span>30%</span> cho Chicken</h2>
+        <p>Áp dụng hôm nay • Giao nhanh trong 30 phút</p>
+        <a href="category?id=1" class="promo-btn">Đặt ngay</a>
     </div>
 
-    <!-- RIGHT ICONS -->
-    <div class="header-icons">
-
-        <!-- CART -->
-        <div class="header-cart">
-            🛒
-            <span class="cart-count">2</span>
-        </div>
-
-        <!-- USER -->
-        <div class="header-user">
-            <img src="/FoodOrderWeb/images/user.png" alt="User">
-        </div>
-
+    <div class="promo-right">
+        🍗
     </div>
-
 </div>
+-->
 	<div class="nav">
 		<a class="active" href="#">Trang Chủ</a> 
 		<a href="#">Tất Cả</a> 
@@ -182,6 +163,7 @@
 							<a href="#">Xem tất cả</a>
 						</div>
 						
+	<jsp:include page="/views/jsp/footer.jsp"></jsp:include>					
 			
 </body>
 </html>

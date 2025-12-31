@@ -40,6 +40,7 @@ public class RegisterServlet extends HttpServlet {
 			username.isEmpty()||password.isEmpty()||email.isEmpty()) {
 		request.setAttribute("error","vui lòng nhập đầy đủ thông tin!");
 		request.getRequestDispatcher("register.jsp").forward(request, response);
+		request.getRequestDispatcher("/views/jsp/register.jsp").forward(request, response);
 		
 	}
 		int number = Integer.parseInt(numberStr);

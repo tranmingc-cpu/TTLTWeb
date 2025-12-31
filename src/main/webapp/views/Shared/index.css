@@ -16,157 +16,75 @@ a{
     text-decoration:none;
     color:inherit;
 }
+/* ===== PROMO BANNER ===== */
 
-/* ========== HEADER ========== */
-.header-title{
-    background:#fff;
-    box-shadow:0 4px 20px rgba(0,0,0,0.08);
-    margin:30px auto;
-    max-width:1200px;
-    padding:20px 30px;
+.promo-banner {
+    max-width: 1200px;
+    height: 160px;
+    margin: 30px auto;
+    padding: 0 40px;
+    border-radius: 18px;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    border-radius:16px;
-}
-
-/*---------header */
-.header{
-    display:flex;
-    align-items:center;
-    gap:30px;
-    padding:14px 40px;
-    background:#fff;
-    box-shadow:0 2px 6px rgba(0,0,0,.08);
-    margin-bottom: 25px;
-}
-
-.search-box{
-    flex:1;
-    display:flex;
-}
-
-.search-box input{
-    flex:1;
-    padding:12px;
-    border:2px solid #ff4d4f;
-    border-radius:25px 0 0 25px;
-}
-
-.search-box button{
-    width:50px;
-    border:none;
-    background:#ff4d4f;
-    color:#fff;
-    border-radius:0 25px 25px 0;
-}
-
-.header-icons{
-    display:flex;
-    align-items:center;
-    gap:20px;
-}
-
-.header-cart{
-    position:relative;
-    font-size:24px;
-    cursor:pointer;
-}
-
-.cart-count{
-    position:absolute;
-    top:-6px;
-    right:-10px;
-    background:red;
-    color:white;
-    font-size:11px;
-    padding:2px 6px;
-    border-radius:50%;
-}
-
-.header-user img{
-    width:32px;
-    height:32px;
-    border-radius:50%;
-    cursor:pointer;
-}
-
-.cart-count{
-    position: absolute;
-    top: -6px;
-    right: -6px;
-    width: 18px;
-    height: 18px;
-    background: #e63946;
-    color: #fff;
-    font-size: 11px;
-    border-radius: 50%;
+    background: linear-gradient(135deg, #ff4d4f, #ff9800);
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* LEFT CONTENT */
+.promo-left {
+    color: #fff;
+    max-width: 520px;
+}
+
+.promo-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.25);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    margin-bottom: 12px;
 }
 
 
-.top-search{
-    background:#fff;
-    padding:12px 0;
-    box-shadow:0 4px 16px rgba(0,0,0,0.06);
+.promo-left h2 {
+    font-size: 32px;
+    margin: 0 0 8px;
 }
 
-.search-box{
-    max-width:1200px;
-    margin:0 auto;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:0 20px;
+.promo-left h2 span {
+    color: #fff700;
 }
 
-.search-box input{
-    flex:1;
-    padding:12px 18px;
-    font-size:16px;
-    border-radius:30px;
-    border:1px solid #ddd;
-    outline:none;
+.promo-left p {
+    font-size: 14px;
+    opacity: 0.95;
 }
 
-.search-box input:focus{
-    border-color:#e63946;
+/* BUTTON */
+.promo-btn {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 10px 26px;
+    background: #ffffff;
+    color: #ff4d4f;
+    font-weight: bold;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: 0.3s;
 }
 
-.search-box button{
-    padding:12px 20px;
-    border-radius:30px;
-    border:none;
-    background:#e63946;
-    color:#fff;
-    font-size:16px;
-    cursor:pointer;
+.promo-btn:hover {
+    background: #ffeaea;
 }
 
-.search-box button:hover{
-    background:#d62828;
-}
 
-.logo{
-    font-size:28px;
-    font-weight:800;
-    letter-spacing:1px;
-    text-transform:uppercase;
-
-    color:#e63946;
-    background:#fff0f1;
-    padding:10px 28px;
-    border-radius:30px;
-
-    box-shadow:0 6px 16px rgba(230,57,70,0.25);
-}
-.logo:hover{
-    transform:scale(1.05);
-    transition:0.3s ease;
+/* RIGHT ICON */
+.promo-right {
+    font-size: 88px;
+    opacity: 0.9;
 }
 
 
@@ -175,11 +93,10 @@ a{
     justify-content:center;
     align-items:center;
     gap:16px;
-    margin-top:0px;
-     flex-wrap:wrap;
-  
-  
+    margin-top:16px;   /* lùi xuống */
+    flex-wrap:wrap;
 }
+
 
 
 .nav a{

@@ -5,12 +5,39 @@
 <head>
 <meta charset="UTF-8">
 <title>Food Online</title>
-<link rel="stylesheet" href="/FoodOrderWeb/views/Shared/.css">
+<link rel="stylesheet" href="/FoodOrderWeb/views/Shared/chicken.css">
 </head>
 <body>
-<div class="header-title">
-	<h1>FOOD ONLINE</h1>
-	</div>
+ <a class="logo" href="#">
+        <div class="food-logo spoon">
+            <div class="spoon-head"></div>
+            <div class="spoon-handle"></div>
+        </div>
+        <span>FOOD ONLINE</span>
+    </a>
+
+    <!-- SEARCH -->
+    <div class="search-box">
+        <input type="text" placeholder="Tìm đồ ăn, đồ uống">
+        <button>🔍</button>
+    </div>
+
+    <!-- RIGHT ICONS -->
+    <div class="header-icons">
+
+        <!-- CART -->
+        <div class="header-cart">
+            🛒
+            <span class="cart-count">2</span>
+        </div>
+
+        <!-- USER -->
+        <div class="header-user">
+            <img src="/FoodOrderWeb/images/user.png" alt="User">
+        </div>
+
+    </div>
+
 	<div class="nav">
 		<a href="#">Trang Chủ</a> 
 		<a href="#">Tất Cả</a> 

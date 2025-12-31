@@ -8,55 +8,9 @@
     <title>Giỏ hàng</title>
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/views/Shared/cart.css">
+          <jsp:include page="/views/jsp/demo.jsp"></jsp:include>
 </head>
 <body>
-
-<!-- ===== TOP BAR ===== -->
-<div class="top-bar">
-    <div class="top-left">
-        <a href="#">Kênh Người Bán</a> |
-        <a href="#">Tải Ứng Dụng</a> |
-        <a href="#">Kết Nối</a>
-    </div>
-
-    <div class="top-right">
-        <a href="#">Thông Báo</a>
-        <a href="#">Hỗ Trợ</a>
-
-        <div class="user-menu">
-            <c:choose>
-                <c:when test="${not empty sessionScope.user}">
-                    <img src="${sessionScope.user.avatar}" class="user-avatar">
-                    <span>${sessionScope.user.userName}</span>
-                </c:when>
-                <c:otherwise>
-                    <a href="login.jsp">Đăng nhập</a>
-                </c:otherwise>
-            </c:choose>
-        </div>
-    </div>
-</div>
-
-<!-- ===== HEADER ===== -->
-<div class="main-header">
- <!-- LOGO -->
-    <a class="logo" href="#">
-        <div class="food-logo spoon">
-            <div class="spoon-head"></div>
-            <div class="spoon-handle"></div>
-        </div>
-        <span>FOOD ONLINE</span>
-    </a>
-
-    <form class="search-box">
-        <input type="text" placeholder="Tìm món ăn, quán ăn...">
-        <button>🔍</button>
-    </form>
-
-    <a href="${pageContext.request.contextPath}/cart" class="cart-icon">
-        🛒 <span class="cart-count">${cartSize}</span>
-    </a>
-</div>
 
 <!-- ===== CART ===== -->
 <div class="cart-container">
