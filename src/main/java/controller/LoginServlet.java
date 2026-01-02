@@ -15,11 +15,12 @@ import DAO.AccountDAO;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/Login")
+@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
        
-    /**
+	private static final long serialVersionUID = 1L;
+
+	/**
      * @see HttpServlet#HttpServlet()
      */
     public LoginServlet() {
@@ -31,8 +32,7 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		request.getRequestDispatcher("/views/jsp/login.jsp").forward(request, response);
 	}
 
@@ -51,11 +51,11 @@ public class LoginServlet extends HttpServlet {
 	            HttpSession session = request.getSession();
 	            session.setAttribute("account", acc);
 
-	            response.sendRedirect("home.jsp"); // hoặc trang chính
+	            response.sendRedirect(request.getContextPath()+"/home"); // hoặc trang chính
 	        } else {
 	            //  Sai tài khoản hoặc mật khẩu
 	            request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
-	            request.getRequestDispatcher("/views/Shared/login.jsp")
+	            request.getRequestDispatcher("/views/jsp/login.jsp")
 	                   .forward(request, response);
 	        }
 	    }
@@ -63,4 +63,3 @@ public class LoginServlet extends HttpServlet {
 		
 	}
 
-}

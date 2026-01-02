@@ -15,7 +15,7 @@ public Account login(String username , String pass) {
 		ps.setString(2, pass);
 		ResultSet rs = ps.executeQuery();
 		if(rs.next()) {
-			return new Account(rs.getInt("id"),rs.getString("username"),rs.getString("password"),rs.getString("email"),rs.getInt("number"),rs.getString("address"), rs.getBoolean("false"));
+			return new Account();
 		}
 	} catch (Exception e) {
 		// TODO: handle exception
@@ -24,7 +24,7 @@ public Account login(String username , String pass) {
 	return null;
 }
 public void register(Account acc) {
-	String sql ="INSERT INTO ACCOUNT VALUES (?,?,?,?,?,?)";
+	String sql ="INSERT INTO ACCOUNT VALUES (?,?,?,?,?)";
 	try (Connection c = DBConnect.getConnect();
 			PreparedStatement ps = c.prepareStatement(sql)){
 		ps.setString(1,acc.getUserName());
@@ -38,5 +38,17 @@ public void register(Account acc) {
 		// TODO: handle exception
 		e.printStackTrace();
 	}
+}
+public boolean checkExitAccount(String username) {
+	String sql ="SELECT 1 FROM ACCOUNT WHERE username = ?";
+	try(Connection con = DBConnect.getConnect();
+			PreparedStatement ps = con.prepareStatement(sql)) {
+		ps.setString(1, username);
+			ResultSet rs = ps.executeQuery();
+			return rs.next();
+		
+	} catch (Exception e) {
+e.printStackTrace();	}
+	return false;
 }
 }

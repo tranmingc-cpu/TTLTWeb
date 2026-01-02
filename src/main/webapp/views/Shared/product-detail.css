@@ -1,0 +1,79 @@
+@charset "UTF-8";
+.container {
+    width: 1100px;
+    margin: auto;
+}
+
+.breadcrumb {
+    margin: 15px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.food-detail {
+    display: flex;
+    gap: 40px;
+}
+
+.food-image img {
+    width: 420px;
+    border-radius: 8px;
+}
+
+.food-info h1 {
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+.status {
+    margin-bottom: 10px;
+}
+
+.in-stock {
+    color: green;
+    font-weight: bold;
+}
+
+.price {
+    margin: 15px 0;
+}
+
+.new-price {
+    color: red;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.old-price {
+    text-decoration: line-through;
+    margin-left: 10px;
+    color: gray;
+}
+
+.promo-box {
+    background: #fff3cd;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.quantity {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.quantity input {
+    width: 60px;
+    text-align: center;
+}
+
+.add-cart {
+    background: #ff5722;
+    color: white;
+    padding: 12px;
+    width: 100%;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}

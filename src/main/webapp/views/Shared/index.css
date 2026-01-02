@@ -7,15 +7,23 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body{
-    background: #f5f6fa;
-    color:#333;
+html, body {
+    height: 100%;
 }
 
 a{
     text-decoration:none;
     color:inherit;
 }
+.page-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.page-content {
+    flex: 1;
+}
+
 /* ===== PROMO BANNER ===== */
 
 .promo-banner {
@@ -141,6 +149,10 @@ a{
     grid-template-columns: repeat(5,minmax(0,1fr)); 
     gap: 16px;
 }
+.product-link {
+    text-decoration: none;
+    color: inherit;
+}
 
 .product-card {
     display: flex;
@@ -258,7 +270,7 @@ a{
     .products{ grid-template-columns: 1fr; }
 }
 
-}
+
 
 
 

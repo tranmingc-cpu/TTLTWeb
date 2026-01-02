@@ -6,13 +6,19 @@
 <meta charset="UTF-8">
 <title>Register</title>
 <link rel="stylesheet"
+      href="${pageContext.request.contextPath}/views/Shared/login.css">
+<link rel="stylesheet"
       href="${pageContext.request.contextPath}/views/Shared/register.css">
 </head>
 <body>
+ <div class="page"> 
+  <div class="header-title">
+        <h1>
+            FOOD<span>ORDER</span>
+            <small>ONLINE</small>
+        </h1>
+    </div>
 
-<div class="header-title">
-    <h1>FOOD ORDER ONLINE</h1>
-</div>
 
 <div class="register-container">
 
@@ -38,7 +44,7 @@
         <input type="password" name="password"
                placeholder="Mật khẩu" required>
 
-        <input type="text" name="number"
+        <input type="text" name="phone"
                placeholder="Số điện thoại"
                value="${param.number}" required>
 
@@ -54,6 +60,7 @@
         <a href="login">Đăng nhập</a>
     </p>
 
+</div>
 </div>
 
 </body>

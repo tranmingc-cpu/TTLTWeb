@@ -138,6 +138,28 @@ body {
 .eye:hover {
     opacity: 1;
 }
+.login-extra {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+}
+
+.login-extra a {
+    color: #e53935;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-extra a:hover {
+    text-decoration: underline;
+}
+
+.login-extra .separator {
+    margin: 0 8px;
+    color: #999;
+}
+
 
 
 

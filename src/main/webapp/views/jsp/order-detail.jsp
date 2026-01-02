@@ -9,65 +9,101 @@
     <meta charset="UTF-8">
     <title>Chi tiết đơn hàng</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/Shared/order-detail.css">
+    
 </head>
 <body>
+<jsp:include page="/views/jsp/demo.jsp"></jsp:include>
+<<div class="cart-container">
 
-<div class="order-container">
+    <h2 class="cart-title">🛒 Giỏ hàng của bạn</h2>
 
-    <!-- ===== HEADER ===== -->
-    <div class="order-header">
-        <div class="shop-name">FOOD ONLINE</div>
-        <div class="order-status">${order.status}</div>
-    </div>
-
-    <!-- ===== PRODUCT LIST ===== -->
-    <c:forEach items="${order.items}" var="item">
-        <div class="product-row">
-            <img src="${item.image}" class="product-img">
-
-            <div class="product-info">
-                <h4>${item.name}</h4>
-                <p>Phân loại: ${item.category}</p>
-                <p>Số lượng: x${item.quantity}</p>
-            </div>
-
-            <div class="product-price">
-                <fmt:formatNumber value="${item.price}" type="number"/> ₫
-            </div>
+    <!-- CART TABLE -->
+    <div class="cart-table">
+        <div class="cart-header">
+            <span>Sản phẩm</span>
+            <span>Giá</span>
+            <span>Số lượng</span>
+            <span>Tổng</span>
+            <span>Xóa</span>
         </div>
-    </c:forEach>
 
-    <!-- ===== SHIPPING ===== -->
-    <div class="order-box">
-        <h4>Thông tin vận chuyển</h4>
-        <p>Đơn vị vận chuyển: ${order.shippingUnit}</p>
-        <p>Ngày nhận dự kiến: ${order.deliveryDate}</p>
+        <!-- ITEM -->
+        <div class="cart-item">
+            <div class="cart-product">
+                <img src="images/pizza.jpg">
+                <div>
+                    <h4>Pizza Phô Mai</h4>
+                    <p>Size lớn</p>
+                </div>
+            </div>
+
+            <span class="price">120.000đ</span>
+
+            <div class="quantity">
+                <button>-</button>
+                <input type="text" value="1">
+                <button>+</button>
+            </div>
+
+            <span class="total">120.000đ</span>
+
+            <button class="remove">✖</button>
+        </div>
+
     </div>
+<div class="shipping">
+    <h4>🚚 Đơn vị vận chuyển</h4>
 
-    <!-- ===== RECEIVER ===== -->
-    <div class="order-box">
-        <h4>Thông tin người nhận</h4>
-        <p>${order.receiverName}</p>
-        <p>${order.phone}</p>
-        <p>${order.address}</p>
-    </div>
+    <label class="shipping-option">
+        <input type="radio" name="ship" checked>
+        <span>
+            <strong>Giao hàng nhanh</strong><br>
+            <small>2 – 4 giờ</small>
+        </span>
+        <span class="ship-price">20.000đ</span>
+    </label>
 
-    <!-- ===== TOTAL ===== -->
-    <div class="order-total">
-        <span>Tổng tiền:</span>
-        <strong>
-            <fmt:formatNumber value="${order.total}" type="number"/> ₫
-        </strong>
-    </div>
+    <label class="shipping-option">
+        <input type="radio" name="ship">
+        <span>
+            <strong>Giao hàng tiết kiệm</strong><br>
+            <small>Trong ngày</small>
+        </span>
+        <span class="ship-price">10.000đ</span>
+    </label>
 
-    <!-- ===== ACTION ===== -->
-    <div class="order-action">
-        <button class="btn-outline">Mua lại</button>
-        <button class="btn-danger">Hủy đơn</button>
+    <label class="shipping-option">
+        <input type="radio" name="ship">
+        <span>
+            <strong>Giao hàng hỏa tốc</strong><br>
+            <small>30 – 60 phút</small>
+        </span>
+        <span class="ship-price">30.000đ</span>
+    </label>
+</div>
+
+    <!-- SUMMARY -->
+    <div class="cart-summary">
+        <div class="summary-row">
+            <span>Tạm tính</span>
+            <span>120.000đ</span>
+        </div>
+        <div class="summary-row">
+            <span>Phí giao hàng</span>
+            <span>20.000đ</span>
+        </div>
+        <div class="summary-row total">
+            <span>Tổng cộng</span>
+            <span>140.000đ</span>
+        </div>
+
+        <button class="checkout-btn">Thanh toán</button>
+        <a href="index.jsp" class="back-shop">← Tiếp tục mua hàng</a>
     </div>
 
 </div>
 
+	<jsp:include page="/views/jsp/footer.jsp"></jsp:include>	
 </body>
 </html>
     

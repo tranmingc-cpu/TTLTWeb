@@ -56,10 +56,11 @@ public class CheckoutServlet extends HttpServlet {
 	// chat bao them vao de biết session.getattribute tra ve mot list<cartitem>
 	@SuppressWarnings("unchecked")
 	List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
-	if(cart==null || cart.isEmpty()) {
-		response.sendRedirect("cart");
-		return;
-	}
+	   if (cart == null || cart.isEmpty()) {
+           request.setAttribute("error", "Giỏ hàng trống, không thể thanh toán!");
+           request.getRequestDispatcher("cart.jsp").forward(request, response);
+           return;
+       }
 	// toal 
 	double total =0;
 	for (CartItem cartItem : cart) {
