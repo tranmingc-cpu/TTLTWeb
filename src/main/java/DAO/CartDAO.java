@@ -5,144 +5,160 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import model.Cart;
 import model.CartItem;
 import model.Food;
 
 public class CartDAO {
-	public ArrayList<CartItem> getCart(int userId) {
-		 ArrayList<CartItem> list = new ArrayList<>();
 
-		String sql = "SELECT * FROM CART INNER JOIN(CARTDETAIL INNER JOIN FOOD ON CARTDETAIL.FOODID = FOOD.ID)"
-				+ "  ON CART.ID = CARTDETAIL.ID " + "WHERE CART.USERID = ? ";
-		try {
-			Connection con = DBConnect.getConnect();
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, userId);
-			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
-			 Food food = new Food();
-             food.setId(rs.getInt("foodId"));
-             food.setName(rs.getString("NAME"));
-             food.setPrice(rs.getDouble("PRICE"));
+    /* ===== ĐẢM BẢO USER CÓ CART ===== */
+    public void createCartIfNotExists(int userId) {
+        String check = "SELECT ID FROM CART WHERE USERID = ?";
+        String insert = "INSERT INTO CART(ID, USERID) VALUES(?, ?)";
 
-             // CartDetail
-             CartItem cd = new CartItem();
-             cd.setId(rs.getInt("cartDetailId"));
-             cd.setQuantity(rs.getInt("QUANTITY"));
-             cd.setFood(food);
+        try (Connection con = DBConnect.getConnect()) {
+            PreparedStatement ps = con.prepareStatement(check);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
 
-             list.add(cd);
-         }
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return list;
-	}
-	private int getCartIdByUser(int userId, Connection con) throws Exception {
-	    String sql = "SELECT ID FROM CART WHERE USERID = ?";
-	    PreparedStatement ps = con.prepareStatement(sql);
-	    ps.setInt(1, userId);
-	    ResultSet rs = ps.executeQuery();
+            if (!rs.next()) {
+                PreparedStatement ps2 = con.prepareStatement(insert);
+                ps2.setInt(1, userId); // CART.ID = USERID
+                ps2.setInt(2, userId);
+                ps2.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	    if (rs.next()) return rs.getInt("ID");
+    /* ===== LẤY GIỎ HÀNG ===== */
+    public ArrayList<CartItem> getCart(int cartId) {
+        ArrayList<CartItem> list = new ArrayList<>();
 
-	    // nếu chưa có cart → tạo mới
-	    String insert = "INSERT INTO CART(USERID) VALUES(?)";
-	    ps = con.prepareStatement(insert, PreparedStatement.RETURN_GENERATED_KEYS);
-	    ps.setInt(1, userId);
-	    ps.executeUpdate();
+        String sql = """
+            SELECT f.ID, f.NAME, f.PRICE, cd.QUANTITY
+            FROM CARTDETAIL cd
+            JOIN FOOD f ON cd.FOODID = f.ID
+            WHERE cd.ID = ?
+        """;
 
-	    rs = ps.getGeneratedKeys();
-	    if (rs.next()) return rs.getInt(1);
+        try (Connection con = DBConnect.getConnect();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-	    throw new Exception("Cannot create cart");
-	}
-// thêm sp vào giỏ hàng 
-	public void addToCart(int userId , int foodId,int quantity) throws Exception {
-		String checksql = " SELECT CD.ID , CD.QUANTITY " +
-	"FROM CART C JOIN CARTDETAIL CD ON C.ID = CD.CARTID "+
-				"WHERE C.USERID = ? AND CD.FOODID = ? ";
-		String updatesql = "UPDATE CARTDETAIL SET QUANTITY = ? WHERE ID = ?";
-		String insertSql = "INSERT INTO CARTDETAIL(CARTID, FOODID, QUANTITY) VALUES(?, ?, ?)";
-		try(Connection con = DBConnect.getConnect()){
-			int cartId = getCartIdByUser(userId, con);
-			PreparedStatement ps = con.prepareStatement(checksql);
-			ps.setInt(1, userId);
-			ps.setInt(2, foodId);
-			ResultSet rs = ps.executeQuery();
-			if(rs.next()) {
-				int cartDetailID = rs.getInt("ID");
-				int newQty = rs.getInt("QUANTITY") +quantity;
-				PreparedStatement ps1 = con.prepareStatement(updatesql);
-				ps1.setInt(1, newQty);
-				ps1.setInt(1, cartDetailID);
-				ps1.executeUpdate();
-			} else {
-				 PreparedStatement ps2 = con.prepareStatement(insertSql);
-		            ps2.setInt(1, cartId);
-		            ps2.setInt(2, foodId);
-		            ps2.setInt(3, quantity);
-		            ps2.executeUpdate();
-		        }
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
-	// giảm số lượng trong giỏ hàng 
-	public void decreaseQuantity(int userId, int foodId) {
-	    String sql =
-	        "UPDATE CARTDETAIL cd " +
-	        "JOIN CART c ON cd.CARTID = c.ID " +
-	        "SET cd.QUANTITY = cd.QUANTITY - 1 " +
-	        "WHERE c.USERID = ? AND cd.FOODID = ? AND cd.QUANTITY > 1";
+            ps.setInt(1, cartId);
+            ResultSet rs = ps.executeQuery();
 
-	    try (Connection con = DBConnect.getConnect();
-	         PreparedStatement ps = con.prepareStatement(sql)) {
+            while (rs.next()) {
+                Food food = new Food();
+                food.setId(rs.getInt("ID"));
+                food.setName(rs.getString("NAME"));
+                food.setPrice(rs.getDouble("PRICE"));
 
-	        ps.setInt(1, userId);
-	        ps.setInt(2, foodId);
-	        ps.executeUpdate();
+                CartItem item = new CartItem();
+                item.setFood(food);
+                item.setQuantity(rs.getInt("QUANTITY"));
 
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	}
+                list.add(item);
+            }
 
-	// thêm số lượgn sản phẩm đã có sẵn trong giỏ hàng
-	public void updateQuantity (int cartdetailId, int quantity) {
-		String sql = "UPADATE CARTDETAIL SET QUANTITY = ? WHERE ID = ? ";
-		try (Connection con = DBConnect.getConnect()){
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, quantity);
-			ps.setInt(2, cartdetailId);
-			ps.executeUpdate();
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
-	// xóa khỏi giỏ hàng
-	public void removeItem(int userId, int foodId) {
-	    String sql =
-	        "DELETE cd FROM CARTDETAIL cd " +
-	        "JOIN CART c ON cd.CARTID = c.ID " +
-	        "WHERE c.USERID = ? AND cd.FOODID = ?";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
-	    try (Connection con = DBConnect.getConnect();
-	         PreparedStatement ps = con.prepareStatement(sql)) {
+    /* ===== ADD TO CART ===== */
+    public void addToCart(int userId, int foodId, int quantity) {
 
-	        ps.setInt(1, userId);
-	        ps.setInt(2, foodId);
-	        ps.executeUpdate();
+        String findCartSql = "SELECT ID FROM CART WHERE USERID = ?";
+        String checkItemSql =
+            "SELECT ID, QUANTITY FROM CARTDETAIL " +
+            "WHERE CARTID = ? AND FOODID = ?";
+        String updateSql =
+            "UPDATE CARTDETAIL SET QUANTITY = ? WHERE ID = ?";
+        String insertSql =
+            "INSERT INTO CARTDETAIL (CARTID, FOODID, QUANTITY) VALUES (?, ?, ?)";
 
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	}
+        try (Connection con = DBConnect.getConnect()) {
 
-	}
+            /* ===== LẤY CART ID ===== */
+            int cartId;
+            try (PreparedStatement ps = con.prepareStatement(findCartSql)) {
+                ps.setInt(1, userId);
+                ResultSet rs = ps.executeQuery();
+                rs.next();
+                cartId = rs.getInt("ID");
+            }
+
+            /* ===== CHECK FOOD ===== */
+            try (PreparedStatement ps = con.prepareStatement(checkItemSql)) {
+                ps.setInt(1, cartId);
+                ps.setInt(2, foodId);
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    int detailId = rs.getInt("ID");
+                    int newQty = rs.getInt("QUANTITY") + quantity;
+
+                    try (PreparedStatement ups = con.prepareStatement(updateSql)) {
+                        ups.setInt(1, newQty);
+                        ups.setInt(2, detailId);
+                        ups.executeUpdate();
+                    }
+
+                } else {
+                    try (PreparedStatement ins = con.prepareStatement(insertSql)) {
+                        ins.setInt(1, cartId);
+                        ins.setInt(2, foodId);
+                        ins.setInt(3, quantity);
+                        ins.executeUpdate();
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
+    /* ===== UPDATE QUANTITY ===== */
+    public void updateQuantity(int cartId, int foodId, int quantity) {
+        String sql = """
+            UPDATE CARTDETAIL
+            SET QUANTITY = ?
+            WHERE ID = ? AND FOODID = ?
+        """;
+
+        try (Connection con = DBConnect.getConnect();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, quantity);
+            ps.setInt(2, cartId);
+            ps.setInt(3, foodId);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /* ===== REMOVE ITEM ===== */
+    public void removeItem(int cartId, int foodId) {
+        String sql = """
+            DELETE FROM CARTDETAIL
+            WHERE ID = ? AND FOODID = ?
+        """;
+
+        try (Connection con = DBConnect.getConnect();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, cartId);
+            ps.setInt(2, foodId);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

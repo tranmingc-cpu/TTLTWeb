@@ -67,18 +67,17 @@
         </div>
     </div>
 
+ <a href="${pageContext.request.contextPath}/cart" class="cart-link">
     <div class="circle-btn cart-btn">
         🛒
         <c:if test="${cartCount > 0}">
             <span class="cart-badge">${cartCount}</span>
         </c:if>
     </div>
+</a>
 
 </div>
   
-
-
-	</div>
 	</div>
 
 </body>

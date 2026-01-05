@@ -70,7 +70,7 @@ public class CheckoutServlet extends HttpServlet {
 	order.setAccountId(acc.getIdAccount());
 	order.setOrderDate(new Date());
 	order.setTotalAmount(total);
-	order.setStatus("NEW");
+	order.setStatus("COMPLETED");
 	
 	OrderDAO dao = new OrderDAO();
 	int orderID = dao.createOrder(order);
@@ -78,7 +78,7 @@ public class CheckoutServlet extends HttpServlet {
 		dao.insertOrderDetail(orderID, cartItem);
 		
 		session.removeAttribute("cart");
-		response.sendRedirect("orderSuccess.jsp");
+		response.sendRedirect("views/jsp/orderSuccess.jsp");
 	}
 	
 	}

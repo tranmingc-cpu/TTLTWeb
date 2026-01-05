@@ -21,7 +21,7 @@ public Restaurant getRestaurant(int id , String name, String address , String em
 		ps.setLong(7, rating);
 		ResultSet rs = ps.executeQuery();
 		if(rs.next()) {
-			return new Restaurant(rs.getInt(id), rs.getString(name), rs.getString(address), rs.getString(email), rs.getString(number), rs.getString(decription), rs.getInt( rating));
+			return new Restaurant();
 		}
 	} catch (Exception e) {
 		// TODO: handle exception
@@ -29,4 +29,34 @@ public Restaurant getRestaurant(int id , String name, String address , String em
 	}
 	return null;
 }
+
+public Restaurant getRestaurantById(int restaurantId) {
+	  String sql = "SELECT * FROM RESTAURANT WHERE ID = ?";
+   
+
+      try (Connection con = DBConnect.getConnect();
+           PreparedStatement ps = con.prepareStatement(sql)) {
+
+          ps.setInt(1, restaurantId);
+          ResultSet rs = ps.executeQuery();
+
+          if (rs.next()) {
+        	  Restaurant r = new Restaurant();
+              r.setId(rs.getInt("ID"));
+              r.setName(rs.getString("NAME"));
+              r.setAddress(rs.getString("ADDRESS"));
+              r.setPhone(rs.getString("PHONE"));
+              r.setEmail(rs.getString("EMAIL"));
+              r.setDescription(rs.getString("DESCRIPTION"));
+              r.setRating(rs.getDouble("RATING"));
+              return r;
+          }
+
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
+      return null;
+  }
+	 
 }
+

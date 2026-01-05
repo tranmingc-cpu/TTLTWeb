@@ -1,66 +1,89 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+       <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${food.name}</title>
+<title>
+ <c:choose>
+        <c:when test="${not empty food}">
+            ${food.name}
+        </c:when>
+        <c:otherwise>
+            Chi tiết sản phẩm
+        </c:otherwise>
+    </c:choose>
+</title>
  <link rel="stylesheet" href="${pageContext.request.contextPath}/views/Shared/product-detail.css">
 </head>
 <body>
-<div class="container">
+  <jsp:include page="/views/jsp/demo.jsp"/>
+<!-- ❌ ERROR -->
+    <c:if test="${not empty error}">
+        <h2 style="color:red; text-align:center; margin:40px 0;">
+            ${error}
+        </h2>
+    </c:if>
 
-    <div class="breadcrumb">
-        Trang chủ / Rau - Củ - Quả / <b>${food.name}</b>
-    </div>
+    <!-- ✅ CÓ SẢN PHẨM -->
+    <c:if test="${not empty food}">
 
-    <div class="food-detail">
-
-        <!-- HÌNH -->
-        <div class="food-image">
-            <img src="${pageContext.request.contextPath}/images/${food.image}" alt="">
+        <div class="breadcrumb">
+            Trang chủ / <b>${food.name}</b>
         </div>
 
-        <!-- THÔNG TIN -->
-        <div class="food-info">
-            <h1>${food.name}</h1>
+        <div class="food-detail">
 
-            <p class="status">
-                Tình trạng:
-                <span class="in-stock">Còn hàng</span>
-            </p>
-
-            <div class="price">
-                <span class="new-price">${food.price}₫</span>
-                <span class="old-price">${food.price + 10000}₫</span>
+            <!-- HÌNH -->
+            <div class="food-image">
+                <img src="${pageContext.request.contextPath}/images/${food.image}"
+                     onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'"
+                     alt="${food.name}">
             </div>
 
-            <div class="promo-box">
-                🔥 <b>Siêu Ưu Đãi</b>
-                <ul>
-                    <li>Nhập mã <b>EGANY</b> giảm 15%</li>
-                    <li>Số lượng có hạn</li>
-                </ul>
-            </div>
+            <!-- THÔNG TIN -->
+            <div class="food-info">
+                <h1>${food.name}</h1>
 
-            <!-- FORM ADD TO CART -->
-            <form action="CartServlet" method="post">
-                <input type="hidden" name="foodId" value="${food.id}">
+                <p class="status">
+                    Tình trạng:
+                    <span class="in-stock">Còn hàng</span>
+                </p>
 
-                <div class="quantity">
-                    <button type="button">-</button>
-                    <input type="number" name="qty" value="1" min="1">
-                    <button type="button">+</button>
+                <div class="price">
+                    <span class="new-price">${food.price} ₫</span>
+                    <span class="old-price">${food.price + 10000} ₫</span>
                 </div>
 
-                <button class="add-cart">
-                    THÊM VÀO GIỎ HÀNG
-                </button>
-            </form>
+                <div class="promo-box">
+                    🔥 <b>Siêu Ưu Đãi</b>
+                    <ul>
+                        <li>Nhập mã <b>EGANY</b> giảm 15%</li>
+                        <li>Số lượng có hạn</li>
+                    </ul>
+                </div>
 
+                <!-- ADD TO CART -->
+                <form action="${pageContext.request.contextPath}/cart" method="get">
+                    <input type="hidden" name="action" value="add">
+                    <input type="hidden" name="id" value="${food.id}">
+
+                    <div class="quantity">
+                        <input type="number" name="qty" value="1" min="1">
+                    </div>
+
+                    <button type="submit" class="add-cart">
+                        THÊM VÀO GIỎ HÀNG
+                    </button>
+                </form>
+
+            </div>
         </div>
-    </div>
 
-</div>
+    </c:if>
+
+    <jsp:include page="/views/jsp/footer.jsp"/>
+
 </body>
 </html>

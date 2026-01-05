@@ -7,7 +7,7 @@ private String password;
 private String email;
 private int number;
 private String address;
-private boolean role;
+private String role;
 public Account() {
 	
 }
@@ -47,10 +47,10 @@ public String getAddress() {
 public void setAddress(String address) {
 	this.address = address;
 }
-public boolean getRole() {
+public String getRole() {
 	return role;
 }
-public void setRole(boolean role) {
+public void setRole(String role) {
 	this.role = role;
 }
 

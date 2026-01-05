@@ -8,15 +8,7 @@ private String phone;
 private String email;
 private String description;
 private double rating;
-public Restaurant(int id, String name, String address, String phone, String email, String description, int rating) {
-	super();
-	this.id = id;
-	this.name = name;
-	this.address = address;
-	this.phone = phone;
-	this.email = email;
-	this.description = description;
-	this.rating = rating;
+public Restaurant () {
 }
 public int getId() {
 	return id;

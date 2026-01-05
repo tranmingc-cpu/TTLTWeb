@@ -1,79 +1,158 @@
 @charset "UTF-8";
+
+/* ===== RESET ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: #f5f6fa;
+    color: #333;
+}
+
+/* ===== CONTAINER ===== */
 .container {
-    width: 1100px;
-    margin: auto;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
+/* ===== BREADCRUMB ===== */
 .breadcrumb {
-    margin: 15px 0;
+    margin: 20px 0;
     font-size: 14px;
-    color: #666;
+    color: #777;
 }
 
+/* ===== MAIN DETAIL ===== */
 .food-detail {
     display: flex;
     gap: 40px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* ===== IMAGE ===== */
+.food-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .food-image img {
-    width: 420px;
-    border-radius: 8px;
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    border-radius: 16px;
+    object-fit: cover;
+    border: 1px solid #eee;
+}
+
+/* ===== INFO ===== */
+.food-info {
+    flex: 1.2;
 }
 
 .food-info h1 {
-    font-size: 26px;
+    font-size: 28px;
     margin-bottom: 10px;
 }
 
+/* ===== STATUS ===== */
 .status {
-    margin-bottom: 10px;
+    font-size: 14px;
+    margin-bottom: 15px;
 }
 
 .in-stock {
-    color: green;
-    font-weight: bold;
+    color: #2ecc71;
+    font-weight: 600;
 }
 
+/* ===== PRICE ===== */
 .price {
-    margin: 15px 0;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .new-price {
-    color: red;
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
+    color: #e63946;
 }
 
 .old-price {
+    font-size: 16px;
+    color: #999;
     text-decoration: line-through;
-    margin-left: 10px;
-    color: gray;
 }
 
+/* ===== PROMO ===== */
 .promo-box {
-    background: #fff3cd;
-    padding: 12px;
-    border-radius: 6px;
-    margin-bottom: 15px;
+    background: #fff7e6;
+    border: 1px dashed #ff9800;
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    font-size: 14px;
 }
 
+.promo-box ul {
+    margin-top: 8px;
+    padding-left: 18px;
+}
+
+.promo-box li {
+    margin-bottom: 6px;
+}
+
+/* ===== QUANTITY ===== */
 .quantity {
-    display: flex;
-    gap: 5px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .quantity input {
-    width: 60px;
+    width: 80px;
+    padding: 8px;
+    font-size: 16px;
     text-align: center;
+    border-radius: 8px;
+    border: 1px solid #ccc;
 }
 
+/* ===== ADD CART ===== */
 .add-cart {
-    background: #ff5722;
-    color: white;
-    padding: 12px;
     width: 100%;
-    border: none;
+    padding: 14px;
     font-size: 16px;
+    font-weight: 600;
+    background: #e63946;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
     cursor: pointer;
+    transition: 0.3s;
+}
+
+.add-cart:hover {
+    background: #d62828;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+    .food-detail {
+        flex-direction: column;
+    }
+
+    .food-image img {
+        max-width: 100%;
+    }
 }

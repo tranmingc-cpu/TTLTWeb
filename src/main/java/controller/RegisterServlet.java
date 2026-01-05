@@ -35,6 +35,7 @@ public class RegisterServlet extends HttpServlet {
         String password = request.getParameter("password");
         String address = request.getParameter("address");
         String numberStr = request.getParameter("number");
+        String role = request.getParameter("role");
 
         // 1️⃣ Validate
         if (username == null || email == null || password == null ||
@@ -63,7 +64,7 @@ public class RegisterServlet extends HttpServlet {
         acc.setEmail(email);
         acc.setNumber(number);
         acc.setAddress(address);
-        acc.setRole(false);
+        acc.setRole(role);
 
         // 3️⃣ Gọi DAO
         AccountDAO dao = new AccountDAO();

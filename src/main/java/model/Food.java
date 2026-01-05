@@ -6,6 +6,15 @@ private String name;
 private double price;
 private String description;
 private String image;
+private int ResID;
+public int getResID() {
+	return ResID;
+}
+
+public void setResID(int resID) {
+	ResID = resID;
+}
+
 public Food() { 
 }
 

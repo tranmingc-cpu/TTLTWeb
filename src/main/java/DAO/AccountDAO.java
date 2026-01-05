@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import model.*;
 public class AccountDAO {
 public Account login(String username , String pass) {
-	String sql = "SELECT * FROM ACCOUNT Where username = ? AND password= ? ";
+	String sql = "SELECT * FROM ACCOUNT Where USERNAME = ? AND PASS= ? ";
 	try {
 		Connection con = DBConnect.getConnect();
 		PreparedStatement ps = con.prepareStatement(sql);
@@ -15,7 +15,16 @@ public Account login(String username , String pass) {
 		ps.setString(2, pass);
 		ResultSet rs = ps.executeQuery();
 		if(rs.next()) {
-			return new Account();
+			Account acc = new Account();
+			acc.setIdAccount(rs.getInt("ID"));
+            acc.setUserName(rs.getString("USERNAME"));
+            acc.setPassword(rs.getString("PASS")); 
+            acc.setEmail((rs.getString("EMAIL")));
+            acc.setAddress(rs.getString("ADDRESS"));
+            acc.setNumber(rs.getInt("NUMBER"));
+            acc.setRole(rs.getString("ROLES"));
+            return acc;
+			
 		}
 	} catch (Exception e) {
 		// TODO: handle exception
@@ -32,6 +41,8 @@ public void register(Account acc) {
 		ps.setString(3,acc.getPassword());
 		ps.setInt(4,acc.getIdAccount());
 		ps.setInt(5,acc.getNumber());
+		ps.setString(6, acc.getRole());
+		ps.setString(7, acc.getAddress());
 		ps.executeUpdate();
 			
 	} catch (Exception e) {
@@ -51,4 +62,17 @@ public boolean checkExitAccount(String username) {
 e.printStackTrace();	}
 	return false;
 }
+public int countUser() {
+	String sql = "SELECT COUNT(*) FROM ACCOUNT";
+	try (Connection con = DBConnect.getConnect();
+			PreparedStatement ps = con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery()){
+		if(rs.next()) return rs.getInt(1);
+			
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	return 0;
+}
+
 }

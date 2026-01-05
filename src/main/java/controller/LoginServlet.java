@@ -1,6 +1,7 @@
 package controller;
 
 import jakarta.servlet.ServletException;
+
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import model.Account;
 import java.io.IOException;
 
 import DAO.AccountDAO;
+import DAO.CartDAO;
 
 /**
  * Servlet implementation class LoginServlet
@@ -32,8 +34,7 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		request.getRequestDispatcher("/views/jsp/login.jsp").forward(request, response);
+request.getRequestDispatcher("views/jsp/login.jsp").forward(request, response);
 	}
 
 	/**
@@ -49,17 +50,24 @@ public class LoginServlet extends HttpServlet {
 	        if (acc != null) {
 	            // Đăng nhập thành công
 	            HttpSession session = request.getSession();
+	            session.setAttribute("userId", acc.getIdAccount()); 
+	            session.setAttribute("user", username);
 	            session.setAttribute("account", acc);
+	            session.setAttribute("role", acc.getRole());
 
-	            response.sendRedirect(request.getContextPath()+"/home"); // hoặc trang chính
+	            
+	           
+           if("ADMIN".equals(acc.getRole())) {
+        	   response.sendRedirect(request.getContextPath()+"/admin/dashboard");
+           } else {
+        	   response.sendRedirect(request.getContextPath()+"/Trangchu");
+           }
+	     
+		
 	        } else {
-	            //  Sai tài khoản hoặc mật khẩu
-	            request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
-	            request.getRequestDispatcher("/views/jsp/login.jsp")
-	                   .forward(request, response);
+	        	request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
+	        	request.getRequestDispatcher("/views/jsp/login.jsp").forward(request, response);
 	        }
-	    }
-		
-		
+	}
 	}
 

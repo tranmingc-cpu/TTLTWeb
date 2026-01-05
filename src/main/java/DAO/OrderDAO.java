@@ -3,6 +3,8 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.CartItem;
 import model.Order;
@@ -51,25 +53,11 @@ public int countOrder () {;
 		ResultSet rs = ps.executeQuery();){
 		if(rs.next()) return rs.getInt(1);
 		
-	} catch (Exception e) {}
-		// TODO: handle exception
+	} catch (Exception e) {e.printStackTrace();}
+		
 		return 0;
 	}
 
-public int countUser() {
-	String sql ="SELECT COUNT(*) FROM USER";
-	try (Connection con = DBConnect.getConnect();
-		PreparedStatement ps = con.prepareStatement(sql);
-		ResultSet rs = ps.executeQuery()){
-		if(rs.next()) return rs.getInt(1);
-		
-		
-	} catch (Exception e) {
-		// TODO: handle exception
-	}
-	return 0;
-	
-}
 public double totalRevenue () {
 	String sql = " SELECT SUM(TOTAL) AS TOTALREV FROM ORDER";
 	try (Connection con = DBConnect.getConnect();
@@ -77,8 +65,41 @@ public double totalRevenue () {
 			ResultSet rs = ps.executeQuery()){
 		if(rs.next()) return rs.getDouble(1);
 	} catch (Exception e) {
-		// TODO: handle exception
-	}
+e.printStackTrace();
+}
 	return 0;
 }
+public List<Order> getAllOrders() {
+	List<Order> list = new ArrayList<>();
+
+    String sql = """
+        SELECT * 
+        FROM ORDERS
+        ORDER BY ORDERDATE DESC
+    """;
+
+    try (
+        Connection con = DBConnect.getConnect();
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+    ) {
+
+        while (rs.next()) {
+            Order o = new Order();
+            o.setOrderid(rs.getInt("ID"));
+            o.setAccountId(rs.getInt("ACCOUNTID"));
+            o.setOrderDate(rs.getDate("ORDERDATE"));
+            o.setTotalAmount(rs.getDouble("TOTAL"));
+            o.setStatus(rs.getString("STATUSS"));
+
+            list.add(o);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return list;
 }
+}
+

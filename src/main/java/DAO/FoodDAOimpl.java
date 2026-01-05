@@ -184,6 +184,43 @@ public class FoodDAOimpl implements FoodDAO {
 	    }
 	    return list;
 	}
+	public int  countFood() {
+		String sql = "SELECT COUNT(*) FROM FOOD";
+	    try (
+	        Connection con = DBConnect.getConnect();
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        ResultSet rs = ps.executeQuery();
+	    ) {
+	        if (rs.next()) {
+	            return rs.getInt(1);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return 0;
+	}
+	public List<Food> getFoodsByRestaurant(int restaurantId, int i) {
+		 List<Food> list = new ArrayList<>();
+	        String sql = "SELECT * FROM Food";
+	        try (Connection con = DBConnect.getConnect();
+	             PreparedStatement ps = con.prepareStatement(sql);
+	             ResultSet rs = ps.executeQuery()) {
+
+	            while (rs.next()) {
+	                Food f = new Food();
+	                f.setId(rs.getInt("ID"));
+	                f.setName(rs.getString("FNAME"));
+	                f.setPrice(rs.getDouble("PRICE"));
+	                f.setDescription(rs.getString("DESCRIPTIONS"));
+	                f.setImage(rs.getString("IMAGES"));
+	                list.add(f);
+	            }
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return list;
+	}
 	}
 	
 

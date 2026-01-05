@@ -30,7 +30,8 @@ public class ProduceDetailServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String idR = request.getParameter("id");
-
+		   request.setCharacterEncoding("UTF-8");
+	        response.setCharacterEncoding("UTF-8");
         if (idR == null) {
             request.setAttribute("error", "Không tìm thấy sản phẩm");
             request.getRequestDispatcher("views/jsp/product-detail.jsp")
@@ -39,8 +40,16 @@ public class ProduceDetailServlet extends HttpServlet {
         }
 
         int id = Integer.parseInt(idR);
-        Food food = dao.infomation(id);
-
+        
+        try {
+            id = Integer.parseInt(idR);
+        } catch (NumberFormatException e) {
+            request.setAttribute("error", "ID sản phẩm không hợp lệ");
+            request.getRequestDispatcher("views/jsp/product-detail.jsp").forward(request, response);
+            return;
+        } 
+              Food food = dao.infomation(id);
+              
         if (food == null) {
             request.setAttribute("error", "Sản phẩm không tồn tại");
         } else {
@@ -48,9 +57,8 @@ public class ProduceDetailServlet extends HttpServlet {
         }
 
         request.getRequestDispatcher("views/jsp/product-detail.jsp")
-                .forward(request, response);
+               .forward(request, response);
     }
-
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

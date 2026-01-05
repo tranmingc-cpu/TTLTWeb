@@ -88,8 +88,9 @@ public class HomeServlet extends HttpServlet {
              // ================= CATEGORY =================
              case "category": {
                  String category = request.getParameter("category");
-                 List<Food> byCate = dao.findByCategory(category);
-                 request.setAttribute("foodlist", byCate);
+                 List<Food> foodlist = dao.findByCategory(category);
+                 request.setAttribute("foodlist", foodlist);
+                 request.setAttribute("title", category);
                  request.getRequestDispatcher("views/jsp/Trangchu.jsp")
                          .forward(request, response);
                  break;
@@ -99,7 +100,7 @@ public class HomeServlet extends HttpServlet {
                  response.sendRedirect("Trangchu");
          }
      }
- 
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 
