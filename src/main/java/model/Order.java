@@ -1,6 +1,6 @@
 package model;
 
-import java.sql.Date;
+import java.util.*;
 
 public class Order {
 private int Orderid;
@@ -8,13 +8,8 @@ private int accountId;
 private Date orderDate;
 private double totalAmount;
 private String status;
-public Order(int Orderid, int accountId, Date orderDate, double totalAmount, String status) {
-	super();
-	this.Orderid =Orderid;
-	this.accountId = accountId;
-	this.orderDate = orderDate;
-	this.totalAmount = totalAmount;
-	this.status = status;
+public Order() {
+
 }
 public int getOrderid() {
 	return Orderid;

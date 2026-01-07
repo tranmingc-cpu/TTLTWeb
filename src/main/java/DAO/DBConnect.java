@@ -6,19 +6,19 @@ import java.sql.SQLException;
 
 public class DBConnect {
 private static String DriveClass ="com.microsoft.sqlserver.jdbc.SQLServerDriver";
-private static String url ="jdbc:sqlserver://DESKTOP-1AQF1D9:1433;databaseName=FOODOrderBDencrypt=true;trustServerCertificate=true;";
+private static String url ="jdbc:sqlserver://DESKTOP-1AQF1D9:1433;databaseName=FoodWebDATABASE;encrypt=true;trustServerCertificate=true;";
 
 private static String username = "sa";
 private static String password ="26122005";
-static {
+public static Connection getConnect() throws SQLException {
 	try {
 		Class.forName(DriveClass);
+		return DriverManager.getConnection(url,username,password);
 	} catch (ClassNotFoundException e) {
-		// TODO: handle exception
 		e.printStackTrace();
 	}
-}
-public static Connection getConnect() throws SQLException {
-	return DriverManager.getConnection(url,username,password);
+
+return null;
+	
 }
 }

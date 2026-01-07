@@ -1,45 +1,226 @@
 package DAO;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import model.Food;
 
 public class FoodDAOimpl implements FoodDAO {
+	public Food infomation (int id ) { 
+		  String sql = "SELECT * FROM Food WHERE id = ?";
+	        try (Connection con = DBConnect.getConnect();
+	             PreparedStatement ps = con.prepareStatement(sql)) {
 
+	            ps.setInt(1, id);
+	            ResultSet rs = ps.executeQuery();
+
+	            if (rs.next()) {
+	                Food f = new Food();
+	                f.setId(rs.getInt("ID"));
+	                f.setName(rs.getString("FNAME"));
+	                f.setPrice(rs.getDouble("PRICE"));
+	                f.setDescription(rs.getString("DESCRIPTIONS"));
+	                f.setImage(rs.getString("IMAGES"));
+	                return f;
+	            }
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return null;
+	    }
 	@Override
 	public void insert(Food food) {
-		// TODO Auto-generated method stub
+		  String sql = "INSERT INTO Food(name, price, description, image) VALUES (?,?,?,?)";
+	        try (Connection con = DBConnect.getConnect();
+	             PreparedStatement ps = con.prepareStatement(sql)) {
+
+	            ps.setString(1, food.getName());
+	            ps.setDouble(2, food.getPrice());
+	            ps.setString(3, food.getDescription());
+	            ps.setString(4, food.getImage());
+	            ps.setInt(5, food.getId());
+	            ps.executeUpdate();
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
 		
-	}
 
 	@Override
 	public void update(Food food) {
-		// TODO Auto-generated method stub
-		
+		 String sql = "UPDATE Food SET name=?, price=?, description=?, image=? WHERE id=?";
+	        try (Connection con = DBConnect.getConnect();
+	             PreparedStatement ps = con.prepareStatement(sql)) {
+
+	            ps.setString(1, food.getName());
+	            ps.setDouble(2, food.getPrice());
+	            ps.setString(3, food.getDescription());
+	            ps.setString(4, food.getImage());
+	            ps.setInt(5, food.getId());
+	            ps.executeUpdate();
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
 	}
 
 	@Override
-	public void delete(Food food) {
-		// TODO Auto-generated method stub
-		
+	public void delete(int id) {
+		  String sql = "DELETE FROM Food WHERE id=?";
+	        try (Connection con = DBConnect.getConnect();
+	             PreparedStatement ps = con.prepareStatement(sql)) {
+
+	            ps.setInt(1, id);
+	            ps.executeUpdate();
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
 	}
 
 	@Override
 	public List<Food> findByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		List<Food> list = new ArrayList<>();
+        String sql = "SELECT * FROM Food WHERE FNAME LIKE ?";
+        try (Connection con = DBConnect.getConnect();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, "%" + name + "%");
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Food f = new Food();
+                f.setId(rs.getInt("ID"));
+                f.setName(rs.getString("FNAME"));
+                f.setPrice(rs.getDouble("PRICE"));
+                f.setDescription(rs.getString("DESCRIPTIONS"));
+                f.setImage(rs.getString("IMAGES"));
+                list.add(f);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 
 	@Override
 	public List<Food> findByCategory(String category) {
-		// TODO Auto-generated method stub
-		return null;
+		 List<Food> list = new ArrayList<>();
+	        String sql = "SELECT * FROM Food WHERE category = ?";
+	        try (Connection con = DBConnect.getConnect();
+	             PreparedStatement ps = con.prepareStatement(sql)) {
+
+	            ps.setString(1, category);
+	            ResultSet rs = ps.executeQuery();
+
+	            while (rs.next()) {
+	                Food f = new Food();
+	                f.setId(rs.getInt("ID"));
+	                f.setName(rs.getString("FNAME"));
+	                f.setPrice(rs.getDouble("PRICE"));
+	                f.setDescription(rs.getString("DESCRIPTIONS"));
+	                f.setImage(rs.getString("IMAGES"));
+	                list.add(f);
+	            }
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return list;
 	}
 
 	@Override
 	public List<Food> findALL() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		  List<Food> list = new ArrayList<>();
+	        String sql = "SELECT * FROM Food";
+	        try (Connection con = DBConnect.getConnect();
+	             PreparedStatement ps = con.prepareStatement(sql);
+	             ResultSet rs = ps.executeQuery()) {
 
-}
+	            while (rs.next()) {
+	                Food f = new Food();
+	                f.setId(rs.getInt("ID"));
+	                f.setName(rs.getString("FNAME"));
+	                f.setPrice(rs.getDouble("PRICE"));
+	                f.setDescription(rs.getString("DESCRIPTIONS"));
+	                f.setImage(rs.getString("IMAGES"));
+	                list.add(f);
+	            }
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return list;
+	    }
+	@Override
+	public List<Food> findLimit(int limit) {
+		List<Food> list = new ArrayList<>();
+	    String sql = "SELECT TOP (?) * FROM Food";
+
+	    try (Connection con = DBConnect.getConnect();
+	         PreparedStatement ps = con.prepareStatement(sql)) {
+
+	        ps.setInt(1, limit);
+	        ResultSet rs = ps.executeQuery();
+
+	        while (rs.next()) {
+	              Food f = new Food();
+	                f.setId(rs.getInt("ID"));
+	                f.setName(rs.getString("FNAME"));
+	                f.setPrice(rs.getDouble("PRICE"));
+	                f.setDescription(rs.getString("DESCRIPTIONS"));
+	                f.setImage(rs.getString("IMAGES"));
+	                list.add(f);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return list;
+	}
+	public int  countFood() {
+		String sql = "SELECT COUNT(*) FROM FOOD";
+	    try (
+	        Connection con = DBConnect.getConnect();
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        ResultSet rs = ps.executeQuery();
+	    ) {
+	        if (rs.next()) {
+	            return rs.getInt(1);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return 0;
+	}
+	public List<Food> getFoodsByRestaurant(int restaurantId, int i) {
+		 List<Food> list = new ArrayList<>();
+	        String sql = "SELECT * FROM Food";
+	        try (Connection con = DBConnect.getConnect();
+	             PreparedStatement ps = con.prepareStatement(sql);
+	             ResultSet rs = ps.executeQuery()) {
+
+	            while (rs.next()) {
+	                Food f = new Food();
+	                f.setId(rs.getInt("ID"));
+	                f.setName(rs.getString("FNAME"));
+	                f.setPrice(rs.getDouble("PRICE"));
+	                f.setDescription(rs.getString("DESCRIPTIONS"));
+	                f.setImage(rs.getString("IMAGES"));
+	                list.add(f);
+	            }
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return list;
+	}
+	}
+	
+

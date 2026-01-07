@@ -7,17 +7,9 @@ private String password;
 private String email;
 private int number;
 private String address;
-private boolean role;
-public Account(int idAccount, String userName, String password, String email, int number, String address,
-		boolean role) {
-	super();
-	this.idAccount = idAccount;
-	this.userName = userName;
-	this.password = password;
-	this.email = email;
-	this.number = number;
-	this.address = address;
-	this.role = role;
+private String role;
+public Account() {
+	
 }
 public int getIdAccount() {
 	return idAccount;
@@ -55,10 +47,10 @@ public String getAddress() {
 public void setAddress(String address) {
 	this.address = address;
 }
-public boolean getRole() {
+public String getRole() {
 	return role;
 }
-public void setRole(boolean role) {
+public void setRole(String role) {
 	this.role = role;
 }
 

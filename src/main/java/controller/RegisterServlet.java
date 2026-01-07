@@ -14,54 +14,75 @@ import DAO.AccountDAO;
 /**
  * Servlet implementation class RegisterServlet
  */
-@WebServlet("/RegisterServlet")
+@WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public RegisterServlet() {
-        super();
-        // TODO Auto-generated constructor stub
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        // CHỈ hiển thị trang register
+        request.getRequestDispatcher("/views/jsp/register.jsp")
+               .forward(request, response);
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String username = request.getParameter("username");
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		String address = request.getParameter("address");
-		String numberStr =request.getParameter("number");
-	if(username ==null|| password==null||email==null||
-			username.isEmpty()||password.isEmpty()||email.isEmpty()) {
-		request.setAttribute("error","vui lòng nhập đầy đủ thông tin!");
-		request.getRequestDispatcher("register.jsp").forward(request, response);
-		
-	}
-		int number = Integer.parseInt(numberStr);
-		Account acc = new Account();
-		acc.setUserName(username);
-		 acc.setPassword(password);
-	        acc.setEmail(email);
-	        acc.setNumber(number);
-	        acc.setAddress(address);
-	        acc.setRole(false); 
-	        
-	        AccountDAO dao = new AccountDAO();
-	        dao.register(acc);
-		
-	}
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+        String username = request.getParameter("username");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String address = request.getParameter("address");
+        String numberStr = request.getParameter("number");
+        String role = request.getParameter("role");
 
+        // 1️⃣ Validate
+        if (username == null || email == null || password == null ||
+            username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+
+            request.setAttribute("error", "Vui lòng nhập đầy đủ thông tin!");
+            request.getRequestDispatcher("/views/jsp/register.jsp")
+                   .forward(request, response);
+            return;
+        }
+
+        int number = 0;
+        try {
+            number = Integer.parseInt(numberStr);
+        } catch (NumberFormatException e) {
+            request.setAttribute("error", "Số điện thoại không hợp lệ!");
+            request.getRequestDispatcher("/views/jsp/register.jsp")
+                   .forward(request, response);
+            return;
+        }
+
+        // 2️⃣ Tạo account
+        Account acc = new Account();
+        acc.setUserName(username);
+        acc.setPassword(password); // đồ án ok, nâng cao thì hash
+        acc.setEmail(email);
+        acc.setNumber(number);
+        acc.setAddress(address);
+        acc.setRole(role);
+
+        // 3️⃣ Gọi DAO
+        AccountDAO dao = new AccountDAO();
+
+        if (dao.checkExitAccount(username)) {
+            request.setAttribute("error", "Username đã tồn tại!");
+            request.getRequestDispatcher("/views/jsp/register.jsp")
+                   .forward(request, response);
+            return;
+        }
+
+        dao.register(acc);
+
+        //  Thành công → về login
+        request.setAttribute("success", "Đăng ký thành công! Vui lòng đăng nhập.");
+        request.getRequestDispatcher("/views/jsp/login.jsp")
+               .forward(request, response);
+    }
 }
+
+

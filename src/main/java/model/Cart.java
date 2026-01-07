@@ -3,11 +3,27 @@ package model;
 import java.util.List;
 
 public class Cart {
+	private int idcart;
+	private String usersid;
 private List<CartItem> items;
 
-public Cart(List<CartItem> items) {
-	super();
-	this.items = items;
+public Cart() {
+}
+
+public int getIdcart() {
+	return idcart;
+}
+
+public void setIdcart(int idcart) {
+	this.idcart = idcart;
+}
+
+public String getUsersid() {
+	return usersid;
+}
+
+public void setUsersid(String usersid) {
+	this.usersid = usersid;
 }
 
 public List<CartItem> getItems() {
@@ -26,7 +42,7 @@ public void addItem(Food food, int quantity) {
 			
 		}
 	}
-	items.add(new CartItem(food, quantity));
+	items.add(new CartItem());
 }
 public void removeItem (int FoodID) {
 	items.removeIf(item -> item.getFood().getId()==FoodID);
