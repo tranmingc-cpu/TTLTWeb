@@ -12,41 +12,44 @@
 </head>
 
 <body>
-  <jsp:include page="/views/jsp/demo.jsp"/>
-<div class="page-container">
-    <!-- ===== NAV ===== -->
-<div class="nav">
 
-    <a class="${empty param.action ? 'active' : ''}"
-       href="${pageContext.request.contextPath}/Trangchu">
-        Trang Chủ
-    </a>
+<div class="page-container"><!-- 🔥 WRAPPER -->
 
-    <a class="${param.category == 'Chicken' ? 'active' : ''}"
-       href="${pageContext.request.contextPath}/Trangchu?action=category&category=Chicken">
-        Chicken
-    </a>
+    <!-- HEADER -->
+    <jsp:include page="/views/jsp/demo.jsp"/>
 
-    <a class="${param.category == 'Pizza' ? 'active' : ''}"
-       href="${pageContext.request.contextPath}/Trangchu?action=category&category=Pizza">
-        Pizza/Burger
-    </a>
+    <!-- NAV -->
+    <div class="nav">
+        <a class="${empty param.action ? 'active' : ''}"
+           href="${pageContext.request.contextPath}/Trangchu">
+            Trang Chủ
+        </a>
 
-    <a class="${param.category == 'Snack' ? 'active' : ''}"
-       href="${pageContext.request.contextPath}/Trangchu?action=category&category=Snack">
-        Snack
-    </a>
+        <a class="${param.category == 'Chicken' ? 'active' : ''}"
+           href="${pageContext.request.contextPath}/Trangchu?action=category&category=Chicken">
+            Chicken
+        </a>
 
-    <a class="${param.category == 'Drink' ? 'active' : ''}"
-       href="${pageContext.request.contextPath}/Trangchu?action=category&category=Drink">
-        Drink
-    </a>
+        <a class="${param.category == 'Pizza' ? 'active' : ''}"
+           href="${pageContext.request.contextPath}/Trangchu?action=category&category=Pizza">
+            Pizza/Burger
+        </a>
 
-</div>
+        <a class="${param.category == 'Snack' ? 'active' : ''}"
+           href="${pageContext.request.contextPath}/Trangchu?action=category&category=Snack">
+            Snack
+        </a>
 
-    <div class="page-content">
+        <a class="${param.category == 'Drink' ? 'active' : ''}"
+           href="${pageContext.request.contextPath}/Trangchu?action=category&category=Drink">
+            Drink
+        </a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="page-content"><!-- 🔥 -->
+
         <div class="section">
-            <!-- ✅ FIX TITLE -->
             <div class="section-title">${title}</div>
 
             <div class="products">
@@ -56,7 +59,6 @@
                 </c:if>
 
                 <c:forEach var="f" items="${foodlist}">
-                    <!-- CLICK VÀO CẢ Ô -->
                     <a class="product-link"
                        href="${pageContext.request.contextPath}/product-detail?id=${f.id}">
 
@@ -66,9 +68,7 @@
                                  onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'">
 
                             <div class="product-name">${f.name}</div>
-
                             <div class="product-price">${f.price} VND</div>
-
                             <div class="product-note">#${f.id}-Hasky</div>
 
                             <div class="btn-group">
@@ -83,7 +83,6 @@
             </div>
         </div>
 
-        <!-- ===== XEM TẤT CẢ CHỈ Ở TRANG CHỦ ===== -->
         <c:if test="${title eq 'Món ăn nổi bật'}">
             <div class="view-all">
                 <a href="${pageContext.request.contextPath}/Trangchu?action=all">
@@ -92,11 +91,12 @@
             </div>
         </c:if>
 
-    </div>
+    </main>
 
-   
+    <!-- FOOTER -->
+    <jsp:include page="/views/jsp/footer.jsp"/>
 
 </div>
- <jsp:include page="/views/jsp/footer.jsp"/>
+
 </body>
 </html>

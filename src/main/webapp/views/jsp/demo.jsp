@@ -39,7 +39,6 @@
 
 		</div>
 	</div>
-
 	<!-- MAIN HEADER -->
 	<div class="header">
 		<div class="container header-row">
@@ -51,33 +50,49 @@
 				<input type="text" placeholder="Tìm đồ ăn, đồ uống">
 				<button>🔍</button>
 			</div>
- <div class="header-actions">
-    <!-- USER -->
- 
-    <div class="user-wrapper" tabindex="0">
-        <div class="circle-btn">U</div>
+			<div class="header-actions">
+				<!-- USER -->
+				<a href="${pageContext.request.contextPath}/cart" class="cart-link">
+					<div class="circle-btn cart-btn">
+						 🛒
+						<c:if test="${cartCount > 0}">
+							<span class="cart-badge">${cartCount}</span>
+						</c:if>
+					</div>
+				</a>
+				<div class="user-wrapper" tabindex="0"> 
 
-        <!-- CHỈ ĐƯỢC ĐỂ LINK Ở ĐÂY -->
-  
-        <div class="user-menu">
-    <a href="${pageContext.request.contextPath}/login">Đăng nhập</a>
-    <a href="${pageContext.request.contextPath}/register">Đăng ký</a>
-</div>
-        
-        </div>
-    </div>
+					<!-- NÚT USER -->
+					<button type="button" class="user-btn"
+						onclick="toggleUserMenu(event)">
+						<span class="circle-btn">👤</span>
 
- <a href="${pageContext.request.contextPath}/cart" class="cart-link">
-    <div class="circle-btn cart-btn">
-        🛒
-        <c:if test="${cartCount > 0}">
-            <span class="cart-badge">${cartCount}</span>
-        </c:if>
-    </div>
-</a>
+						<c:if test="${not empty sessionScope.account}">
+							<span class="userName">${sessionScope.account.userName}</span>
+						</c:if>
+					</button>
 
-</div>
-  
+					<!-- MENU -->
+					<div class="user-menu" id="userMenu">
+						<c:if test="${empty sessionScope.account}">
+							<a href="${pageContext.request.contextPath}/login">Đăng nhập</a>
+							<a href="${pageContext.request.contextPath}/register">Đăng ký</a>
+						</c:if>
+
+						<c:if test="${not empty sessionScope.account}">
+							<a href="${pageContext.request.contextPath}/profile">Tài
+								khoản</a>
+							<a href="${pageContext.request.contextPath}/orders">Đơn hàng</a>
+							<hr>
+							<a href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
+						</c:if>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+
 	</div>
 
 </body>

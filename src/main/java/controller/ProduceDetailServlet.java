@@ -39,10 +39,10 @@ public class ProduceDetailServlet extends HttpServlet {
             return;
         }
 
-        int id = Integer.parseInt(idR);
+        int id ;
         
         try {
-            id = Integer.parseInt(idR);
+id = Integer.parseInt(idR);
         } catch (NumberFormatException e) {
             request.setAttribute("error", "ID sản phẩm không hợp lệ");
             request.getRequestDispatcher("views/jsp/product-detail.jsp").forward(request, response);

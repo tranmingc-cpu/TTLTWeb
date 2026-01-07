@@ -8,19 +8,22 @@
 }
 
 html, body {
-     margin: 0;
-    padding: 0;
+    height: 100%;
+    margin: 0;
 }
+
+.page-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 
 a{
     text-decoration:none;
     color:inherit;
 }
-.page-container {
-    min-height: auto;
-    display: flex;
-    flex-direction: column;
-}
+
 .page-content {
     flex: 1;
 }

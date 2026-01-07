@@ -8,10 +8,21 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body {
-    background: #f5f6fa;
-    color: #333;
+html, body {
+    height: 100%;
+    margin: 0;
 }
+
+.page-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1; /
+}
+
 
 /* ===== CONTAINER ===== */
 .container {

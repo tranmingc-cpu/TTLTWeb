@@ -4,6 +4,13 @@ public class CartItem {
 	private int id;
 	 private Food food;
 	   private int quantity;
+	   private int DetailId ;
+	public int getDetailId() {
+		return DetailId;
+	}
+	public void setDetailId(int detailId) {
+		DetailId = detailId;
+	}
 	public CartItem() {
 
 	}

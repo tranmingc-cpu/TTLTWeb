@@ -34,46 +34,49 @@ public class CartServlet extends HttpServlet {
 
         CartDAO cartDAO = new CartDAO();
         cartDAO.createCartIfNotExists(userId);
+        int cartId = cartDAO.getCartId(userId);
 
         /* ===== ACTION ===== */
         String action = request.getParameter("action");
 
         if ("add".equals(action)) {
 
-            int foodId = Integer.parseInt(request.getParameter("foodId"));
-            int quantity=1;
+            String foodId = request.getParameter("id");
+       
             String qRaw = request.getParameter("quantity");
-            if (qRaw != null && !qRaw.isEmpty()) {
-                quantity = Integer.parseInt(qRaw);
+            if (qRaw != null && qRaw !=null) {
+                int foodid = Integer.parseInt(foodId);
+                int quantity = Integer.parseInt(qRaw);
+              cartDAO.addToCart(cartId, foodid, quantity) ; 
             }
-            cartDAO.addToCart(userId, foodId, quantity);
+            response.sendRedirect(request.getContextPath()+"/cart");
+return;
+        }
+         if ("update".equals(action)) {
 
-        } else if ("update".equals(action)) {
+           int detailId = Integer.parseInt(request.getParameter("detailId"));
+           int qty = Integer.parseInt(request.getParameter("quantity"));
+           cartDAO.updateQuantity(detailId, qty);
 
-            int cartDetailId = Integer.parseInt(
-                    request.getParameter("cartDetailId"));
-            int quantity = Integer.parseInt(
-                    request.getParameter("quantity"));
+        }  if ("remove".equals(action)) {
 
-            cartDAO.updateQuantity(cartDetailId, quantity, userId);
-
-        } else if ("remove".equals(action)) {
-
-            int foodId = Integer.parseInt(request.getParameter("foodId"));
-            cartDAO.removeItem(userId, foodId);
+         int detailId = Integer.parseInt(request.getParameter("detailId"));
+         
+            cartDAO.removeItem(detailId);
         }
 
      
 
         /* ===== LOAD CART ===== */
-        ArrayList<CartItem> cart = cartDAO.getCart(userId);
+        ArrayList<CartItem> cart = cartDAO.getCartItem(cartId);
 
         int subTotal = 0;
         for (CartItem item : cart) {
             subTotal += item.getTotalPrice();
         }
 
-        int shipFee = 20000;
+
+        int shipFee = cart.isEmpty() ? 0 : 20000;
         int total = subTotal + shipFee;
 
         /* ===== RESTAURANT & SUGGEST ===== */

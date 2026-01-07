@@ -1,73 +1,71 @@
 package controller;
 
 import jakarta.servlet.ServletException;
-
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 import model.Account;
+import model.Cart;
 
 import java.io.IOException;
 
 import DAO.AccountDAO;
 import DAO.CartDAO;
 
-/**
- * Servlet implementation class LoginServlet
- */
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-       
-	private static final long serialVersionUID = 1L;
 
-	/**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LoginServlet() {
-        super();
-        // TODO Auto-generated constructor stub
+    private static final long serialVersionUID = 1L;
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("views/jsp/login.jsp").forward(request, response);
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-request.getRequestDispatcher("views/jsp/login.jsp").forward(request, response);
-	}
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 String username = request.getParameter("username");
-	        String password = request.getParameter("password");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
 
-	        AccountDAO dao = new AccountDAO();
-	        Account acc = dao.login(username, password);
+        AccountDAO accountDAO = new AccountDAO();
+        CartDAO cartDAO = new CartDAO();
 
-	        if (acc != null) {
-	            // Đăng nhập thành công
-	            HttpSession session = request.getSession();
-	            session.setAttribute("userId", acc.getIdAccount()); 
-	            session.setAttribute("user", username);
-	            session.setAttribute("account", acc);
-	            session.setAttribute("role", acc.getRole());
+        Account acc = accountDAO.login(username, password);
 
-	            
-	           
-           if("ADMIN".equals(acc.getRole())) {
-        	   response.sendRedirect(request.getContextPath()+"/admin/dashboard");
-           } else {
-        	   response.sendRedirect(request.getContextPath()+"/Trangchu");
-           }
-	     
-		
-	        } else {
-	        	request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
-	        	request.getRequestDispatcher("/views/jsp/login.jsp").forward(request, response);
-	        }
-	}
-	}
+        if (acc != null) {
+            // ===== ĐĂNG NHẬP THÀNH CÔNG =====
+            HttpSession session = request.getSession();
 
+            // Lưu user
+            session.setAttribute("account", acc);
+            session.setAttribute("userId", acc.getIdAccount());
+            session.setAttribute("user", acc.getUserName());
+            session.setAttribute("role", acc.getRole());
+
+            // ===== LẤY / TẠO CART THEO USER =====
+            int cart = cartDAO.getCartId(acc.getIdAccount());
+
+            if (cart == 0) {
+               int cart1 = cartDAO.createCartIfNotExists(acc.getIdAccount());
+               session.setAttribute("cartId", cart1);
+            }
+
+            session.setAttribute("cart", cart);
+
+            // ===== ĐIỀU HƯỚNG =====
+            if ("ADMIN".equals(acc.getRole())) {
+                response.sendRedirect(request.getContextPath() + "/admin/dashboard");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/Trangchu");
+            }
+
+        } else {
+            request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
+            request.getRequestDispatcher("/views/jsp/login.jsp").forward(request, response);
+        }
+    }
+}
