@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="jakarta.tags.core" prefix="c"%>
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -8,95 +8,95 @@
 <meta charset="UTF-8">
 <title>Food Online</title>
 <link rel="stylesheet"
-      href="${pageContext.request.contextPath}/views/Shared/index.css">
+	href="${pageContext.request.contextPath}/views/Shared/index.css">
 </head>
 
 <body>
 
-<div class="page-container"><!-- 🔥 WRAPPER -->
+	<div class="page-container">
+		<!-- 🔥 WRAPPER -->
 
-    <!-- HEADER -->
-    <jsp:include page="/views/jsp/demo.jsp"/>
+		<!-- HEADER -->
+		<jsp:include page="/views/jsp/demo.jsp" />
 
-    <!-- NAV -->
-    <div class="nav">
-        <a class="${empty param.action ? 'active' : ''}"
-           href="${pageContext.request.contextPath}/Trangchu">
-            Trang Chủ
-        </a>
+		<!-- NAV -->
+		<div class="nav">
+			<a class="${empty param.action ? 'active' : ''}"
+				href="${pageContext.request.contextPath}/Trangchu"> Trang Chủ </a> <a
+				class="${param.category == 'Chicken' ? 'active' : ''}"
+				href="${pageContext.request.contextPath}/Trangchu?action=category&category=Chicken">
+				Chicken </a> <a class="${param.category == 'Pizza' ? 'active' : ''}"
+				href="${pageContext.request.contextPath}/Trangchu?action=category&category=Pizza">
+				Pizza/Burger </a> <a
+				class="${param.category == 'Snack' ? 'active' : ''}"
+				href="${pageContext.request.contextPath}/Trangchu?action=category&category=Snack">
+				Snack </a> <a class="${param.category == 'Drink' ? 'active' : ''}"
+				href="${pageContext.request.contextPath}/Trangchu?action=category&category=Drink">
+				Drink </a>
+		</div>
 
-        <a class="${param.category == 'Chicken' ? 'active' : ''}"
-           href="${pageContext.request.contextPath}/Trangchu?action=category&category=Chicken">
-            Chicken
-        </a>
+		<!-- MAIN CONTENT -->
+		<main class="page-content">
+			<!-- 🔥 -->
 
-        <a class="${param.category == 'Pizza' ? 'active' : ''}"
-           href="${pageContext.request.contextPath}/Trangchu?action=category&category=Pizza">
-            Pizza/Burger
-        </a>
+			<div class="section">
+				<div class="section-title">${title}</div>
 
-        <a class="${param.category == 'Snack' ? 'active' : ''}"
-           href="${pageContext.request.contextPath}/Trangchu?action=category&category=Snack">
-            Snack
-        </a>
+				<div class="products">
 
-        <a class="${param.category == 'Drink' ? 'active' : ''}"
-           href="${pageContext.request.contextPath}/Trangchu?action=category&category=Drink">
-            Drink
-        </a>
-    </div>
+					<c:if test="${empty foodlist}">
+						<p>❌ Không có dữ liệu</p>
+					</c:if>
 
-    <!-- MAIN CONTENT -->
-    <main class="page-content"><!-- 🔥 -->
+					<c:forEach var="f" items="${foodlist}">
 
-        <div class="section">
-            <div class="section-title">${title}</div>
+						<div class="product-card">
 
-            <div class="products">
+							<!-- CLICK VÀO ĐÂY MỚI VÀO CHI TIẾT -->
+					    <!-- VÙNG CLICK CHI TIẾT -->
+    <a class="product-link"
+       href="${pageContext.request.contextPath}/product-detail?id=${f.id}">
+        <img src="${pageContext.request.contextPath}/images/${f.image}"
+             onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'">
+        <h3 class="product-name">${f.name}</h3>
+    </a>
+							<div class="product-price">${f.price}VND</div>
+							<div class="product-note">#${f.id}-Hasky</div>
 
-                <c:if test="${empty foodlist}">
-                    <p>❌ Không có dữ liệu</p>
-                </c:if>
+							<div class="btn-group">
 
-                <c:forEach var="f" items="${foodlist}">
-                    <a class="product-link"
-                       href="${pageContext.request.contextPath}/product-detail?id=${f.id}">
+								<!-- ADD CART -->
+								<a class="btn-cart"
+									href="${pageContext.request.contextPath}/cart?action=add&foodId=${f.id}&quantity=1">
+									THÊM VÀO GIỎ </a>
 
-                        <div class="product-card">
+								<!-- BUY NOW -->
+								<a class="btn-buy"
+									href="${pageContext.request.contextPath}/cart?action=add&foodId=${f.id}&quantity=1&buyNow=true">
+									MUA NGAY </a>
 
-                            <img src="${pageContext.request.contextPath}/images/${f.image}"
-                                 onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'">
+							</div>
 
-                            <div class="product-name">${f.name}</div>
-                            <div class="product-price">${f.price} VND</div>
-                            <div class="product-note">#${f.id}-Hasky</div>
+						</div>
 
-                            <div class="btn-group">
-                                <span class="btn-cart">THÊM VÀO GIỎ</span>
-                                <span class="btn-buy">MUA NGAY</span>
-                            </div>
+					</c:forEach>
 
-                        </div>
-                    </a>
-                </c:forEach>
+				</div>
+			</div>
 
-            </div>
-        </div>
+			<c:if test="${title eq 'Món ăn nổi bật'}">
+				<div class="view-all">
+					<a href="${pageContext.request.contextPath}/Trangchu?action=all">
+						Xem tất cả </a>
+				</div>
+			</c:if>
 
-        <c:if test="${title eq 'Món ăn nổi bật'}">
-            <div class="view-all">
-                <a href="${pageContext.request.contextPath}/Trangchu?action=all">
-                    Xem tất cả
-                </a>
-            </div>
-        </c:if>
+		</main>
 
-    </main>
+		<!-- FOOTER -->
+		<jsp:include page="/views/jsp/footer.jsp" />
 
-    <!-- FOOTER -->
-    <jsp:include page="/views/jsp/footer.jsp"/>
-
-</div>
+	</div>
 
 </body>
 </html>

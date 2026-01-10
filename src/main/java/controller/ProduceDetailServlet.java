@@ -29,12 +29,14 @@ public class ProduceDetailServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String idR = request.getParameter("id");
-		   request.setCharacterEncoding("UTF-8");
+		 request.setCharacterEncoding("UTF-8");
 	        response.setCharacterEncoding("UTF-8");
+	        
+	        String idR = request.getParameter("id");
+		  
         if (idR == null) {
             request.setAttribute("error", "Không tìm thấy sản phẩm");
-            request.getRequestDispatcher("views/jsp/product-detail.jsp")
+            request.getRequestDispatcher("/views/jsp/product-detail.jsp")
                     .forward(request, response);
             return;
         }
@@ -45,7 +47,7 @@ public class ProduceDetailServlet extends HttpServlet {
 id = Integer.parseInt(idR);
         } catch (NumberFormatException e) {
             request.setAttribute("error", "ID sản phẩm không hợp lệ");
-            request.getRequestDispatcher("views/jsp/product-detail.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/jsp/product-detail.jsp").forward(request, response);
             return;
         } 
               Food food = dao.infomation(id);
@@ -56,7 +58,7 @@ id = Integer.parseInt(idR);
             request.setAttribute("food", food);
         }
 
-        request.getRequestDispatcher("views/jsp/product-detail.jsp")
+        request.getRequestDispatcher("/views/jsp/product-detail.jsp")
                .forward(request, response);
     }
 
@@ -64,8 +66,8 @@ id = Integer.parseInt(idR);
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+	    response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+
 	}
 
 }

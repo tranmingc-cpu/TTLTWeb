@@ -6,8 +6,6 @@
 <meta charset="UTF-8">
 <title>Register</title>
 <link rel="stylesheet"
-      href="${pageContext.request.contextPath}/views/Shared/login.css">
-<link rel="stylesheet"
       href="${pageContext.request.contextPath}/views/Shared/register.css">
 </head>
 <body>

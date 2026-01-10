@@ -20,9 +20,7 @@ public Account login(String username , String pass) {
             acc.setUserName(rs.getString("USERNAME"));
             acc.setPassword(rs.getString("PASS")); 
             acc.setEmail((rs.getString("EMAIL")));
-            acc.setAddress(rs.getString("ADDRESS"));
-            acc.setNumber(rs.getInt("NUMBER"));
-            acc.setRole(rs.getString("ROLES"));
+         //   acc.setRole(rs.getString("ROLES"));
             return acc;
 			
 		}
@@ -40,9 +38,7 @@ public void register(Account acc) {
 		ps.setString(2,acc.getEmail());
 		ps.setString(3,acc.getPassword());
 		ps.setInt(4,acc.getIdAccount());
-		ps.setInt(5,acc.getNumber());
-		ps.setString(6, acc.getRole());
-		ps.setString(7, acc.getAddress());
+	//	ps.setString(6, acc.getRole());
 		ps.executeUpdate();
 			
 	} catch (Exception e) {
@@ -74,5 +70,39 @@ public int countUser() {
 	}
 	return 0;
 }
+public Account getAccountById ( int accId) {
+	String sql = "SELECT * FROM ACCOUNT WHERE ID = ? ";
+	try (Connection con = DBConnect.getConnect();
+			PreparedStatement ps = con.prepareStatement(sql)){
+		ps.setInt(1, accId);
+		ResultSet rs = ps.executeQuery();
+		if(rs.next()) {
+			Account acc = new Account();
+			acc.setIdAccount(rs.getInt("ID"));
+            acc.setUserName(rs.getString("USERNAME"));
+            acc.setPassword(rs.getString("PASS")); 
+            acc.setEmail((rs.getString("EMAIL")));
+          //  acc.setRole(rs.getString("ROLES"));
+            return acc;
+		}
+		
+	} catch (Exception e) {
+e.printStackTrace();	
+}
+	return null;
+}
+public void updatePassword(int accId, String newPassword) {
+    String sql = "UPDATE ACCOUNT SET PASS = ? WHERE ID = ?";
 
+    try (Connection conn = DBConnect.getConnect();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setString(1, newPassword);
+        ps.setInt(2, accId);
+        ps.executeUpdate();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
 }

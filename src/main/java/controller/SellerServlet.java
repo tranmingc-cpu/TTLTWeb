@@ -5,21 +5,25 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import model.Account;
+import model.Food;
 
 import java.io.IOException;
+import java.util.List;
+
+import DAO.FoodDAOimpl;
 
 /**
- * Servlet implementation class LogoutServlet
+ * Servlet implementation class SellerServlet
  */
-@WebServlet("/logout")
-public class LogoutServlet extends HttpServlet {
+@WebServlet("/SellerServlet")
+public class SellerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LogoutServlet() {
+    public SellerServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,23 +32,24 @@ public class LogoutServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		   String referer = request.getHeader("referer");
 
-	        HttpSession session = request.getSession(false);
-	        if (session != null) {
-	            session.invalidate(); // xoá user
-	        }
+        Account acc = (Account) request.getSession().getAttribute("account");
+        int resid = acc.;
 
-	        //  NẾU CÓ REFERER → QUAY LẠI
-	        if (referer != null && !referer.contains("/login")) {
-	            response.sendRedirect(referer);
-	        } else {
-	            response.sendRedirect(request.getContextPath() + "/Trangchu");
-	        }
-	    }
+        FoodDAOimpl dao = new FoodDAOimpl();
+        List<Food> foods = dao.getFoodsByRestaurant(resid);
+
+        request.setAttribute("foods", foods);
+        request.getRequestDispatcher("/seller/food-list.jsp").forward(request, response);
+    }
+	
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 request.getSession().invalidate();
-		 doGet(request, response);
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 }

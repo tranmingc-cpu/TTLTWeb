@@ -43,15 +43,35 @@
 	<div class="header">
 		<div class="container header-row">
 
-			<a class="logo" href="#"> <span class="logo-icon">🍗</span> <span
-				class="logo-text">FOOD ONLINE</span>
-			</a>
-			<div class="search-box">
-				<input type="text" placeholder="Tìm đồ ăn, đồ uống">
-				<button>🔍</button>
-			</div>
+	<a class="logo" href="${pageContext.request.contextPath}/Trangchu">
+    <span class="logo-icon">🍗</span>
+    <span class="logo-text">FOOD ONLINE</span>
+</a>
+
+			<!-- SEARCH BOx -->
+<form action="${pageContext.request.contextPath}/search"
+      method="get"
+      class="search-box">
+
+    <input type="text"
+           name="keyword"
+           list="foodList"
+           placeholder="Tìm đồ ăn, đồ uống"
+           value="${param.keyword}">
+
+    <button type="submit">🔍</button>
+<!--  hiển thị dsach gọi ý -->
+    <datalist id="foodList">
+        <c:forEach var="f" items="${foodlist}">
+            <option value="${f.name}" />
+        </c:forEach>
+    </datalist>
+
+</form>
+
+
 			<div class="header-actions">
-				<!-- USER -->
+				<!-- CART -->
 				<a href="${pageContext.request.contextPath}/cart" class="cart-link">
 					<div class="circle-btn cart-btn">
 						 🛒
@@ -80,8 +100,7 @@
 						</c:if>
 
 						<c:if test="${not empty sessionScope.account}">
-							<a href="${pageContext.request.contextPath}/profile">Tài
-								khoản</a>
+							<a href="${pageContext.request.contextPath}/profile">Tài khoản</a>
 							<a href="${pageContext.request.contextPath}/orders">Đơn hàng</a>
 							<hr>
 							<a href="${pageContext.request.contextPath}/logout">Đăng xuất</a>

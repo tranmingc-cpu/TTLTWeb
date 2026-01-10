@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Account;
+import model.Account.Role;
 
 import java.io.IOException;
 
@@ -39,8 +40,8 @@ public class AdminFilter implements Filter {
         Account acc = (Account) session.getAttribute("account");
 
         // check admin
-        if (!"ADMIN".equalsIgnoreCase(acc.getRole())) {
-            res.sendRedirect(req.getContextPath() + "/Trangchu");
+        if (acc == null || acc.getRole() != Role.ADMIN) {
+            res.sendRedirect(req.getContextPath() + "/login");
             return;
         }
 

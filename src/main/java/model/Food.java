@@ -7,6 +7,15 @@ private double price;
 private String description;
 private String image;
 private int ResID;
+private String CATEGORY;
+public String getCATEGORY() {
+	return CATEGORY;
+}
+
+public void setCATEGORY(String cATEGORY) {
+	CATEGORY = cATEGORY;
+}
+
 public int getResID() {
 	return ResID;
 }

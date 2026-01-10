@@ -21,7 +21,7 @@ import java.util.Date;
 /**
  * Servlet implementation class CheckoutServlet
  */
-@WebServlet("/CheckoutServlet")
+@WebServlet("/Checkout")
 public class CheckoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

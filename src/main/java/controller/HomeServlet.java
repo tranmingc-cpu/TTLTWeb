@@ -18,7 +18,7 @@ import DAO.FoodDAOimpl;
 @WebServlet("/Trangchu")
 public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private FoodDAOimpl dao = new FoodDAOimpl();
+	private FoodDAOimpl dao = new	 FoodDAOimpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -37,40 +37,24 @@ public class HomeServlet extends HttpServlet {
         	 List<Food> foodlist = dao.findLimit(10);
         	 request.setAttribute("foodlist", foodlist);
         	   request.setAttribute("title", "Món ăn nổi bật");
-        	 request.getRequestDispatcher("views/jsp/Trangchu.jsp").forward(request, response);
+        	 request.getRequestDispatcher("/views/jsp/Trangchu.jsp").forward(request, response);
         	 break;
-             // ================= TRANG CHỦ =================
-        // case "list": {
-            //   List<Food> gaList = dao.findByCategory("Chicken");
-           //    List<Food> burgerList = dao.findByCategory("burger");
-            //   List<Food> pizList = dao.findByCategory("pizza");
-             //  List<Food> drinkList = dao.findByCategory("drink");
-            //   List<Food>snackList = dao.findByCategory("snack");
-               
-            //   request.setAttribute("gaList", gaList);
-             //  request.setAttribute("burgerList", burgerList);
-             //  request.setAttribute("pizList", pizList);
-             //  request.setAttribute("drinkList", drinkList);
-             //  request.setAttribute("snackList", snackList);
-             
-        //   request.getRequestDispatcher("views/jsp/Trangchu.jsp").forward(request, response);
-        //   break;
-                
+
              }
          case "all": { // XEM TẤT CẢ
         	    List<Food> foodlist = dao.findALL();
         	    request.setAttribute("foodlist", foodlist);
         	    request.setAttribute("title", "Tất cả món ăn");
-        	    request.getRequestDispatcher("views/jsp/Trangchu.jsp")
+        	    request.getRequestDispatcher("/views/jsp/Trangchu.jsp")
         	           .forward(request, response);
         	    break;
         	}
              // ================= CHI TIẾT =================
              case "detail": {
-                 int id = Integer.parseInt(request.getParameter("id"));
+                 int id = Integer.parseInt(request.getParameter("ID"));
                  Food food = dao.infomation(id);
                  request.setAttribute("food", food);
-                 request.getRequestDispatcher("views/jsp/Trangchu.jsp")
+                 request.getRequestDispatcher("/views/jsp/Trangchu.jsp")
                          .forward(request, response);
                  break;
              }
@@ -80,18 +64,18 @@ public class HomeServlet extends HttpServlet {
                  String keyword = request.getParameter("keyword");
                  List<Food> result = dao.findByName(keyword);
                  request.setAttribute("foodlist", result);
-                 request.getRequestDispatcher("views/jsp/Trangchu.jsp")
+                 request.getRequestDispatcher("/views/jsp/Trangchu.jsp")
                          .forward(request, response);
                  break;
              }
 
              // ================= CATEGORY =================
              case "category": {
-                 String category = request.getParameter("category");
+                 String category = request.getParameter("CATEGORY");
                  List<Food> foodlist = dao.findByCategory(category);
                  request.setAttribute("foodlist", foodlist);
                  request.setAttribute("title", category);
-                 request.getRequestDispatcher("views/jsp/Trangchu.jsp")
+                 request.getRequestDispatcher("/views/jsp/Trangchu.jsp")
                          .forward(request, response);
                  break;
              }
@@ -110,26 +94,25 @@ public class HomeServlet extends HttpServlet {
         if ("insert".equals(action)) {
 
             Food f = new Food();
-            f.setName(request.getParameter("name"));
-            f.setPrice(Double.parseDouble(request.getParameter("price")));
-            f.setDescription(request.getParameter("description"));
-            f.setImage(request.getParameter("image"));
+            f.setName(request.getParameter("FNAME"));
+            f.setPrice(Double.parseDouble(request.getParameter("PRICE")));
+            f.setDescription(request.getParameter("DESCRIPTIONS"));
+            f.setImage(request.getParameter("IMAGES"));
+            f.setId(Integer.parseInt(request.getParameter("RESID")));
 
             dao.insert(f);
             response.sendRedirect("product-detail?action=list");
         }
-
-      
         // CẬP NHẬT
       
         else if ("update".equals(action)) {
 
             Food f = new Food();
-            f.setId(Integer.parseInt(request.getParameter("id")));
-            f.setName(request.getParameter("name"));
-            f.setPrice(Double.parseDouble(request.getParameter("price")));
-            f.setDescription(request.getParameter("description"));
-            f.setImage(request.getParameter("image"));
+            f.setId(Integer.parseInt(request.getParameter("ID")));
+            f.setName(request.getParameter("FNAME"));
+            f.setPrice(Double.parseDouble(request.getParameter("PRICE")));
+            f.setDescription(request.getParameter("DESCRIPTIONS"));
+            f.setImage(request.getParameter("IMAGES"));
 
             dao.update(f);
             response.sendRedirect("product-detail?action=list");
@@ -140,8 +123,9 @@ public class HomeServlet extends HttpServlet {
     
         else if ("delete".equals(action)) {
 
-            int id = Integer.parseInt(request.getParameter("id"));
-            dao.delete(id);
+            int id = Integer.parseInt(request.getParameter("ID"));
+            int resid = Integer.parseInt(request.getParameter("RESID"));
+			dao.delete(id, resid);
             response.sendRedirect("product-detail?action=list");
         }
     }

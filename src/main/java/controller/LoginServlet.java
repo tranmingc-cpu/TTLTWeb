@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import model.Account;
-import model.Cart;
+import model.Account.Role;
 
 import java.io.IOException;
 
@@ -18,13 +18,15 @@ import DAO.CartDAO;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
-
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("views/jsp/login.jsp").forward(request, response);
+
+        request.getRequestDispatcher("/views/jsp/login.jsp")
+               .forward(request, response);
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -37,27 +39,27 @@ public class LoginServlet extends HttpServlet {
         Account acc = accountDAO.login(username, password);
 
         if (acc != null) {
-            // ===== ĐĂNG NHẬP THÀNH CÔNG =====
-            HttpSession session = request.getSession();
 
-            // Lưu user
+            HttpSession session = request.getSession(true);
+
+            // ===== LƯU USER INFO =====
             session.setAttribute("account", acc);
-            session.setAttribute("userId", acc.getIdAccount());
-            session.setAttribute("user", acc.getUserName());
-            session.setAttribute("role", acc.getRole());
 
-            // ===== LẤY / TẠO CART THEO USER =====
-            int cart = cartDAO.getCartId(acc.getIdAccount());
+            // ===== ĐẢM BẢO USER CÓ CART =====
+            cartDAO.getOrCreateCart(acc.getIdAccount());
 
-            if (cart == 0) {
-               int cart1 = cartDAO.createCartIfNotExists(acc.getIdAccount());
-               session.setAttribute("cartId", cart1);
+            // ===== REDIRECT VỀ TRANG TRƯỚC ĐÓ =====
+            String redirectUrl =
+                    (String) session.getAttribute("redirectAfterLogin");
+
+            if (redirectUrl != null) {
+                session.removeAttribute("redirectAfterLogin");
+                response.sendRedirect(request.getContextPath() + redirectUrl);
+                return;
             }
 
-            session.setAttribute("cart", cart);
-
-            // ===== ĐIỀU HƯỚNG =====
-            if ("ADMIN".equals(acc.getRole())) {
+            // FALLBACK
+            if (acc.getRole()==Role.ADMIN) {
                 response.sendRedirect(request.getContextPath() + "/admin/dashboard");
             } else {
                 response.sendRedirect(request.getContextPath() + "/Trangchu");
@@ -65,7 +67,8 @@ public class LoginServlet extends HttpServlet {
 
         } else {
             request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
-            request.getRequestDispatcher("/views/jsp/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/jsp/login.jsp")
+                   .forward(request, response);
         }
-    }
+}
 }

@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * Servlet implementation class DashBoardServlet
  */
-@WebServlet("/admin")
+@WebServlet("/admin/Dashbora")
 public class DashBoardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

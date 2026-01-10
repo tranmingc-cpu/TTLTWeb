@@ -5,12 +5,14 @@ private int idAccount;
 private String userName;
 private String password;
 private String email;
-private int number;
-private String address;
-private String role;
+
+private Role role;
 public Account() {
 	
+}public enum Role {
+    ADMIN, SELLER, USER
 }
+
 public int getIdAccount() {
 	return idAccount;
 }
@@ -35,22 +37,10 @@ public String getEmail() {
 public void setEmail(String email) {
 	this.email = email;
 }
-public int getNumber() {
-	return number;
-}
-public void setNumber(int number) {
-	this.number = number;
-}
-public String getAddress() {
-	return address;
-}
-public void setAddress(String address) {
-	this.address = address;
-}
-public String getRole() {
+public Role getRole() {
 	return role;
 }
-public void setRole(String role) {
+public void setRole(Role role) {
 	this.role = role;
 }
 

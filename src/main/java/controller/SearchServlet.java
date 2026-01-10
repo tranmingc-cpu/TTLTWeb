@@ -5,21 +5,24 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import model.Food;
 
 import java.io.IOException;
+import java.util.List;
+
+import DAO.FoodDAOimpl;
 
 /**
- * Servlet implementation class LogoutServlet
+ * Servlet implementation class SearchServlet
  */
-@WebServlet("/logout")
-public class LogoutServlet extends HttpServlet {
+@WebServlet("/search")
+public class SearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LogoutServlet() {
+    public SearchServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,23 +31,22 @@ public class LogoutServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		   String referer = request.getHeader("referer");
+		String keyword = request.getParameter("keyword");
+		FoodDAOimpl foodao = new FoodDAOimpl();
+		List<Food> result = foodao.findByName(keyword);
+		// gợi ý 5 tên liên quan
+		List<Food>suggest = foodao.findByName(keyword).stream().limit(5).toList();
+		request.setAttribute("foodlist", result);
+		request.setAttribute("suggestList", suggest);
+		request.getRequestDispatcher("/views/jsp/Trangchu.jsp").forward(request, response);
+	}
 
-	        HttpSession session = request.getSession(false);
-	        if (session != null) {
-	            session.invalidate(); // xoá user
-	        }
-
-	        //  NẾU CÓ REFERER → QUAY LẠI
-	        if (referer != null && !referer.contains("/login")) {
-	            response.sendRedirect(referer);
-	        } else {
-	            response.sendRedirect(request.getContextPath() + "/Trangchu");
-	        }
-	    }
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 request.getSession().invalidate();
-		 doGet(request, response);
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 }

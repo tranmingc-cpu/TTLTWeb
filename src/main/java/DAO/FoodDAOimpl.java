@@ -34,7 +34,7 @@ public class FoodDAOimpl implements FoodDAO {
 	    }
 	@Override
 	public void insert(Food food) {
-		  String sql = "INSERT INTO Food(name, price, description, image) VALUES (?,?,?,?)";
+		  String sql = "INSERT INTO Food(FNAME, PRICE, DESCRIPTIONS, CATEGORY,IMAGES,RESID) VALUES (?,?,?,?,?,?)";
 	        try (Connection con = DBConnect.getConnect();
 	             PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -43,6 +43,7 @@ public class FoodDAOimpl implements FoodDAO {
 	            ps.setString(3, food.getDescription());
 	            ps.setString(4, food.getImage());
 	            ps.setInt(5, food.getId());
+	            ps.setString(6, food.getCATEGORY());
 	            ps.executeUpdate();
 
 	        } catch (Exception e) {
@@ -53,7 +54,7 @@ public class FoodDAOimpl implements FoodDAO {
 
 	@Override
 	public void update(Food food) {
-		 String sql = "UPDATE Food SET name=?, price=?, description=?, image=? WHERE id=?";
+		 String sql = "UPDATE Food SET FNAME=?, PRICE=?, DESCRIPTIONS=?, IMAGES=? WHERE ID=?";
 	        try (Connection con = DBConnect.getConnect();
 	             PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -61,7 +62,8 @@ public class FoodDAOimpl implements FoodDAO {
 	            ps.setDouble(2, food.getPrice());
 	            ps.setString(3, food.getDescription());
 	            ps.setString(4, food.getImage());
-	            ps.setInt(5, food.getId());
+	            ps.setInt(5
+	            		, food.getId());
 	            ps.executeUpdate();
 
 	        } catch (Exception e) {
@@ -70,12 +72,13 @@ public class FoodDAOimpl implements FoodDAO {
 	}
 
 	@Override
-	public void delete(int id) {
-		  String sql = "DELETE FROM Food WHERE id=?";
+	public void delete(int id, int restId) {
+		  String sql = "DELETE FROM Food WHERE ID=? AND RESID = ?";
 	        try (Connection con = DBConnect.getConnect();
 	             PreparedStatement ps = con.prepareStatement(sql)) {
 
 	            ps.setInt(1, id);
+	            ps.setInt(2,restId);
 	            ps.executeUpdate();
 
 	        } catch (Exception e) {
@@ -199,28 +202,29 @@ public class FoodDAOimpl implements FoodDAO {
 	    }
 	    return 0;
 	}
-	public List<Food> getFoodsByRestaurant(int restaurantId, int i) {
+	public List<Food> getFoodsByRestaurant(int resid) {
 		 List<Food> list = new ArrayList<>();
-	        String sql = "SELECT * FROM Food";
+	        String sql = "SELECT * FROM Food WHERE RESID = ?";
 	        try (Connection con = DBConnect.getConnect();
-	             PreparedStatement ps = con.prepareStatement(sql);
-	             ResultSet rs = ps.executeQuery()) {
+	                PreparedStatement ps = con.prepareStatement(sql)) {
+	               ps.setInt(1, resid);
+	               ResultSet rs = ps.executeQuery();
 
-	            while (rs.next()) {
-	                Food f = new Food();
-	                f.setId(rs.getInt("ID"));
-	                f.setName(rs.getString("FNAME"));
-	                f.setPrice(rs.getDouble("PRICE"));
-	                f.setDescription(rs.getString("DESCRIPTIONS"));
-	                f.setImage(rs.getString("IMAGES"));
-	                list.add(f);
-	            }
-
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	        return list;
-	}
+	               while (rs.next()) {
+	                   Food f = new Food();
+	                   f.setId(rs.getInt("ID"));
+	                   f.setName(rs.getString("FNAME"));
+	                   f.setPrice(rs.getDouble("PRICE"));
+	                   f.setImage(rs.getString("IMAGES"));
+	                   f.setDescription(rs.getString("DESCRIPTIONS"));
+	                   f.setResID("RESID");
+	                   list.add(f);
+	               }
+	           } catch (Exception e) {
+	               e.printStackTrace();
+	           }
+	           return list;
+	       }
 	}
 	
 
