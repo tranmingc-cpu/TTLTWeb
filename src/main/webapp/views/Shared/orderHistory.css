@@ -1,0 +1,46 @@
+.order-container {
+    max-width: 800px;
+    margin: 30px auto;
+    font-family: Arial, sans-serif;
+}
+
+.order-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.order-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 10px;
+}
+
+.order-card b {
+    color: #333;
+}
+.address {
+    grid-column: span 2;
+    font-size: 14px;
+    color: #555;
+    background: #f7f7f7;
+    padding: 8px 10px;
+    border-radius: 6px;
+}
+
+
+.status {
+    grid-column: span 2;
+    color: #ff5722;
+    font-weight: bold;
+}
+
+.empty {
+    text-align: center;
+    color: #777;
+    margin-top: 40px;
+}
