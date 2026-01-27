@@ -25,63 +25,43 @@ import DAO.OrderDAO;
  */
 @WebServlet("/order")
 public class OrderServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private OrderDAO orderDAO = new OrderDAO();
-    private CartDAO cartDAO = new CartDAO();
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public OrderServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	
-    	
-    	 HttpSession session = request.getSession(false);
-    	  Account acc = (Account) session.getAttribute("account");
-         if (session == null ||acc== null) {
-             response.sendRedirect(request.getContextPath() + "/login");
-             return;
-         }
-       
-         CartDAO cartDAO = new CartDAO();
-         int cartId = cartDAO.getOrCreateCart(acc.getIdAccount());
-         List<CartItem> cart = cartDAO.getCartItems(cartId);
+    	// web gọi get thì hiện form nhập thông tin 
 
-         if (cart.isEmpty()) {
-             response.sendRedirect(request.getContextPath() + "/cart");
-             return;
-         }
-         
-         String fullname = request.getParameter("fullname");
-         String phone    = request.getParameter("phone");
-         String address  = request.getParameter("address");
-         request.setAttribute("cart", cart);
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("account") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
 
-         request.getRequestDispatcher("/views/jsp/order.jsp")
-            .forward(request, response);
-       
+        request.getRequestDispatcher("/views/jsp/order.jsp")
+               .forward(request, response);
+    }
 
-     }
- 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	 @Override
-	    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-	            throws ServletException, IOException { 
-		 doGet(request, response);
-	 }
-	 }
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("account") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+                // nguoi dung submit form thì lưu tt vào session 
+        // LẤY THÔNG TIN USER NHẬP
+        String address = request.getParameter("address");
+        String note = request.getParameter("note");
+
+        // LƯU SESSION
+        session.setAttribute("orderAddress", address);
+        session.setAttribute("orderNote", note);
+
+        response.sendRedirect(request.getContextPath() + "/checkout");
+    }
+}
 	   /*     HttpSession session = request.getSession(false);
 	        if (session == null || session.getAttribute("account") == null) {
 	            response.sendRedirect(request.getContextPath() + "/login");

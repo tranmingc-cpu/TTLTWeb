@@ -18,7 +18,6 @@ public class LoginFilter implements Filter {
         String contextPath = request.getContextPath();
         String uri = request.getRequestURI().substring(contextPath.length());
 
-        // ===== cho phép truy cập không cần login=====
         boolean isPublic =
                 uri.equals("/login") ||
                 uri.equals("/register") ||

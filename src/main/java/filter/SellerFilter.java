@@ -7,6 +7,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
+import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,30 +18,30 @@ import model.Account.Role;
 /**
  * Servlet implementation class SellerFilter
  */
-@WebServlet("/seller/*")
-	public class SellerFilter implements Filter {
-	    @Override
-	    public void doFilter(ServletRequest request, ServletResponse response,
-	                         FilterChain chain)
-	            throws IOException, ServletException {
+@WebFilter("/seller/*")
+public class SellerFilter implements Filter {
 
-	        HttpServletRequest req = (HttpServletRequest) request;
-	        HttpServletResponse res = (HttpServletResponse) response;
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+                         FilterChain chain)
+            throws IOException, ServletException {
 
-	        HttpSession session = req.getSession(false);
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
 
-	        if (session == null || session.getAttribute("account") == null) {
-	            res.sendRedirect(req.getContextPath() + "/login");
-	            return;
-	        }
-        // lấy account của  seller và ktra
-	        Account acc = (Account) session.getAttribute("account");
+        HttpSession session = req.getSession(false);
+        Account acc = null;
 
-	        if (acc == null || !acc.getRole().equals("SELLER")) {
-	        	res.sendRedirect(req.getContextPath() + "/Trangchu");
-	            return;
-	        }
+        if (session != null) {
+            acc = (Account) session.getAttribute("account");
+        }
 
-	        chain.doFilter(request, response);
-	    }
-	}
+        // Chưa login hoặc không phải SELLER chặn
+        if (acc == null || acc.getRole() != Role.SELLER) {
+            res.sendRedirect(req.getContextPath() + "/Trangchu");
+            return; 
+        }
+        //  Đúng SELLER  cho đi tiếp
+        chain.doFilter(request, response);
+    }
+}

@@ -8,49 +8,46 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Account;
 import model.Order;
+import model.User;
+import util.EmailUtil;
 
 import java.io.IOException;
 import java.util.List;
 
 import DAO.OrderDAO;
+import DAO.UserDAO;
 
 /**
  * Servlet implementation class OrderSuccessServlet
  */
 @WebServlet("/orderSuccess")
 public class OrderSuccessServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private OrderDAO orderdao = new OrderDAO();
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public OrderSuccessServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("orderIds") == null) {
-            response.sendRedirect(request.getContextPath() + "/Trangchu");
-            System.out.println("test odder");
+        if (session == null) {
+            response.sendRedirect(request.getContextPath() + "/cart");
             return;
         }
 
-        // lấy order id
-        List<Integer> orderIds = (List<Integer>) session.getAttribute("orderIds");
+        List<Integer> orderIds =
+            (List<Integer>) session.getAttribute("orderIds");
 
-        List<Order> orders = orderdao.getOrdersByIds(orderIds);
+        if (orderIds == null || orderIds.isEmpty()) {
+            response.sendRedirect(request.getContextPath() + "/cart");
+            return;
+        }
+
+        // ✅ LOAD ORDER TỪ DB
+        OrderDAO orderDAO = new OrderDAO();
+        List<Order> orders = orderDAO.getOrdersByIds(orderIds);
 
         request.setAttribute("orders", orders);
 
-        // xóa để Fkhông tạo lại đơn
+        // ✅ clear session tránh refresh bug
         session.removeAttribute("orderIds");
 
         request.getRequestDispatcher("/views/jsp/orderSuccess.jsp")

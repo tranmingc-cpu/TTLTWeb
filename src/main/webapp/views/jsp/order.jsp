@@ -1,104 +1,74 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Xác nhận đơn hàng</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/views/Shared/order.css">
+    <title>Thông tin đặt hàng</title>
+
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/views/Shared/order.css">
 </head>
 <body>
 
+<!-- HEADER -->
 <jsp:include page="/views/jsp/demo.jsp"/>
 
-<div class="checkout-container">
+<div class="order-container">
+ 
+    <h2>📦 THÔNG TIN GIAO HÀNG</h2>
+<!--  gui du lieu len server  post củaorder -->
+    <form action="${pageContext.request.contextPath}/order"
+          method="post"
+          class="order-form">
+          
+          <label>Họ và Tên</label>
+        <input type="text"
+               name="name"
+               value="${profile.fullname}"
+               required
+               placeholder="Nhập họ và tên">
+          
+        <!-- ĐỊA CHỈ -->
+        <label>Địa chỉ giao hàng</label>
+        <input type="text"
+               name="address"
+               value="${profile.address}"
+               required
+               placeholder="Nhập địa chỉ giao hàng">
 
-    <h2 class="page-title">🧾 XÁC NHẬN ĐƠN HÀNG</h2>
+        <!-- SỐ ĐIỆN THOẠI -->
+        <label>Số điện thoại</label>
+        <input type="tel"
+               name="phone"
+               value="${profile.phone}"
+               required
+               placeholder="Nhập số điện thoại"
+               pattern="[0-9]{9,11}"
+               title="Số điện thoại từ 9–11 chữ số">
 
-    <form action="${pageContext.request.contextPath}/checkout" method="post">
+        <!-- GHI CHÚ -->
+        <label>Ghi chú (tuỳ chọn)</label>
+        <textarea name="note"
+                  placeholder="Ví dụ: Giao giờ hành chính, gọi trước khi giao"></textarea>
 
-        <!-- ===== THÔNG TIN KHÁCH HÀNG ===== -->
-        <div class="box">
-            <h3>👤 Thông tin khách hàng</h3>
+        <!-- NÚT -->
+        <div class="order-actions">
+            <a href="${pageContext.request.contextPath}/cart"
+               class="btn-back">← Quay lại giỏ hàng</a>
 
-            <div class="form-group">
-                <label>Họ và tên</label>
-                <input type="text" name="fullname"
-                       value="${profile.fullname}" required>
-            </div>
-
-            <div class="form-group">
-                <label>Số điện thoại</label>
-                <input type="tel" name="phone"
-                       value="${profile.phone}" required>
-            </div>
-
-            <div class="form-group">
-                <label>📍 Địa chỉ giao hàng</label>
-                <input type="text" name="address"
-                       value="${profile.address}" required>
-            </div>
-        </div>
-
-        <!-- ===== DANH SÁCH MÓN ===== -->
-        <div class="box">
-            <h3>🍽️ Thông tin đơn hàng</h3>
-
-            <table class="order-table">
-                <thead>
-                <tr>
-                    <th>Nhà hàng</th>
-                    <th>Món ăn</th>
-                    <th>Số lượng</th>
-                    <th>Giá</th>
-                    <th>Thành tiền</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <c:set var="total" value="0"/>
-
-                <c:forEach var="item" items="${cart}">
-                    <tr>
-                        <td>${item.food.resID}</td>
-                        <td>${item.food.name}</td>
-                        <td>${item.quantity}</td>
-                        <td>
-                            <fmt:formatNumber value="${item.food.price}" type="number"/> đ
-                        </td>
-                        <td>
-                            <fmt:formatNumber value="${item.totalPrice}" type="number"/> đ
-                        </td>
-                    </tr>
-                    <c:set var="total" value="${total + item.totalPrice}"/>
-                </c:forEach>
-                </tbody>
-
-                <tfoot>
-                <tr>
-                    <td colspan="4" class="total-label">TỔNG CỘNG</td>
-                    <td class="total-price">
-                        <fmt:formatNumber value="${total}" type="number"/> đ
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
-        </div>
-
-        <input type="hidden" name="total" value="${total}">
-
-        <!-- ===== BUTTON ===== -->
-        <div class="btn-area">
-            <button type="submit" class="btn-confirm">
-                ✅ Xác nhận đặt hàng
+            <button type="submit" class="btn-next">
+                Tiếp tục thanh toán →
             </button>
         </div>
 
     </form>
+
 </div>
 
+<!-- FOOTER -->
 <jsp:include page="/views/jsp/footer.jsp"/>
 
 </body>

@@ -14,49 +14,30 @@
 <body>
 
 	<div class="page-container">
-		<!-- 🔥 WRAPPER -->
 
 		<!-- HEADER -->
 		<jsp:include page="/views/jsp/demo.jsp" />
 
 		<!-- NAV -->
 		<div class="nav">
- <a class="${empty param.action ? 'active' : ''}"
-       href="${pageContext.request.contextPath}/Trangchu">
-        Trang Chủ
-    </a>
+			<a class="${empty param.action ? 'active' : ''}"
+				href="${pageContext.request.contextPath}/Trangchu"> Trang Chủ </a> <a
+				class="${param.ID == '1' ? 'active' : ''}"
+				href="${pageContext.request.contextPath}/Trangchu?action=category&ID=1">
+				Chicken </a> <a class="${param.ID == '2' ? 'active' : ''}"
+				href="${pageContext.request.contextPath}/Trangchu?action=category&ID=2">
+				Pizza </a> <a class="${param.ID == '5' ? 'active' : ''}"
+				href="${pageContext.request.contextPath}/Trangchu?action=category&ID=5">
+				Drink </a> <a class="${param.ID == '3' ? 'active' : ''}"
+				href="${pageContext.request.contextPath}/Trangchu?action=category&ID=3">
+				Snack </a> <a class="${param.ID == '6' ? 'active' : ''}"
+				href="${pageContext.request.contextPath}/Trangchu?action=category&ID=6">
+				Burger </a>
 
-    <a class="${param.ID == '1' ? 'active' : ''}"
-       href="${pageContext.request.contextPath}/Trangchu?action=category&ID=1">
-        Chicken
-    </a>
-
-    <a class="${param.ID == '2' ? 'active' : ''}"
-       href="${pageContext.request.contextPath}/Trangchu?action=category&ID=2">
-        Pizza
-    </a>
-
-    <a class="${param.ID == '3' ? 'active' : ''}"
-       href="${pageContext.request.contextPath}/Trangchu?action=category&ID=3">
-        Snack
-    </a>
-
-    <a class="${param.ID == '4' ? 'active' : ''}"
-       href="${pageContext.request.contextPath}/Trangchu?action=category&ID=4">
-        Drink
-    </a>
-
-    <a class="${param.ID == '6' ? 'active' : ''}"
-       href="${pageContext.request.contextPath}/Trangchu?action=category&ID=6">
-        Burger
-    </a>
-
-</div>
-
-
+		</div>
 		<!-- MAIN CONTENT -->
 		<main class="page-content">
-			<!-- 🔥 -->
+			<!-- check fu lieu -->
 
 			<div class="section">
 				<div class="section-title">${title}</div>
@@ -71,14 +52,13 @@
 
 						<div class="product-card">
 
-							<!-- CLICK VÀO ĐÂY MỚI VÀO CHI TIẾT -->
-					    <!-- VÙNG CLICK CHI TIẾT -->
-    <a class="product-link"
-       href="${pageContext.request.contextPath}/product-detail?id=${f.id}">
-        <img src="${pageContext.request.contextPath}/images/${f.image}"
-             onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'">
-        <h3 class="product-name">${f.name}</h3>
-    </a>
+							<!-- VÙNG CLICK CHI TIẾT -->
+							<a class="product-link"
+								href="${pageContext.request.contextPath}/product-detail?id=${f.id}">
+								<img src="${pageContext.request.contextPath}/images/${f.image}"
+								onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'">
+								<h3 class="product-name">${f.name}</h3>
+							</a>
 							<div class="product-price">${f.price}VND</div>
 							<div class="product-note">#${f.id}-Hasky</div>
 

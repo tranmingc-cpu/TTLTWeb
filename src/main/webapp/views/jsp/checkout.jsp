@@ -1,30 +1,28 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c"%>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt"%>
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Thanh toán</title>
+    <meta charset="UTF-8">
+    <title>Thanh toán</title>
 
-<link rel="stylesheet"
-    href="${pageContext.request.contextPath}/views/Shared/checkout.css">
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/views/Shared/checkout.css">
 </head>
 <body>
 
 <!-- HEADER -->
-<jsp:include page="/views/jsp/demo.jsp" />
+<jsp:include page="/views/jsp/demo.jsp"/>
 
 <div class="checkout-container">
 
-    <h2>XÁC NHẬN THANH TOÁN</h2>
+    <h2>💳 XÁC NHẬN THANH TOÁN</h2>
 
+    <!-- DANH SÁCH SẢN PHẨM -->
     <div class="checkout-box">
 
-        <!-- CART LIST -->
         <table class="cart-table">
             <thead>
                 <tr>
@@ -40,72 +38,48 @@
                         <td>${item.food.name}</td>
                         <td>${item.quantity}</td>
                         <td>
-                            <fmt:formatNumber value="${item.food.price}"
-                                groupingUsed="true"/> ₫
+                            <fmt:formatNumber value="${item.food.price}" groupingUsed="true"/> ₫
                         </td>
                         <td>
-                            <fmt:formatNumber value="${item.totalPrice}"
-                                groupingUsed="true"/> ₫
+                            <fmt:formatNumber value="${item.totalPrice}" groupingUsed="true"/> ₫
                         </td>
                     </tr>
                 </c:forEach>
             </tbody>
         </table>
 
-        <!-- TOTAL -->
+        <!-- TỔNG TIỀN -->
         <div class="summary">
-            <p>
-                Tạm tính:
-                <b>
-                    <fmt:formatNumber value="${subTotal}" groupingUsed="true"/> ₫
-                </b>
-            </p>
-
-            <p>
-                Phí ship:
-                <b>
-                    <fmt:formatNumber value="${shipFee}" groupingUsed="true"/> ₫
-                </b>
-            </p>
-
-            <p class="total">
-                TỔNG:
-                <b style="color:red">
-                    <fmt:formatNumber value="${total}" groupingUsed="true"/> ₫
-                </b>
-            </p>
+            <div>
+                <span>Tạm tính:</span>
+                <b><fmt:formatNumber value="${subTotal}" groupingUsed="true"/> ₫</b>
+            </div>
+            <div>
+                <span>Phí ship:</span>
+                <b><fmt:formatNumber value="${shipFee}" groupingUsed="true"/> ₫</b>
+            </div>
+            <div class="total">
+                <span>TỔNG:</span>
+                <b><fmt:formatNumber value="${total}" groupingUsed="true"/> ₫</b>
+            </div>
         </div>
 
-        <!-- FORM THANH TOÁN -->
+        <!-- ĐỊA CHỈ -->
+        <div class="address-box">
+            <h4>📍 Địa chỉ giao hàng</h4>
+            <p>${address}</p>
+        </div>
+
+        <!-- ACTION -->
         <form action="${pageContext.request.contextPath}/checkout"
               method="post"
-              class="checkout-form">
+              class="checkout-action">
 
-            <!-- GỬI TOTAL -->
-            <input type="hidden" name="total" value="${total}" />
+            <a href="${pageContext.request.contextPath}/order"
+               class="btn-back">← Quay lại</a>
 
-            <h3>Phương thức thanh toán</h3>
-
-            <label class="payment-option">
-                <input type="radio" name="paymentMethod"
-                       value="COD" checked>
-                Thanh toán khi nhận hàng (COD)
-            </label>
-
-            <label class="payment-option">
-                <input type="radio" name="paymentMethod"
-                       value="VNPAY">
-                Ví điện tử / VNPay
-            </label>
-
-            <label class="payment-option">
-                <input type="radio" name="paymentMethod"
-                       value="BANK">
-                Chuyển khoản ngân hàng
-            </label>
-
-            <button type="submit" class="btn-order">
-                ✅ XÁC NHẬN THANH TOÁN
+            <button type="submit" class="btn-confirm">
+                ✅ Xác nhận thanh toán
             </button>
         </form>
 
@@ -113,7 +87,7 @@
 </div>
 
 <!-- FOOTER -->
-<jsp:include page="/views/jsp/footer.jsp" />
+<jsp:include page="/views/jsp/footer.jsp"/>
 
 </body>
 </html>
