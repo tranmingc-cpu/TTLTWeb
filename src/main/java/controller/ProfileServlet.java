@@ -41,7 +41,7 @@ public class ProfileServlet extends HttpServlet {
              response.sendRedirect(request.getContextPath() + "/login");
              return;
          }
-
+// ktra account
          Object obj = session.getAttribute("account");
          if (!(obj instanceof Account)) {
              session.invalidate();
@@ -83,7 +83,7 @@ public class ProfileServlet extends HttpServlet {
         String number = request.getParameter("number");
         String address = request.getParameter("address");
         String password = request.getParameter("password");
-
+// lấy thông tin user profile
         UserDAO userDAO = new UserDAO();
         User profile = userDAO.getProfileByAccId(acc.getIdAccount());
 

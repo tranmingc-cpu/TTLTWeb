@@ -1,6 +1,7 @@
 package controller;
 
 import model.Account;
+
 import model.CartItem;
 
 import jakarta.servlet.ServletException;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 
 import DAO.CartDAO;
 import DAO.FoodDAOimpl;
-import DAO.RestaurantDAO;
+import DAO.SellerDAO;
 
 @WebServlet("/cart")
 public class CartServlet extends HttpServlet {
@@ -28,12 +29,9 @@ public class CartServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-
-    
+       CartDAO cartDAO = new CartDAO();
         Account acc = (Account) session.getAttribute("account");
-        int userId = acc.getIdAccount();
-
-        CartDAO cartDAO = new CartDAO();
+    
         String action = request.getParameter("action");
 
         /* ================= ADD ================= */
@@ -45,12 +43,12 @@ public class CartServlet extends HttpServlet {
             if (foodIdRaw != null && qtyRaw != null) {
                 int foodId = Integer.parseInt(foodIdRaw);
                 int quantity = Integer.parseInt(qtyRaw);
-                cartDAO.addCartByUser(userId, foodId, quantity);
+                cartDAO.addCartByUser(acc.getIdAccount(), foodId, quantity);
             }
 
-            // 🔥 BUY NOW → CHECKOUT
+            // BUY NOW → CHECKOUT
             if ("true".equals(request.getParameter("buyNow"))) {
-                response.sendRedirect(request.getContextPath() + "/checkout");
+                response.sendRedirect(request.getContextPath() + "/order");
             } else {
                 response.sendRedirect(request.getContextPath() + "/cart");
             }
@@ -60,23 +58,31 @@ public class CartServlet extends HttpServlet {
         /* ================= UPDATE ================= */
         if ("update".equals(action)) {
 
-            String detailIdRaw = request.getParameter("cartDetailId");
+            String detailIdRaw = request.getParameter("detailId");
             String qtyRaw = request.getParameter("quantity");
 
-            if (detailIdRaw != null && qtyRaw != null) {
-                int detailId = Integer.parseInt(detailIdRaw);
-                int quantity = Integer.parseInt(qtyRaw);
+            if (detailIdRaw == null || qtyRaw == null) {
+                response.sendRedirect("cart");
+                return;
+            }
+
+            int detailId = Integer.parseInt(detailIdRaw);
+            int quantity = Integer.parseInt(qtyRaw);
+
+            if (quantity < 1) {
+                cartDAO.removeItem(detailId);
+            } else {
                 cartDAO.updateQuantity(detailId, quantity);
             }
 
             response.sendRedirect(request.getContextPath() + "/cart");
             return;
         }
-
         /* ================= REMOVE ================= */
-        if ("remove".equals(action)) {
+        if ("delete".equals(action)) {
 
-            String detailIdRaw = request.getParameter("cartDetailId");
+            String detailIdRaw = request.getParameter("detailId");
+
             if (detailIdRaw != null) {
                 int detailId = Integer.parseInt(detailIdRaw);
                 cartDAO.removeItem(detailId);
@@ -87,22 +93,21 @@ public class CartServlet extends HttpServlet {
         }
 
         /* ================= LOAD CART ================= */
+        int cart0 = cartDAO.getCartIdByAccount(acc.getIdAccount());
         ArrayList<CartItem> cart =
-                new ArrayList<>(cartDAO.getCartByUser(userId));
-
+                new ArrayList<>(cartDAO.getCartItems(cart0));
         int subTotal = 0;
         for (CartItem item : cart) {
             subTotal += item.getTotalPrice();
         }
 
-        int shipFee = cart.isEmpty() ? 0 : 20000;
-        int total = subTotal + shipFee;
+        int total = subTotal ;
 
         /* ===== RESTAURANT & SUGGEST ===== */
         if (!cart.isEmpty()) {
             int restaurantId = cart.get(0).getFood().getResID();
 
-            RestaurantDAO rDAO = new RestaurantDAO();
+            SellerDAO rDAO = new SellerDAO();
             FoodDAOimpl fDAO = new FoodDAOimpl();
 
             request.setAttribute("restaurant",
@@ -113,12 +118,13 @@ public class CartServlet extends HttpServlet {
 
         request.setAttribute("cart", cart);
         request.setAttribute("subTotal", subTotal);
-        request.setAttribute("shipFee", shipFee);
         request.setAttribute("total", total);
 
         request.getRequestDispatcher("/views/jsp/cart.jsp")
                .forward(request, response);
+    
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

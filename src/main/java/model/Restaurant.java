@@ -1,20 +1,30 @@
 package model;
 
 public class Restaurant {
-private int id;
+private int Resid;
 private String name;
 private String address;
+private int accid;
 private String phone;
 private String email;
 private String description;
 private double rating;
 public Restaurant () {
 }
-public int getId() {
-	return id;
+
+public int getAccid() {
+	return accid;
 }
-public void setId(int id) {
-	this.id = id;
+
+public void setAccid(int accid) {
+	this.accid = accid;
+}
+
+public int getResId() {
+	return Resid;
+}
+public void setId(int Resid) {
+	this.Resid = Resid;
 }
 public String getName() {
 	return name;
@@ -52,10 +62,12 @@ public double getRating() {
 public void setRating(double rating) {
 	this.rating = rating;
 }
+
 @Override
 public String toString() {
-	return "Restaurant [id=" + id + ", " + name + ", " + address + ", " + phone + ", " + email
-			+ ", " + description + "," + rating ;
+	return "Restaurant [Resid=" + Resid + ", name=" + name + ", address=" + address + ", accid=" + accid + ", phone="
+			+ phone + ", email=" + email + ", description=" + description + ", rating=" + rating + "]";
 }
+
 
 }

@@ -17,7 +17,7 @@ import model.Account.Role;
 /**
  * Servlet implementation class SellerFilter
  */
-@WebServlet("/restaurant/*")
+@WebServlet("/seller/*")
 	public class SellerFilter implements Filter {
 	    @Override
 	    public void doFilter(ServletRequest request, ServletResponse response,
@@ -33,11 +33,11 @@ import model.Account.Role;
 	            res.sendRedirect(req.getContextPath() + "/login");
 	            return;
 	        }
-
+        // lấy account của  seller và ktra
 	        Account acc = (Account) session.getAttribute("account");
 
-	        if (acc.getRole()==Role.SELLER) {
-	            res.sendRedirect(req.getContextPath() + "/Trangchu");
+	        if (acc == null || !acc.getRole().equals("SELLER")) {
+	        	res.sendRedirect(req.getContextPath() + "/Trangchu");
 	            return;
 	        }
 

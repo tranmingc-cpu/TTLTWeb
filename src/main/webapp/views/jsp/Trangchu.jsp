@@ -21,19 +21,38 @@
 
 		<!-- NAV -->
 		<div class="nav">
-			<a class="${empty param.action ? 'active' : ''}"
-				href="${pageContext.request.contextPath}/Trangchu"> Trang Chủ </a> <a
-				class="${param.category == 'Chicken' ? 'active' : ''}"
-				href="${pageContext.request.contextPath}/Trangchu?action=category&category=Chicken">
-				Chicken </a> <a class="${param.category == 'Pizza' ? 'active' : ''}"
-				href="${pageContext.request.contextPath}/Trangchu?action=category&category=Pizza">
-				Pizza/Burger </a> <a
-				class="${param.category == 'Snack' ? 'active' : ''}"
-				href="${pageContext.request.contextPath}/Trangchu?action=category&category=Snack">
-				Snack </a> <a class="${param.category == 'Drink' ? 'active' : ''}"
-				href="${pageContext.request.contextPath}/Trangchu?action=category&category=Drink">
-				Drink </a>
-		</div>
+ <a class="${empty param.action ? 'active' : ''}"
+       href="${pageContext.request.contextPath}/Trangchu">
+        Trang Chủ
+    </a>
+
+    <a class="${param.ID == '1' ? 'active' : ''}"
+       href="${pageContext.request.contextPath}/Trangchu?action=category&ID=1">
+        Chicken
+    </a>
+
+    <a class="${param.ID == '2' ? 'active' : ''}"
+       href="${pageContext.request.contextPath}/Trangchu?action=category&ID=2">
+        Pizza
+    </a>
+
+    <a class="${param.ID == '3' ? 'active' : ''}"
+       href="${pageContext.request.contextPath}/Trangchu?action=category&ID=3">
+        Snack
+    </a>
+
+    <a class="${param.ID == '4' ? 'active' : ''}"
+       href="${pageContext.request.contextPath}/Trangchu?action=category&ID=4">
+        Drink
+    </a>
+
+    <a class="${param.ID == '6' ? 'active' : ''}"
+       href="${pageContext.request.contextPath}/Trangchu?action=category&ID=6">
+        Burger
+    </a>
+
+</div>
+
 
 		<!-- MAIN CONTENT -->
 		<main class="page-content">

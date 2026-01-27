@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Account;
+import model.Account.Role;
 
 import java.io.IOException;
 
@@ -35,7 +36,9 @@ public class RegisterServlet extends HttpServlet {
         String password = request.getParameter("password");
         String address = request.getParameter("address");
         String numberStr = request.getParameter("number");
-        String role = request.getParameter("role");
+        String roleParam = request.getParameter("role");
+        Role role = Role.valueOf(roleParam.toUpperCase());
+
 
         // 1️⃣ Validate
         if (username == null || email == null || password == null ||
@@ -62,9 +65,7 @@ public class RegisterServlet extends HttpServlet {
         acc.setUserName(username);
         acc.setPassword(password); // đồ án ok, nâng cao thì hash
         acc.setEmail(email);
-        acc.setNumber(number);
-        acc.setAddress(address);
-        acc.setRole(role);
+        acc.setRole( role);
 
         // 3️⃣ Gọi DAO
         AccountDAO dao = new AccountDAO();

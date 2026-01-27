@@ -1,21 +1,37 @@
 package model;
 
+
 import java.util.*;
 
 public class Order {
-private int Orderid;
+private int orderId;
 private int accountId;
 private Date orderDate;
 private double totalAmount;
 private String status;
+private String address;
+private int resId;
+public String getAddress() {
+	return address;
+}
+public void setAddress(String address) {
+	this.address = address;
+}
 public Order() {
 
 }
-public int getOrderid() {
-	return Orderid;
+public int getOrderId() {
+	return orderId;
 }
-public void setOrderid(int orderid) {
-	Orderid = orderid;
+public void setOrderId(int orderId) {
+	this.orderId = orderId;
+}
+
+public int getResId() {
+	return resId;
+}
+public void setResId(int resId) {
+	this.resId = resId;
 }
 public int getAccountId() {
 	return accountId;
@@ -41,5 +57,6 @@ public String getStatus() {
 public void setStatus(String status) {
 	this.status = status;
 }
+
 	
 }

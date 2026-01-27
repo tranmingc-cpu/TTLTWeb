@@ -33,7 +33,12 @@
 
 					</div>
 				</div>
-				<div class="top-item">Kênh người bán</div>
+				<c:if
+					test="${sessionScope.account != null 
+          && sessionScope.account.role eq 'SELLER'}">
+					<a href="${pageContext.request.contextPath}/seller"> Kênh người
+						bán </a>
+				</c:if>
 				<div class="top-item">Thông báo</div>
 			</div>
 
@@ -43,44 +48,40 @@
 	<div class="header">
 		<div class="container header-row">
 
-	<a class="logo" href="${pageContext.request.contextPath}/Trangchu">
-    <span class="logo-icon">🍗</span>
-    <span class="logo-text">FOOD ONLINE</span>
-</a>
+			<a class="logo" href="${pageContext.request.contextPath}/Trangchu">
+				<span class="logo-icon">🍗</span> <span class="logo-text">FOOD
+					ONLINE</span>
+			</a>
 
 			<!-- SEARCH BOx -->
-<form action="${pageContext.request.contextPath}/search"
-      method="get"
-      class="search-box">
+			<form action="${pageContext.request.contextPath}/search" method="get"
+				class="search-box">
 
-    <input type="text"
-           name="keyword"
-           list="foodList"
-           placeholder="Tìm đồ ăn, đồ uống"
-           value="${param.keyword}">
+				<input type="text" name="keyword" list="foodList"
+					placeholder="Tìm đồ ăn, đồ uống" value="${param.keyword}">
 
-    <button type="submit">🔍</button>
-<!--  hiển thị dsach gọi ý -->
-    <datalist id="foodList">
-        <c:forEach var="f" items="${foodlist}">
-            <option value="${f.name}" />
-        </c:forEach>
-    </datalist>
+				<button type="submit">🔍</button>
+				<!--  hiển thị dsach gọi ý -->
+				<datalist id="foodList">
+					<c:forEach var="f" items="${foodlist}">
+						<option value="${f.name}" />
+					</c:forEach>
+				</datalist>
 
-</form>
+			</form>
 
 
 			<div class="header-actions">
 				<!-- CART -->
 				<a href="${pageContext.request.contextPath}/cart" class="cart-link">
 					<div class="circle-btn cart-btn">
-						 🛒
+						🛒
 						<c:if test="${cartCount > 0}">
 							<span class="cart-badge">${cartCount}</span>
 						</c:if>
 					</div>
 				</a>
-				<div class="user-wrapper" tabindex="0"> 
+				<div class="user-wrapper" tabindex="0">
 
 					<!-- NÚT USER -->
 					<button type="button" class="user-btn"
@@ -100,9 +101,10 @@
 						</c:if>
 
 						<c:if test="${not empty sessionScope.account}">
-							<a href="${pageContext.request.contextPath}/profile">Tài khoản</a>
-							<a href="${pageContext.request.contextPath}/orders">Đơn hàng</a>
-							<hr>
+							<a href="${pageContext.request.contextPath}/profile">Tài
+								khoản</a>
+							<a href="${pageContext.request.contextPath}/orderHistory">
+								Đơn hàng </a>
 							<a href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
 						</c:if>
 					</div>

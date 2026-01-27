@@ -2,17 +2,11 @@ package model;
 
 public class OrderDetails {
 private int id;
-private int orderid;
-private int foodID;
+private int orderId;
+private Food food;
 private int quantity;
 private double price;
-public OrderDetails(int id, int orderid, int foodID, int quantity, double price) {
-	super();
-	this.id = id;
-	this.orderid = orderid;
-	this.foodID = foodID;
-	this.quantity = quantity;
-	this.price = price;
+public OrderDetails() {
 }
 public int getId() {
 	return id;
@@ -20,17 +14,18 @@ public int getId() {
 public void setId(int id) {
 	this.id = id;
 }
-public int getOrderid() {
-	return orderid;
+public int getOrderId() {
+	return orderId;
 }
-public void setOrderid(int orderid) {
-	this.orderid = orderid;
+public void setOrderId(int orderId) {
+	this.orderId = orderId;
 }
-public int getFoodID() {
-	return foodID;
+
+public Food getFood() {
+	return food;
 }
-public void setFoodID(int foodID) {
-	this.foodID = foodID;
+public void setFood(Food food) {
+	this.food = food;
 }
 public int getQuantity() {
 	return quantity;

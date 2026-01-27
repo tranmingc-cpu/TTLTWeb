@@ -9,6 +9,7 @@ import model.User;
 public class UserDAO {
 	 private static final String GET_BY_ACC_ID =
 		        "SELECT * FROM USERProfile WHERE ACCID = ?";
+	 // lấy thông tin theo accid
 	 public User getProfileByAccId(int accId) {
 	        try (Connection conn = DBConnect.getConnect();
 	             PreparedStatement ps = conn.prepareStatement(GET_BY_ACC_ID)) {

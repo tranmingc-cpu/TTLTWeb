@@ -10,6 +10,7 @@ import model.Food;
 import java.io.IOException;
 import java.util.List;
 
+import DAO.CategoryDAO;
 import DAO.FoodDAOimpl;
 
 /**
@@ -18,7 +19,7 @@ import DAO.FoodDAOimpl;
 @WebServlet("/Trangchu")
 public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private FoodDAOimpl dao = new	 FoodDAOimpl();
+	private FoodDAOimpl dao = new FoodDAOimpl();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -54,6 +55,7 @@ public class HomeServlet extends HttpServlet {
                  int id = Integer.parseInt(request.getParameter("ID"));
                  Food food = dao.infomation(id);
                  request.setAttribute("food", food);
+                 request.setAttribute("title", "Chi tiết"); 
                  request.getRequestDispatcher("/views/jsp/Trangchu.jsp")
                          .forward(request, response);
                  break;
@@ -62,8 +64,9 @@ public class HomeServlet extends HttpServlet {
              // ================= SEARCH =================
              case "search": {
                  String keyword = request.getParameter("keyword");
-                 List<Food> result = dao.findByName(keyword);
-                 request.setAttribute("foodlist", result);
+                 List<Food> foodlist = dao.findByName(keyword);
+                 request.setAttribute("foodlist", foodlist);
+                 request.setAttribute("title", "Kết quả tìm kiếm");
                  request.getRequestDispatcher("/views/jsp/Trangchu.jsp")
                          .forward(request, response);
                  break;
@@ -71,12 +74,15 @@ public class HomeServlet extends HttpServlet {
 
              // ================= CATEGORY =================
              case "category": {
-                 String category = request.getParameter("CATEGORY");
+                 int category = Integer.parseInt(request.getParameter("ID"));
                  List<Food> foodlist = dao.findByCategory(category);
+                 CategoryDAO cdao = new CategoryDAO();
+                 String categoryName = cdao.getNameById(category);
                  request.setAttribute("foodlist", foodlist);
-                 request.setAttribute("title", category);
+                 request.setAttribute("title", categoryName); 
                  request.getRequestDispatcher("/views/jsp/Trangchu.jsp")
                          .forward(request, response);
+                 
                  break;
              }
 
@@ -88,7 +94,6 @@ public class HomeServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 
-      
         // THÊM MÓN
         
         if ("insert".equals(action)) {
@@ -117,8 +122,6 @@ public class HomeServlet extends HttpServlet {
             dao.update(f);
             response.sendRedirect("product-detail?action=list");
         }
-
-      
         // XÓA
     
         else if ("delete".equals(action)) {

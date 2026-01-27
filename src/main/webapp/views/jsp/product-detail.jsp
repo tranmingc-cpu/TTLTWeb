@@ -82,7 +82,7 @@
 						<!-- ADD TO CART -->
 
 						<form action="${pageContext.request.contextPath}/cart"
-							method="get">
+							method="post">
 
 							 <input
 								type="hidden" name="foodId" value="${food.id}">

@@ -5,7 +5,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.*;
 
-@WebFilter(urlPatterns = { "/cart", "/profile", "/order", "/checkout" })
+@WebFilter("/*")
 public class LoginFilter implements Filter {
 
     @Override
@@ -15,20 +15,27 @@ public class LoginFilter implements Filter {
         HttpServletRequest request  = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
-        //  LẤY SESSION (KHÔNG TẠO MỚI)
-        HttpSession session = request.getSession(false);
+        String contextPath = request.getContextPath();
+        String uri = request.getRequestURI().substring(contextPath.length());
 
+        // ===== cho phép truy cập không cần login=====
+        boolean isPublic =
+                uri.equals("/login") ||
+                uri.equals("/register") ||
+                uri.equals("/product-detail") ||
+                uri.equals("/Trangchu") ||
+                uri.startsWith("/views/") ||
+                uri.startsWith("/images/") ||
+                uri.startsWith("/css/") ;
+
+        HttpSession session = request.getSession(false);
         boolean loggedIn = (session != null && session.getAttribute("account") != null);
 
-        if (!loggedIn) {
-            //  LƯU URL TRƯỚC KHI LOGIN (CÓ CONTEXT PATH)
-            String contextPath = request.getContextPath();
-            String uri = request.getRequestURI();      // /FoodWeb/cart
-            String query = request.getQueryString();   // check id food
+        if (!loggedIn && !isPublic) {
 
+            String query = request.getQueryString();
             String fullUrl = uri + (query != null ? "?" + query : "");
 
-            //  TẠO SESSION ĐỂ LƯU REDIRECT
             request.getSession(true)
                    .setAttribute("redirectAfterLogin", fullUrl);
 
@@ -36,7 +43,6 @@ public class LoginFilter implements Filter {
             return;
         }
 
-        //  ĐÃ LOGIN → CHO ĐI TIẾP
         chain.doFilter(req, res);
     }
 }

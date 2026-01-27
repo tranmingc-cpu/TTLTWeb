@@ -49,16 +49,16 @@ public class LoginServlet extends HttpServlet {
             cartDAO.getOrCreateCart(acc.getIdAccount());
 
             // ===== REDIRECT VỀ TRANG TRƯỚC ĐÓ =====
-            String redirectUrl =
-                    (String) session.getAttribute("redirectAfterLogin");
+            String redirect = (String) session.getAttribute("redirectAfterLogin");
 
-            if (redirectUrl != null) {
+            if (redirect != null) {
+                response.sendRedirect(request.getContextPath() + redirect);
                 session.removeAttribute("redirectAfterLogin");
-                response.sendRedirect(request.getContextPath() + redirectUrl);
                 return;
             }
 
-            // FALLBACK
+
+            // FALLBACK, ktra role
             if (acc.getRole()==Role.ADMIN) {
                 response.sendRedirect(request.getContextPath() + "/admin/dashboard");
             } else {

@@ -1,29 +1,25 @@
-package controller;
+package adminController;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Account;
-import model.Food;
-
 import java.io.IOException;
-import java.util.List;
 
-import DAO.FoodDAOimpl;
+import DAO.OrderDAO;
 
 /**
- * Servlet implementation class SellerServlet
+ * Servlet implementation class AdminOrderServlet
  */
-@WebServlet("/SellerServlet")
-public class SellerServlet extends HttpServlet {
+@WebServlet("/admin/order")
+public class AdminOrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SellerServlet() {
+    public AdminOrderServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,17 +28,19 @@ public class SellerServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	        OrderDAO orderDAO = new OrderDAO();
+	        int totalOrders = orderDAO.countOrder();
 
-        Account acc = (Account) request.getSession().getAttribute("account");
-        int resid = acc.;
+	        request.setAttribute("totalOrders", totalOrders);
+	        request.setAttribute("orders", new OrderDAO().getAllOrders());
+	 
+	        request.getRequestDispatcher("/views/admin/order-list.jsp")
+	               .forward(request, response);
+	    }
 
-        FoodDAOimpl dao = new FoodDAOimpl();
-        List<Food> foods = dao.getFoodsByRestaurant(resid);
 
-        request.setAttribute("foods", foods);
-        request.getRequestDispatcher("/seller/food-list.jsp").forward(request, response);
-    }
-	
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
