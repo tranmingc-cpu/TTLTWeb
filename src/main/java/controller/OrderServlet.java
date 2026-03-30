@@ -29,7 +29,7 @@ public class OrderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	// web gọi get thì hiện form nhập thông tin 
+        // web gọi get thì hiện form nhập thông tin
 
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("account") == null) {
@@ -38,7 +38,7 @@ public class OrderServlet extends HttpServlet {
         }
 
         request.getRequestDispatcher("/views/jsp/order.jsp")
-               .forward(request, response);
+                .forward(request, response);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class OrderServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-                // nguoi dung submit form thì lưu tt vào session 
+        // nguoi dung submit form thì lưu tt vào session
         // LẤY THÔNG TIN USER NHẬP
         String address = request.getParameter("address");
         String note = request.getParameter("note");

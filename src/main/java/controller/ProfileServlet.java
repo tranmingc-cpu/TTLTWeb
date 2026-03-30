@@ -19,51 +19,51 @@ import DAO.UserDAO;
  */
 @WebServlet("/profile")
 public class ProfileServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+    private static final long serialVersionUID = 1L;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProfileServlet() { 
+    public ProfileServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-    	 HttpSession session = request.getSession(false);
-         if (session == null) {
-             response.sendRedirect(request.getContextPath() + "/login");
-             return;
-         }
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
 // ktra account
-         Object obj = session.getAttribute("account");
-         if (!(obj instanceof Account)) {
-             session.invalidate();
-             response.sendRedirect(request.getContextPath() + "/login");
-             return;
-         }
+        Object obj = session.getAttribute("account");
+        if (!(obj instanceof Account)) {
+            session.invalidate();
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
 
-         Account acc = (Account) obj;
+        Account acc = (Account) obj;
 
-         UserDAO userDAO = new UserDAO();
-         User profile = userDAO.getProfileByAccId(acc.getIdAccount());
+        UserDAO userDAO = new UserDAO();
+        User profile = userDAO.getProfileByAccId(acc.getIdAccount());
 
-         if (profile == null) {
-             // Chưa tạo profile hoặc bị xoá
-             request.setAttribute("error", "Chưa có thông tin hồ sơ người dùng");
-         } else {
-             request.setAttribute("profile", profile);
-         }
+        if (profile == null) {
+            // Chưa tạo profile hoặc bị xoá
+            request.setAttribute("error", "Chưa có thông tin hồ sơ người dùng");
+        } else {
+            request.setAttribute("profile", profile);
+        }
 
-         request.getRequestDispatcher("/views/jsp/profile.jsp")
+        request.getRequestDispatcher("/views/jsp/profile.jsp")
                 .forward(request, response);
-     }
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -115,4 +115,4 @@ public class ProfileServlet extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/profile");
     }
 
- }
+}

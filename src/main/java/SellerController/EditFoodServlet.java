@@ -14,8 +14,8 @@ import java.nio.file.Paths;
 
 @WebServlet("/seller/food/edit")
 @MultipartConfig(
-    fileSizeThreshold = 1024 * 1024,
-    maxFileSize = 5 * 1024 * 1024
+        fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 5 * 1024 * 1024
 )
 public class EditFoodServlet extends HttpServlet {
 
@@ -43,24 +43,24 @@ public class EditFoodServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	System.out.println("ID RAW = " + request.getParameter("id"));
+        System.out.println("ID RAW = " + request.getParameter("id"));
 
         request.setCharacterEncoding("UTF-8");
 
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         double price = Double.parseDouble(request.getParameter("price"));
-       // String description = request.getParameter("description");
-        
+        // String description = request.getParameter("description");
+
         int categoryId = Integer.parseInt(request.getParameter("categoryId"));
-       // int resId = Integer.parseInt(request.getParameter("resId"));
+        // int resId = Integer.parseInt(request.getParameter("resId"));
 
         String image = request.getParameter("oldImage");
 
         Part filePart = request.getPart("image");
         if (filePart != null && filePart.getSize() > 0) {
             String fileName = Paths.get(filePart.getSubmittedFileName())
-                                   .getFileName().toString();
+                    .getFileName().toString();
             String uploadDir = "D:/upload/food/";
             filePart.write(uploadDir + fileName);
             image = fileName;

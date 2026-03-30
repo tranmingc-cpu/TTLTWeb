@@ -1,15 +1,15 @@
 package model;
 
 public class CartItem {
-	 private Food food;
-	   private int quantity;
-	   private int DetailId ;
-	   private double total;
-	   
-	   public CartItem() {
-	   }
-	   
-  public double getToatl() {
+	private Food food;
+	private int quantity;
+	private int DetailId ;
+	private double total;
+
+	public CartItem() {
+	}
+
+	public double getToatl() {
 		return total;
 	}
 	public void setTotal(double d) {
@@ -36,7 +36,7 @@ public class CartItem {
 	}
 	public double getTotalPrice () {
 		return food.getPrice() * quantity;
-		
+
 	}
 	public int getResid() {
 		return food.getResID();

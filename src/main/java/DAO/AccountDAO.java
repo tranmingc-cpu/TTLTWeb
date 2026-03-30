@@ -8,13 +8,13 @@ import model.Account;
 import model.Account.Role;
 
 public class AccountDAO {
- // lấy login và pass trong dtb và kiểm tra role của nó
+    // lấy login và pass trong dtb và kiểm tra role của nó
     public Account login(String username, String pass) {
         String sql = "SELECT * FROM ACCOUNT WHERE USERNAME = ? AND PASS = ?";
 
         try (
-            Connection con = DBConnect.getConnect();
-            PreparedStatement ps = con.prepareStatement(sql)
+                Connection con = DBConnect.getConnect();
+                PreparedStatement ps = con.prepareStatement(sql)
         ) {
 
             ps.setString(1, username);
@@ -39,7 +39,7 @@ public class AccountDAO {
         }
         return null;
     }
-// đăng kí 
+    // đăng kí
     public void register(Account acc) {
         String sql = """
             INSERT INTO ACCOUNT (ID, USERNAME, PASS, ROLES)
@@ -47,8 +47,8 @@ public class AccountDAO {
         """;
 
         try (
-            Connection c = DBConnect.getConnect();
-            PreparedStatement ps = c.prepareStatement(sql)
+                Connection c = DBConnect.getConnect();
+                PreparedStatement ps = c.prepareStatement(sql)
         ) {
 
             ps.setInt(1, acc.getIdAccount());
@@ -62,13 +62,13 @@ public class AccountDAO {
             e.printStackTrace();
         }
     }
-// kiểm tra acc có tồn tại chưa 
+    // kiểm tra acc có tồn tại chưa
     public boolean checkExitAccount(String username) {
         String sql = "SELECT 1 FROM ACCOUNT WHERE USERNAME = ?";
 
         try (
-            Connection con = DBConnect.getConnect();
-            PreparedStatement ps = con.prepareStatement(sql)
+                Connection con = DBConnect.getConnect();
+                PreparedStatement ps = con.prepareStatement(sql)
         ) {
 
             ps.setString(1, username);
@@ -80,14 +80,14 @@ public class AccountDAO {
         }
         return false;
     }
-// đếm số user 
+    // đếm số user
     public int countUser() {
         String sql = "SELECT COUNT(*) FROM ACCOUNT";
 
         try (
-            Connection con = DBConnect.getConnect();
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery()
+                Connection con = DBConnect.getConnect();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()
         ) {
             if (rs.next()) return rs.getInt(1);
         } catch (Exception e) {
@@ -100,8 +100,8 @@ public class AccountDAO {
         String sql = "SELECT * FROM ACCOUNT WHERE ID = ?";
 
         try (
-            Connection con = DBConnect.getConnect();
-            PreparedStatement ps = con.prepareStatement(sql)
+                Connection con = DBConnect.getConnect();
+                PreparedStatement ps = con.prepareStatement(sql)
         ) {
 
             ps.setInt(1, accId);
@@ -123,13 +123,13 @@ public class AccountDAO {
         }
         return null;
     }
-// cập nhập mk mới
+    // cập nhập mk mới
     public void updatePassword(int accId, String newPassword) {
         String sql = "UPDATE ACCOUNT SET PASS = ? WHERE ID = ?";
 
         try (
-            Connection conn = DBConnect.getConnect();
-            PreparedStatement ps = conn.prepareStatement(sql)
+                Connection conn = DBConnect.getConnect();
+                PreparedStatement ps = conn.prepareStatement(sql)
         ) {
 
             ps.setString(1, newPassword);

@@ -10,7 +10,6 @@ body {
     color: #333;
 }
 
-/* CONTAINER */
 .checkout-container {
     max-width: 900px;
     margin: 40px auto;
@@ -23,7 +22,6 @@ body {
     color: #ff5722;
 }
 
-/* BOX */
 .checkout-box {
     background: #fff;
     border-radius: 14px;
@@ -31,7 +29,6 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
-/* TABLE */
 .cart-table {
     width: 100%;
     border-collapse: collapse;
@@ -54,7 +51,6 @@ body {
     text-align: left;
 }
 
-/* SUMMARY */
 .summary {
     margin-top: 16px;
     padding-top: 16px;
@@ -73,7 +69,6 @@ body {
     margin-top: 10px;
 }
 
-/* ADDRESS */
 .address-box {
     background: #fff7f3;
     padding: 14px 16px;
@@ -86,7 +81,6 @@ body {
     margin-bottom: 6px;
     color: #ff5722;
 }
-/* ACTION */
 .checkout-action {
     display: flex;
     justify-content: space-between;
@@ -98,7 +92,6 @@ body {
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* Nút quay lại */
 .btn-back {
     text-decoration: none;
     color: #555;
@@ -114,7 +107,6 @@ body {
     color: #000;
 }
 
-/* Nút xác nhận thanh toán */
 .btn-confirm {
     background: linear-gradient(135deg, #28a745, #20c997);
     color: #fff;

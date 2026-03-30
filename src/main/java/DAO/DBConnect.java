@@ -5,20 +5,22 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnect {
-private static String DriveClass ="com.microsoft.sqlserver.jdbc.SQLServerDriver";
-private static String url ="jdbc:sqlserver://DESKTOP-1AQF1D9:1433;databaseName=FoodOnlineDTB;encrypt=true;trustServerCertificate=true;";
+	private static String DriveClass ="com.microsoft.sqlserver.jdbc.SQLServerDriver";
+	private static String url ="jdbc:sqlserver://DESKTOP-1AQF1D9:1433;databaseName=FOODONWEB;encrypt=true;trustServerCertificate=true;";
 
-private static String username = "sa";
-private static String password ="26122005";
-public static Connection getConnect() throws SQLException {
-	try {
-		Class.forName(DriveClass);
-		return DriverManager.getConnection(url,username,password);
-	} catch (ClassNotFoundException e) {
-		e.printStackTrace();
+	private static String username = "sa";
+
+	private static String password ="123456" +
+			"";
+	public static Connection getConnect() throws SQLException {
+		try {
+			Class.forName(DriveClass);
+			return DriverManager.getConnection(url,username,password);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+
 	}
-
-return null;
-	
-}
 }

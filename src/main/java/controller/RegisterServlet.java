@@ -24,7 +24,7 @@ public class RegisterServlet extends HttpServlet {
 
         // CHỈ hiển thị trang register
         request.getRequestDispatcher("/views/jsp/register.jsp")
-               .forward(request, response);
+                .forward(request, response);
     }
 
     @Override
@@ -42,11 +42,11 @@ public class RegisterServlet extends HttpServlet {
 
         // 1️⃣ Validate
         if (username == null || email == null || password == null ||
-            username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+                username.isEmpty() || email.isEmpty() || password.isEmpty()) {
 
             request.setAttribute("error", "Vui lòng nhập đầy đủ thông tin!");
             request.getRequestDispatcher("/views/jsp/register.jsp")
-                   .forward(request, response);
+                    .forward(request, response);
             return;
         }
 
@@ -56,7 +56,7 @@ public class RegisterServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             request.setAttribute("error", "Số điện thoại không hợp lệ!");
             request.getRequestDispatcher("/views/jsp/register.jsp")
-                   .forward(request, response);
+                    .forward(request, response);
             return;
         }
 
@@ -73,7 +73,7 @@ public class RegisterServlet extends HttpServlet {
         if (dao.checkExitAccount(username)) {
             request.setAttribute("error", "Username đã tồn tại!");
             request.getRequestDispatcher("/views/jsp/register.jsp")
-                   .forward(request, response);
+                    .forward(request, response);
             return;
         }
 
@@ -82,8 +82,7 @@ public class RegisterServlet extends HttpServlet {
         //  Thành công → về login
         request.setAttribute("success", "Đăng ký thành công! Vui lòng đăng nhập.");
         request.getRequestDispatcher("/views/jsp/login.jsp")
-               .forward(request, response);
+                .forward(request, response);
     }
 }
-
 

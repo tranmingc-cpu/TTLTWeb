@@ -32,8 +32,9 @@ public class ProduceDetailServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
 
 		String idR = request.getParameter("id");
 
@@ -42,7 +43,7 @@ public class ProduceDetailServlet extends HttpServlet {
 			request.getRequestDispatcher("/views/jsp/product-detail.jsp").forward(request, response);
 			return;
 		}
-      // check id food
+		// check id food
 		int id;
 		try {
 			id = Integer.parseInt(idR);

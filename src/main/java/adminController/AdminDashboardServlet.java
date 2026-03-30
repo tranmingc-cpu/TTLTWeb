@@ -18,8 +18,8 @@ import DAO.OrderDAO;
  */
 @WebServlet("/admin/dashboard")
 public class AdminDashboardServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+    private static final long serialVersionUID = 1L;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -28,10 +28,10 @@ public class AdminDashboardServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         OrderDAO orderDao = new OrderDAO();
         AccountDAO accDao = new AccountDAO();
@@ -45,19 +45,19 @@ public class AdminDashboardServlet extends HttpServlet {
         request.setAttribute("totalUser", accDao.countUser());
         request.setAttribute("totalOrder", orderDao.countOrder());
         request.setAttribute("totalRevenue", orderDao.totalRevenue());
-        
+
 
         request.getRequestDispatcher("/views/admin/dashboard.jsp")
-               .forward(request, response);
+                .forward(request, response);
     }
-	
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+        doGet(request, response);
+    }
 
 }

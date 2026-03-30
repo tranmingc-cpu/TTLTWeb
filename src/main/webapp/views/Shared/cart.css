@@ -1,4 +1,3 @@
-/* RESET */
 * {
 	margin: 0;
 	padding: 0;
@@ -11,7 +10,6 @@ body {
 	color: #333;
 }
 
-/* CART CONTAINER */
 .cart-container {
 	max-width: 1100px;
 	margin: 30px auto;
@@ -21,7 +19,6 @@ body {
 	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
-/* BACK BUTTON */
 .cart-container button {
 	background: none;
 	border: none;
@@ -37,7 +34,6 @@ body {
 	font-size: 26px;
 }
 
-/* TABLE */
 .cart-table {
 	width: 100%;
 	border-collapse: collapse;
@@ -59,7 +55,6 @@ body {
 	text-align: center;
 }
 
-/* FOOD INFO */
 .food-info {
 	display: flex;
 	align-items: center;
@@ -75,13 +70,11 @@ body {
 	border: 1px solid #ddd;
 }
 
-/* PRICE */
 .price {
 	font-weight: bold;
 	color: #e53935;
 }
 
-/* QUANTITY */
 .qty-input {
 	width: 70px;
 	padding: 6px;
@@ -90,7 +83,6 @@ body {
 	border: 1px solid #ccc;
 }
 
-/* DELETE BUTTON */
 .delete-btn {
 	background: #ff5252;
 	color: #fff;
@@ -105,7 +97,6 @@ body {
 	background: #d32f2f;
 }
 
-/* TOTAL */
 .cart-total {
 	display: flex;
 	justify-content: space-between;
@@ -134,7 +125,6 @@ body {
 	margin-left: 6px;
 }
 
-/* BUY BUTTON */
 .btn-buy {
 	margin-top: 10px;
 	padding: 12px 28px;
@@ -153,7 +143,6 @@ body {
 	opacity: 0.9;
 }
 
-/* RESTAURANT SECTION */
 .restaurant-section {
 	max-width: 1100px;
 	margin: 30px auto;
@@ -191,7 +180,6 @@ body {
 	font-style: italic;
 }
 
-/* FOOD SUGGEST */
 .suggest-title {
 	margin-bottom: 15px;
 }
@@ -235,7 +223,6 @@ body {
 	margin-bottom: 10px;
 }
 
-/* ADD BUTTON */
 .btn-add {
 	display: inline-block;
 	padding: 6px 14px;

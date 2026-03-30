@@ -4,14 +4,13 @@
 <html>
 <head>
     <title>Tổng số đơn hàng</title>
-   <link rel="stylesheet"
+    <link rel="stylesheet"
           href="${pageContext.request.contextPath}/views/admin/order-list.css">
 </head>
 <body>
- <jsp:include page="/views/jsp/demo.jsp"/>
+<jsp:include page="/views/jsp/demo.jsp"/>
 <div class="admin-container">
 
-    <!-- HEADER -->
     <header class="admin-header">
         <h1>ADMIN PANEL</h1>
         <div class="admin-user">
@@ -20,7 +19,6 @@
         </div>
     </header>
 
-    <!-- SIDEBAR -->
     <aside class="admin-sidebar">
         <a href="${pageContext.request.contextPath}/admin/dashboard">🏠 Dashboard</a>
         <a href="${pageContext.request.contextPath}/admin/product">🍔 Quản lý món ăn</a>
@@ -28,7 +26,6 @@
         <a href="${pageContext.request.contextPath}/admin/user">👤 Quản lý user</a>
     </aside>
 
-    <!-- MAIN -->
     <main class="admin-content">
 
         <div class="page-header">

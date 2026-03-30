@@ -13,42 +13,39 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <jsp:include page="/views/jsp/demo.jsp"/>
 
 <div class="checkout-container">
 
     <h2>💳 XÁC NHẬN THANH TOÁN</h2>
 
-    <!-- DANH SÁCH SẢN PHẨM -->
     <div class="checkout-box">
 
         <table class="cart-table">
             <thead>
-                <tr>
-                    <th>Sản phẩm</th>
-                    <th>SL</th>
-                    <th>Giá</th>
-                    <th>Tạm tính</th>
-                </tr>
+            <tr>
+                <th>Sản phẩm</th>
+                <th>SL</th>
+                <th>Giá</th>
+                <th>Tạm tính</th>
+            </tr>
             </thead>
             <tbody>
-                <c:forEach var="item" items="${cart}">
-                    <tr>
-                        <td>${item.food.name}</td>
-                        <td>${item.quantity}</td>
-                        <td>
-                            <fmt:formatNumber value="${item.food.price}" groupingUsed="true"/> ₫
-                        </td>
-                        <td>
-                            <fmt:formatNumber value="${item.totalPrice}" groupingUsed="true"/> ₫
-                        </td>
-                    </tr>
-                </c:forEach>
+            <c:forEach var="item" items="${cart}">
+                <tr>
+                    <td>${item.food.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>
+                        <fmt:formatNumber value="${item.food.price}" groupingUsed="true"/> ₫
+                    </td>
+                    <td>
+                        <fmt:formatNumber value="${item.totalPrice}" groupingUsed="true"/> ₫
+                    </td>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
 
-        <!-- TỔNG TIỀN -->
         <div class="summary">
             <div>
                 <span>Tạm tính:</span>
@@ -64,13 +61,11 @@
             </div>
         </div>
 
-        <!-- ĐỊA CHỈ -->
         <div class="address-box">
             <h4>📍 Địa chỉ giao hàng</h4>
             <p>${address}</p>
         </div>
 
-        <!-- ACTION -->
         <form action="${pageContext.request.contextPath}/checkout"
               method="post"
               class="checkout-action">
@@ -86,7 +81,6 @@
     </div>
 </div>
 
-<!-- FOOTER -->
 <jsp:include page="/views/jsp/footer.jsp"/>
 
 </body>

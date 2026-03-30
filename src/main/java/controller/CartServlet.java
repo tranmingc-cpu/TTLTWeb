@@ -29,9 +29,9 @@ public class CartServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-       CartDAO cartDAO = new CartDAO();
+        CartDAO cartDAO = new CartDAO();
         Account acc = (Account) session.getAttribute("account");
-    
+
         String action = request.getParameter("action");
 
         /* ================= ADD ================= */
@@ -121,8 +121,8 @@ public class CartServlet extends HttpServlet {
         request.setAttribute("total", total);
 
         request.getRequestDispatcher("/views/jsp/cart.jsp")
-               .forward(request, response);
-    
+                .forward(request, response);
+
     }
 
 

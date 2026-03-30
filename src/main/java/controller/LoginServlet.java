@@ -23,7 +23,7 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
 
         request.getRequestDispatcher("/views/jsp/login.jsp")
-               .forward(request, response);
+                .forward(request, response);
     }
 
     @Override
@@ -42,13 +42,12 @@ public class LoginServlet extends HttpServlet {
 
             HttpSession session = request.getSession(true);
 
-           
+
             session.setAttribute("account", acc);
 
-          
+
             cartDAO.getOrCreateCart(acc.getIdAccount());
 
-            // ===== REDIRECT VỀ TRANG TRƯỚC ĐÓ =====
             String redirect = (String) session.getAttribute("redirectAfterLogin");
 
             if (redirect != null) {
@@ -58,18 +57,16 @@ public class LoginServlet extends HttpServlet {
             }
 
 
-            // FALLBACK, ktra role
-            if (acc.getRole() == Role.ADMIN) {
+            /*if (acc.getRole() == Role.ADMIN) {
                 response.sendRedirect(request.getContextPath() + "/admin/dashboard");
             } else if (acc.getRole() == Role.SELLER) {
                 response.sendRedirect(request.getContextPath() + "/seller/food");
             } else if (acc.getRole() == Role.USER) {
                 response.sendRedirect(request.getContextPath() + "/Trangchu");
-            }
+            }*/
             request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
-           
-        }
 
         }
+
     }
-
+}

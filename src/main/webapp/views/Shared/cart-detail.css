@@ -1,6 +1,5 @@
 @charset "UTF-8";
 
-/* ===== RESET ===== */
 * {
     margin: 0;
     padding: 0;
@@ -20,7 +19,6 @@ body {
     display: flex;
     flex-direction: column;
 }
-/* ===== CART CONTAINER ===== */
 .cart-container {
     max-width: 1000px;
     margin: 40px auto;
@@ -36,7 +34,6 @@ body {
     color: #2c3e50;
 }
 
-/* ===== TABLE ===== */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -60,7 +57,6 @@ tr:hover {
     background: #fafafa;
 }
 
-/* ===== SHIPPING ===== */
 .ship-form {
     margin-top: 25px;
     padding: 20px;
@@ -87,7 +83,6 @@ tr:hover {
     accent-color: #27ae60;
 }
 
-/* ===== SUMMARY ===== */
 .summary {
     margin-top: 25px;
     padding: 20px;
@@ -111,7 +106,6 @@ tr:hover {
     font-weight: bold;
 }
 
-/* ===== BUTTON ===== */
 .btn-checkout {
     display: inline-block;
     margin-top: 25px;
@@ -130,7 +124,6 @@ tr:hover {
     box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
 }
 
-/* ===== EMPTY CART ===== */
 .cart-container p {
     font-size: 16px;
     text-align: center;
@@ -138,7 +131,6 @@ tr:hover {
     color: #777;
 }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .cart-container {
         margin: 20px;

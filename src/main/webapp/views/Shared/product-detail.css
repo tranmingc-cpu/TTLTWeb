@@ -1,6 +1,4 @@
 @charset "UTF-8";
-
-/* ===== RESET ===== */
 * {
     margin: 0;
     padding: 0;
@@ -24,21 +22,18 @@ html, body {
 }
 
 
-/* ===== CONTAINER ===== */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
 
-/* ===== BREADCRUMB ===== */
 .breadcrumb {
     margin: 20px 0;
     font-size: 14px;
     color: #777;
 }
 
-/* ===== MAIN DETAIL ===== */
 .food-detail {
     display: flex;
     gap: 40px;
@@ -48,7 +43,6 @@ html, body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
-/* ===== IMAGE ===== */
 .food-image {
     flex: 1;
     display: flex;
@@ -64,8 +58,25 @@ html, body {
     object-fit: cover;
     border: 1px solid #eee;
 }
+.description {
+    margin-top: 16px;
+    padding: 12px;
+    background: #f9fafb;
+    border-radius: 8px;
+}
 
-/* ===== INFO ===== */
+.description h3 {
+    margin-bottom: 6px;
+    font-size: 16px;
+    color: #111827;
+}
+
+.description p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #374151;
+}
+
 .food-info {
     flex: 1.2;
 }
@@ -75,7 +86,6 @@ html, body {
     margin-bottom: 10px;
 }
 
-/* ===== STATUS ===== */
 .status {
     font-size: 14px;
     margin-bottom: 15px;
@@ -86,7 +96,6 @@ html, body {
     font-weight: 600;
 }
 
-/* ===== PRICE ===== */
 .price {
     margin: 20px 0;
     display: flex;
@@ -106,7 +115,6 @@ html, body {
     text-decoration: line-through;
 }
 
-/* ===== PROMO ===== */
 .promo-box {
     background: #fff7e6;
     border: 1px dashed #ff9800;
@@ -125,7 +133,6 @@ html, body {
     margin-bottom: 6px;
 }
 
-/* ===== QUANTITY ===== */
 .quantity {
     margin-bottom: 20px;
 }
@@ -139,7 +146,6 @@ html, body {
     border: 1px solid #ccc;
 }
 
-/* ===== ADD CART ===== */
 .add-cart {
     width: 100%;
     padding: 14px;
@@ -157,7 +163,6 @@ html, body {
     background: #d62828;
 }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
     .food-detail {
         flex-direction: column;
@@ -167,7 +172,6 @@ html, body {
         max-width: 100%;
     }
 }
-/* ===== BACK ===== */
 .btn-back {
     display: inline-flex;
     align-items: center;
@@ -201,7 +205,6 @@ html, body {
     transform: scale(0.96);
 }
 
-/* =====  ===== */
 .btn-cart {
     display: inline-flex;
     align-items: center;
@@ -270,7 +273,6 @@ html, body {
 .btn-buy:active {
     transform: scale(0.95);
 }
-	
 
 
 

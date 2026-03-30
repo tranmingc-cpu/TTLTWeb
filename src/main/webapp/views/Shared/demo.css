@@ -1,6 +1,5 @@
 @charset "UTF-8";
 
-/* ================= RESET ================= */
 * {
     margin: 0;
     padding: 0;
@@ -18,18 +17,16 @@ a {
     color: inherit;
 }
 
-/* ================= COLOR VARIABLES ================= */
 :root {
-    --main: #1abc9c;        /* xanh ngọc */
+    --main: #1abc9c;
     --main-dark: #148f77;
-    --accent: #f39c12;     /* cam nhấn */
+    --accent: #f39c12;
     --dark: #2c3e50;
     --gray: #7f8c8d;
     --light: #ecf0f1;
     --white: #ffffff;
 }
 
-/* ================= CONTAINER ================= */
 .container {
     width: 1100px;
     max-width: 94%;
@@ -37,7 +34,6 @@ a {
 }
 
 
-/* ================= TOP BAR ================= */
 .topbar {
     background: var(--dark);
     color: var(--white);
@@ -66,7 +62,6 @@ a {
     color: var(--accent);
 }
 
-/* ================= LANGUAGE DROPDOWN ================= */
 .lang-dropdown {
     position: relative;
 }
@@ -97,12 +92,11 @@ a {
     background: var(--light);
 }
 
-/* ================= HEADER ================= */
 .header {
     background: var(--white);
     box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-       padding-bottom: 12px;
- overflow:visible;
+    padding-bottom: 12px;
+    overflow:visible;
 }
 
 .header-row {
@@ -114,7 +108,6 @@ a {
 }
 
 
-/* ================= LOGO ================= */
 .logo{
     font-size:22px;
     font-weight:700;
@@ -138,7 +131,6 @@ a {
     color: var(--main-dark);
 }
 
-/* ===== SEARCH BOX ===== */
 .search-box {
     display: flex;
     align-items: center;
@@ -152,7 +144,7 @@ a {
     width: 320px;
 }
 
-/* INPUT */
+
 .search-box input {
     flex: 1;
     border: none;
@@ -163,7 +155,6 @@ a {
     padding: 6px 8px;
 }
 
-/* BUTTON */
 .search-box button {
     border: none;
     background: #ff9800;
@@ -181,25 +172,21 @@ a {
     background: #e68900;
 }
 
-/* FOCUS */
 .search-box:focus-within {
     border-color: #ff9800;
     box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
 }
 
-/* PLACEHOLDER */
 .search-box input::placeholder {
     color: #aaa;
 }
 
-/* RESPONSIVE */
 @media (max-width: 768px) {
     .search-box {
         width: 100%;
     }
 }
 
-/* ================= HEADER ACTIONS ================= */
 .header-actions {
     display: flex;
     align-items: center;
@@ -264,7 +251,6 @@ a {
 .user-wrapper:focus-within .user-menu {
     display: block;
 }
-/*============= CART ================= */
 .cart-btn {
     font-size: 20px;
 }
@@ -280,7 +266,6 @@ a {
     border-radius: 50%;
 }
 
-/* ================= USER POPUP ================= */
 .user-popup {
     position: absolute;
     top: 60px;
@@ -306,5 +291,65 @@ a {
     border: none;
     border-top: 1px solid #ddd;
 }
+.promo-slider {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    border-radius: 12px;
+    margin-top: 10px;
+}
 
+.slides {
+    display: flex;
+    width: 300%;
+    height: 100%;
+    animation: slideRun 12s infinite;
+}
 
+.slide {
+    width: 100%;
+    height: 100%;
+    flex-shrink: 0;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    text-decoration: none;
+}
+
+/* ảnh */
+.slide:nth-child(1) {
+    background-image: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092');
+}
+.slide:nth-child(2) {
+    background-image: url('https://images.unsplash.com/photo-1594007654729-407eedc4be65');
+}
+.slide:nth-child(3) {
+    background-image: url('https://images.unsplash.com/photo-1551024601-bec78aea704b');
+}
+
+/* chữ */
+.overlay {
+    position: absolute;
+    bottom: 20px;
+    left: 30px;
+    color: white;
+}
+
+.overlay h2 {
+    font-size: 22px;
+}
+
+.overlay p {
+    font-size: 14px;
+}
+
+@keyframes slideRun {
+    0%   { transform: translateX(0%); }
+    30%  { transform: translateX(0%); }
+
+    35%  { transform: translateX(-100%); }
+    65%  { transform: translateX(-100%); }
+
+    70%  { transform: translateX(-200%); }
+    100% { transform: translateX(-200%); }
+}

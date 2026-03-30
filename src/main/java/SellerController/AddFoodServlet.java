@@ -20,9 +20,9 @@ import java.util.List;
 
 @WebServlet("/seller/food/add")
 @MultipartConfig(
-    fileSizeThreshold = 1024 * 1024,
-    maxFileSize = 1024 * 1024 * 5,
-    maxRequestSize = 1024 * 1024 * 10
+        fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 5,
+        maxRequestSize = 1024 * 1024 * 10
 )
 public class AddFoodServlet extends HttpServlet {
 
@@ -32,20 +32,20 @@ public class AddFoodServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	CategoryDAO categoryDAO = new CategoryDAO();
-    	List<Category> categories = categoryDAO.findAll();
+        CategoryDAO categoryDAO = new CategoryDAO();
+        List<Category> categories = categoryDAO.findAll();
 
-    	request.setAttribute("categories", categories);
-    	request.getRequestDispatcher("/views/seller/addFood.jsp").forward(request, response);
+        request.setAttribute("categories", categories);
+        request.getRequestDispatcher("/views/seller/addFood.jsp").forward(request, response);
 
-     
+
     }
-  @Override
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-	request.getParameterMap().forEach((k, v) -> {
-	    System.out.println(k + " = " + String.join(",", v));
-	});
+        request.getParameterMap().forEach((k, v) -> {
+            System.out.println(k + " = " + String.join(",", v));
+        });
         request.setCharacterEncoding("UTF-8");
 
         // ===== ACCOUNT =====
@@ -74,23 +74,23 @@ public class AddFoodServlet extends HttpServlet {
 
         if (idRaw == null || idRaw.isEmpty()
                 || categoryRaw == null || categoryRaw.isEmpty()) {
-               System.out.println("raw"+categoryRaw);
-               response.sendRedirect(request.getContextPath() + "/seller/food/add");
-               return;
+            System.out.println("raw"+categoryRaw);
+            response.sendRedirect(request.getContextPath() + "/seller/food/add");
+            return;
 
         }
 
         int foodId = Integer.parseInt(idRaw);
         System.out.println("food id"+foodId);
         int categoryId = Integer.parseInt(categoryRaw);
-System.out.println("category id"+categoryId);
+        System.out.println("category id"+categoryId);
         // ===== UPLOAD IMAGE =====
         Part filePart = request.getPart("image");
         String fileName = null;
 
         if (filePart != null && filePart.getSize() > 0) {
             fileName = Paths.get(filePart.getSubmittedFileName())
-                            .getFileName().toString();
+                    .getFileName().toString();
 
             String uploadPath = "D:/upload/food/";
             File dir = new File(uploadPath);
@@ -98,8 +98,8 @@ System.out.println("category id"+categoryId);
 
             filePart.write(uploadPath + fileName);
         }
-      
-     
+
+
         // ===== SET FOOD =====
         Food food = new Food();
         food.setId(foodId);
@@ -108,7 +108,7 @@ System.out.println("category id"+categoryId);
         food.setDescription(description);
         food.setImage(fileName);
         food.setResID(restaurantId);
-        food.setCATEGORYId(categoryId); 
+        food.setCATEGORYId(categoryId);
 
         // ===== INSERT =====
         foodDAO.insert(food);

@@ -5,7 +5,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Account;
+import model.Account.Role;
 import model.Order;
 import model.Restaurant;
 
@@ -19,59 +21,55 @@ import DAO.SellerDAO;
 /**
  * Servlet implementation class SellerDashBoardServlet
  */
-@WebServlet("/SellerDashBoardServlet")
+@WebServlet("/sellerDashBoard")
 public class SellerDashBoardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public SellerDashBoardServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public SellerDashBoardServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 Account acc = (Account)
-	                request.getSession().getAttribute("account");
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-	        SellerDAO rDao = new SellerDAO();
-	        OrderDAO oDao = new OrderDAO();
-	        FoodDAOimpl fDao = new FoodDAOimpl();
+		HttpSession session = request.getSession();
+		Account accSeller = (Account) session.getAttribute("account");
 
-	        // 1. Restaurant của seller
-	        Restaurant r =
-	                rDao.getByAccountId(acc.getIdAccount());
+		// check login + role
+		if (accSeller == null || accSeller.getRole() != Role.SELLER) {
+			response.sendRedirect(request.getContextPath()+"login");
+			return;
+		}
 
-	        // 2. Thống kê
-	        int totalFoods =
-	                fDao.countFoodByRestaurant(r.getResId());
+		// lấy RESID theo ACCID
+		SellerDAO rdao = new SellerDAO();
+		int resid = rdao.getResIdByAccid(accSeller.getIdAccount());
 
-	        int todayOrders =
-	                oDao.countTodayOrders(r.getResId());
+		// DAO
+		FoodDAOimpl foodDAO = new FoodDAOimpl();
+		OrderDAO orderDAO = new OrderDAO();
 
-	        int todayRevenue =
-	                oDao.sumTodayRevenue(r.getResId());
+		// dữ liệu dashboard
+		int totalFood = foodDAO.countFoodByRestaurant(resid);
+		int totalOrder = orderDAO.countFoodByRes(resid);
+		double revenue = orderDAO.revenueThisMonth(resid);
 
-	        // 3. Đơn hàng gần đây
-	        List<Order> recentOrders =
-	                oDao.getRecentOrdersByRestaurant(r.getResId());
+		// gửi sang JSP
+		request.setAttribute("totalFood", totalFood);
+		request.setAttribute("totalOrder", totalOrder);
+		request.setAttribute("revenue", revenue);
 
-	        // set attribute
-	        request.setAttribute("restaurant", r);
-	        request.setAttribute("totalFoods", totalFoods);
-	        request.setAttribute("todayOrders", todayOrders);
-	        request.setAttribute("todayRevenue", todayRevenue);
-	        request.setAttribute("recentOrders", recentOrders);
+		request.getRequestDispatcher("/seller/sellerDashboard.jsp").forward(request, response);
+	}
 
-	        request.getRequestDispatcher(
-	            "/views/jsp/seller/dashboard.jsp"
-	        ).forward(request, response);
-	    }
-	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

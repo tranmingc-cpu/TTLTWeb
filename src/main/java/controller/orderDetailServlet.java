@@ -18,9 +18,9 @@ import DAO.OrderDAO;
  */
 @WebServlet("/orderDetail")
 public class orderDetailServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private OrderDAO orderDAO = new OrderDAO();
-       
+    private static final long serialVersionUID = 1L;
+    private OrderDAO orderDAO = new OrderDAO();
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -29,9 +29,9 @@ public class orderDetailServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -50,15 +50,15 @@ public class orderDetailServlet extends HttpServlet {
         request.setAttribute("orderId", orderId);
 
         request.getRequestDispatcher("/views/jsp/orderDetail.jsp")
-               .forward(request, response);
+                .forward(request, response);
     }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+        doGet(request, response);
+    }
 
 }

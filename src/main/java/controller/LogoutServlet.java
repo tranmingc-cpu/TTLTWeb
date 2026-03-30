@@ -15,36 +15,36 @@ import java.io.IOException;
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LogoutServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public LogoutServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		   String referer = request.getHeader("referer");
+		String referer = request.getHeader("referer");
 
-	        HttpSession session = request.getSession(false);
-	        if (session != null) {
-	            session.invalidate(); // xoá user
-	        }
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			session.invalidate(); // xoá user
+		}
 
-	        //  NẾU CÓ REFERER → QUAY LẠI
-	        if (referer != null && !referer.contains("/login")) {
-	            response.sendRedirect(referer);
-	        } else {
-	            response.sendRedirect(request.getContextPath() + "/Trangchu");
-	        }
-	    }
+		//  NẾU CÓ REFERER → QUAY LẠI
+		if (referer != null && !referer.contains("/login")) {
+			response.sendRedirect(referer);
+		} else {
+			response.sendRedirect(request.getContextPath() + "/Trangchu");
+		}
+	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 request.getSession().invalidate();
-		 doGet(request, response);
+		request.getSession().invalidate();
+		doGet(request, response);
 	}
 
 }

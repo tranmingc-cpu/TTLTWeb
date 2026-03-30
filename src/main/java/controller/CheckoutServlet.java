@@ -27,114 +27,114 @@ import util.EmailUtil;
 public class CheckoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CartDAO cartDAO = new CartDAO();
-    private OrderDAO orderDAO = new OrderDAO();
+	private OrderDAO orderDAO = new OrderDAO();
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	        throws ServletException, IOException {
+			throws ServletException, IOException {
 
-	    HttpSession session = request.getSession(false);
-	    if (session == null || session.getAttribute("account") == null) {
-	        response.sendRedirect(request.getContextPath() + "/login");
-	        return;
-	    }
+		HttpSession session = request.getSession(false);
+		if (session == null || session.getAttribute("account") == null) {
+			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
 // ktra accId và cartid
-	    Account acc = (Account) session.getAttribute("account");
+		Account acc = (Account) session.getAttribute("account");
 
-	    int cartId = cartDAO.getCartIdByAccount(acc.getIdAccount());
-	    List<CartItem> cart = cartDAO.getCartItems(cartId);
+		int cartId = cartDAO.getCartIdByAccount(acc.getIdAccount());
+		List<CartItem> cart = cartDAO.getCartItems(cartId);
 
-	    if (cart.isEmpty()) {
-	        response.sendRedirect(request.getContextPath() + "/cart");
-	        return;
-	    }
-          // tính total
-	    double subTotal = 0;
-	    for (CartItem item : cart) {
-	        subTotal += item.getTotalPrice();
-	    }
+		if (cart.isEmpty()) {
+			response.sendRedirect(request.getContextPath() + "/cart");
+			return;
+		}
+		// tính total
+		double subTotal = 0;
+		for (CartItem item : cart) {
+			subTotal += item.getTotalPrice();
+		}
 
-	    int shipFee = 20000;
-	    double total = subTotal + shipFee;
+		int shipFee = 20000;
+		double total = subTotal + shipFee;
 
-	    //  LẤY TỪ ORDER SERVLET
-	    String address = (String) session.getAttribute("orderAddress");
-	    String note = (String) session.getAttribute("orderNote");
+		//  LẤY TỪ ORDER SERVLET
+		String address = (String) session.getAttribute("orderAddress");
+		String note = (String) session.getAttribute("orderNote");
 
-	    request.setAttribute("cart", cart);
-	    request.setAttribute("subTotal", subTotal);
-	    request.setAttribute("shipFee", shipFee);
-	    request.setAttribute("total", total);
-	    request.setAttribute("address", address);
-	    request.setAttribute("note", note);
+		request.setAttribute("cart", cart);
+		request.setAttribute("subTotal", subTotal);
+		request.setAttribute("shipFee", shipFee);
+		request.setAttribute("total", total);
+		request.setAttribute("address", address);
+		request.setAttribute("note", note);
 
-	    request.getRequestDispatcher("/views/jsp/checkout.jsp")
-	           .forward(request, response);
+		request.getRequestDispatcher("/views/jsp/checkout.jsp")
+				.forward(request, response);
 	}
 
-	
-		@Override
-		protected void doPost(HttpServletRequest request, HttpServletResponse response)
-		        throws ServletException, IOException {
 
-		    HttpSession session = request.getSession(false);
-		    if (session == null || session.getAttribute("account") == null) {
-		        response.sendRedirect(request.getContextPath() + "/login");
-		        return;
-		    }
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-		    Account acc = (Account) session.getAttribute("account");
+		HttpSession session = request.getSession(false);
+		if (session == null || session.getAttribute("account") == null) {
+			response.sendRedirect(request.getContextPath() + "/login");
+			return;
+		}
 
-		    int cartId = cartDAO.getCartIdByAccount(acc.getIdAccount());
-		    List<CartItem> cart = cartDAO.getCartItems(cartId);
+		Account acc = (Account) session.getAttribute("account");
 
-		    if (cart == null || cart.isEmpty()) {
-		        response.sendRedirect(request.getContextPath() + "/cart");
-		        return;
-		    }
+		int cartId = cartDAO.getCartIdByAccount(acc.getIdAccount());
+		List<CartItem> cart = cartDAO.getCartItems(cartId);
 
-		    // LẤY THÔNG TIN TỪ SESSION (ORDER)
-		    String address = (String) session.getAttribute("orderAddress");
-		    String note = (String) session.getAttribute("orderNote");
+		if (cart == null || cart.isEmpty()) {
+			response.sendRedirect(request.getContextPath() + "/cart");
+			return;
+		}
 
-		    Map<Integer, List<CartItem>> cartByRes = new HashMap<>();
-		    User profile = new UserDAO().getProfileByAccId(acc.getIdAccount());
-		    String email = profile.getEmail();
-               // tạo order với tt vừa lưu 
-		    for (CartItem item : cart) {
-		        cartByRes
-		            .computeIfAbsent(item.getFood().getResID(), k -> new ArrayList<>())
-		            .add(item);
-		    }
+		// LẤY THÔNG TIN TỪ SESSION (ORDER)
+		String address = (String) session.getAttribute("orderAddress");
+		String note = (String) session.getAttribute("orderNote");
 
-		    List<Integer> orderIds = new ArrayList<>();
+		Map<Integer, List<CartItem>> cartByRes = new HashMap<>();
+		User profile = new UserDAO().getProfileByAccId(acc.getIdAccount());
+		String email = profile.getEmail();
+		// tạo order với tt vừa lưu
+		for (CartItem item : cart) {
+			cartByRes
+					.computeIfAbsent(item.getFood().getResID(), k -> new ArrayList<>())
+					.add(item);
+		}
 
-		    for (var entry : cartByRes.entrySet()) {
+		List<Integer> orderIds = new ArrayList<>();
 
-		        double shipFee = 20000;
-		        double total = entry.getValue().stream()
-		                .mapToDouble(CartItem::getTotalPrice)
-		                .sum() + shipFee;
+		for (var entry : cartByRes.entrySet()) {
 
-		        int orderId = orderDAO.createOrder( // tao order 
-		                acc.getIdAccount(),
-		                entry.getKey(),
-		                total,
-		                address
-		        );
+			double shipFee = 20000;
+			double total = entry.getValue().stream()
+					.mapToDouble(CartItem::getTotalPrice)
+					.sum() + shipFee;
 
-		        for (CartItem item : entry.getValue()) {
-		            orderDAO.insertOrderDetail(
-		                    orderId,
-		                    item.getFood().getId(),
-		                    item.getQuantity(),
-		                    item.getFood().getPrice()
-		            );
-		        }
+			int orderId = orderDAO.createOrder( // tao order
+					acc.getIdAccount(),
+					entry.getKey(),
+					total,
+					address
+			);
 
-		        // GỬI MAIL Ở ĐÂY
-		        String subject = "Xác nhận đơn hàng #" + orderId;
-		        String content = """
+			for (CartItem item : entry.getValue()) {
+				orderDAO.insertOrderDetail(
+						orderId,
+						item.getFood().getId(),
+						item.getQuantity(),
+						item.getFood().getPrice()
+				);
+			}
+
+			// GỬI MAIL Ở ĐÂY
+			String subject = "Xác nhận đơn hàng #" + orderId;
+			String content = """
 		            Cảm ơn bạn đã đặt hàng ❤️
 
 		            Mã đơn hàng: #%d
@@ -144,19 +144,19 @@ public class CheckoutServlet extends HttpServlet {
 		            Đơn hàng đang được xử lý.
 		            """.formatted(orderId, total, address);
 
-		        EmailUtil.send(email, subject, content);
+			EmailUtil.send(email, subject, content);
 
-		        orderIds.add(orderId);
-		    }
-
-		    session.removeAttribute("orderAddress");
-		    session.removeAttribute("orderNote");
-		    cartDAO.clearCartByUser(acc.getIdAccount());
-		    session.setAttribute("orderIds", orderIds);
-            
-		    response.sendRedirect(request.getContextPath() + "/orderSuccess");
+			orderIds.add(orderId);
 		}
+
+		session.removeAttribute("orderAddress");
+		session.removeAttribute("orderNote");
+		cartDAO.clearCartByUser(acc.getIdAccount());
+		session.setAttribute("orderIds", orderIds);
+
+		response.sendRedirect(request.getContextPath() + "/orderSuccess");
 	}
+}
       /*  HttpSession session = request.getSession(false);
      
 

@@ -15,29 +15,29 @@ import DAO.OrderDAO;
 @WebServlet("/admin/order")
 public class AdminOrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AdminOrderServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public AdminOrderServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	        OrderDAO orderDAO = new OrderDAO();
-	        int totalOrders = orderDAO.countOrder();
 
-	        request.setAttribute("totalOrders", totalOrders);
-	        request.setAttribute("orders", new OrderDAO().getAllOrders());
-	 
-	        request.getRequestDispatcher("/views/admin/order-list.jsp")
-	               .forward(request, response);
-	    }
+		OrderDAO orderDAO = new OrderDAO();
+		int totalOrders = orderDAO.countOrder();
+
+		request.setAttribute("totalOrders", totalOrders);
+		request.setAttribute("orders", new OrderDAO().getAllOrders());
+
+		request.getRequestDispatcher("/views/admin/order-list.jsp")
+				.forward(request, response);
+	}
 
 
 

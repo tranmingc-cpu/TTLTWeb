@@ -19,24 +19,28 @@ public class LoginFilter implements Filter {
         String uri = request.getRequestURI().substring(contextPath.length());
 
         boolean isPublic =
-                uri.equals("/login") ||
-                uri.equals("/register") ||
-                uri.equals("/product-detail") ||
-                uri.equals("/Trangchu") ||
-                uri.startsWith("/views/") ||
-                uri.startsWith("/images/") ||
-                uri.startsWith("/css/") ;
+                        uri.equals("/login") ||
+                        uri.equals("/")||
+                        uri.equals("/register") ||
+                        uri.equals("/product-detail") ||
+                        uri.equals("/Trangchu") ||
+                        uri.startsWith("/views/") ||
+                        uri.startsWith("/images/") ||
+                        uri.startsWith("/css/") ;
 
         HttpSession session = request.getSession(false);
         boolean loggedIn = (session != null && session.getAttribute("account") != null);
-
+        if (uri.equals("/")) {
+            response.sendRedirect(contextPath + "/Trangchu");
+            return;
+        }
         if (!loggedIn && !isPublic) {
 
             String query = request.getQueryString();
             String fullUrl = uri + (query != null ? "?" + query : "");
 
             request.getSession(true)
-                   .setAttribute("redirectAfterLogin", fullUrl);
+                    .setAttribute("redirectAfterLogin", fullUrl);
 
             response.sendRedirect(contextPath + "/login");
             return;

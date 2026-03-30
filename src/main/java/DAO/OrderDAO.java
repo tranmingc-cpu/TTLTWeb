@@ -23,7 +23,7 @@ public class OrderDAO {
 				""";
 
 		try (Connection con = DBConnect.getConnect();
-				PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+			 PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
 			ps.setInt(1, accId);
 			ps.setInt(2, resId);
@@ -85,8 +85,8 @@ public class OrderDAO {
 		String sql = "SELECT SUM(TOTAL) FROM ORDERS";
 
 		try (Connection con = DBConnect.getConnect();
-				PreparedStatement ps = con.prepareStatement(sql);
-				ResultSet rs = ps.executeQuery();) {
+			 PreparedStatement ps = con.prepareStatement(sql);
+			 ResultSet rs = ps.executeQuery();) {
 			if (rs.next()) {
 				return rs.getDouble(1); // nếu null → trả về 0
 			}
@@ -109,8 +109,8 @@ public class OrderDAO {
 				""";
 
 		try (Connection con = DBConnect.getConnect();
-				PreparedStatement ps = con.prepareStatement(sql);
-				ResultSet rs = ps.executeQuery()) {
+			 PreparedStatement ps = con.prepareStatement(sql);
+			 ResultSet rs = ps.executeQuery()) {
 
 			while (rs.next()) {
 				Order o = new Order();
@@ -260,7 +260,7 @@ public class OrderDAO {
 		}
 	}
 
-// tính tổng số order hôm nay
+	// tính tổng số order hôm nay
 	public int countTodayOrders(int resId) {
 
 		String sql = """
@@ -286,7 +286,7 @@ public class OrderDAO {
 		return 0;
 	}
 
-// tính giá tiền hôm nay thu đc
+	// tính giá tiền hôm nay thu đc
 	public int sumTodayRevenue(int resId) {
 		String sql = """
 				    SELECT SUM(o.TOTAL)
@@ -306,7 +306,7 @@ public class OrderDAO {
 		return 0;
 	}
 
-// lấy thông tin món ăn của nhà hàng theo id
+	// lấy thông tin món ăn của nhà hàng theo id
 	public List<Order> getRecentOrdersByRestaurant(int resId) {
 
 		List<Order> list = new ArrayList<>();
@@ -419,22 +419,22 @@ public class OrderDAO {
 	}
 
 	public int countOrder() {
-	    String sql = "SELECT COUNT(*) FROM ORDERS";
-	    try (Connection con = DBConnect.getConnect();
-	    		PreparedStatement ps = con.prepareStatement(sql);
-	         ResultSet rs = ps.executeQuery()) {
+		String sql = "SELECT COUNT(*) FROM ORDERS";
+		try (Connection con = DBConnect.getConnect();
+			 PreparedStatement ps = con.prepareStatement(sql);
+			 ResultSet rs = ps.executeQuery()) {
 
-	        if (rs.next()) {
-	            return rs.getInt(1);
-	        }
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
 
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	    return 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 	public double revenueThisMonth(int resid) {
-	    String sql = """
+		String sql = """
 	        SELECT ISNULL(SUM(TOTAL),0)
 	        FROM ORDERS
 	        WHERE RESID=?
@@ -442,14 +442,14 @@ public class OrderDAO {
 	        AND YEAR(CREATED_AT)=YEAR(GETDATE())
 	        AND STATUS='COMPLETED'
 	    """;
-	    try (Connection con = DBConnect.getConnect();
-	    		PreparedStatement ps = con.prepareStatement(sql)) {
-	        ps.setInt(1, resid);
-	        ResultSet rs = ps.executeQuery();
-	        if (rs.next()) return rs.getDouble(1);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	    return 0;
+		try (Connection con = DBConnect.getConnect();
+			 PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setInt(1, resid);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) return rs.getDouble(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 }

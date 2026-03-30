@@ -36,12 +36,10 @@ public class SellerFilter implements Filter {
             acc = (Account) session.getAttribute("account");
         }
 
-        // Chưa login hoặc không phải SELLER chặn
         if (acc == null || acc.getRole() != Role.SELLER) {
             res.sendRedirect(req.getContextPath() + "/Trangchu");
-            return; 
+            return;
         }
-        //  Đúng SELLER  cho đi tiếp
         chain.doFilter(request, response);
     }
 }

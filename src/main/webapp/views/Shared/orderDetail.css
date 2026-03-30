@@ -10,7 +10,6 @@
     color: #333;
 }
 
-/* ===== TABLE ===== */
 .order-detail-table {
     width: 100%;
     border-collapse: collapse;
@@ -40,7 +39,6 @@
     color: #444;
 }
 
-/* ===== BACK BUTTON ===== */
 .btn-back {
     display: inline-block;
     margin-top: 25px;

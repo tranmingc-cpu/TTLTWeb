@@ -12,11 +12,8 @@
           href="${pageContext.request.contextPath}/views/admin/dashboard.css">
 </head>
 <body>
-    <jsp:include page="/views/jsp/demo.jsp"/>
+<jsp:include page="/views/jsp/demo.jsp"/>
 <div class="admin-container">
-
-
-    <!-- HEADER -->
     <header class="admin-header">
         <h1>ADMIN PANEL</h1>
         <div class="admin-user">
@@ -25,7 +22,6 @@
         </div>
     </header>
 
-    <!-- SIDEBAR -->
     <aside class="admin-sidebar">
         <a href="${pageContext.request.contextPath}/admin/dashboard">🏠 Dashboard</a>
         <a href="${pageContext.request.contextPath}/admin/product">🍔 Quản lý món ăn</a>
@@ -33,33 +29,32 @@
         <a href="${pageContext.request.contextPath}/admin/user">👤 Quản lý user</a>
     </aside>
 
-    <!-- CONTENT -->
     <main class="admin-content">
         <h2>Thống kê nhanh</h2>
 
         <div class="stats">
-    <div class="stat-box">
-        👤 Users<br>
-        <b>${totalUsers}</b>
-    </div>
+            <div class="stat-box">
+                👤 Users<br>
+                <b>${totalUsers}</b>
+            </div>
 
-    <div class="stat-box">
-        🍔 Món ăn<br>
-        <b>${totalFoods}</b>
-    </div>
+            <div class="stat-box">
+                🍔 Món ăn<br>
+                <b>${totalFoods}</b>
+            </div>
 
-    <div class="stat-box">
-        📦 Đơn hàng<br>
-        <b>${totalOrders}</b>
-    </div>
+            <div class="stat-box">
+                📦 Đơn hàng<br>
+                <b>${totalOrders}</b>
+            </div>
 
-    <div class="stat-box">
-        💰 Doanh thu<br>
-        <b>
-            <fmt:formatNumber value="${totalRevenue}" type="number"/> ₫
-        </b>
-    </div>
-</div>
+            <div class="stat-box">
+                💰 Doanh thu<br>
+                <b>
+                    <fmt:formatNumber value="${totalRevenue}" type="number"/> ₫
+                </b>
+            </div>
+        </div>
 
     </main>
 

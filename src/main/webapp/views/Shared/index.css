@@ -1,5 +1,4 @@
 @charset "UTF-8";
-/* ========== RESET & BASE ========== */
 *{
     margin:0;
     padding:0;
@@ -28,7 +27,6 @@ a{
     flex: 1;
 }
 
-/* ===== PROMO BANNER ===== */
 
 .promo-banner {
     max-width: 1200px;
@@ -45,7 +43,6 @@ a{
     box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
-/* LEFT CONTENT */
 .promo-left {
     color: #fff;
     max-width: 520px;
@@ -75,7 +72,6 @@ a{
     opacity: 0.95;
 }
 
-/* BUTTON */
 .promo-btn {
     display: inline-block;
     margin-top: 14px;
@@ -93,7 +89,6 @@ a{
 }
 
 
-/* RIGHT ICON */
 .promo-right {
     font-size: 88px;
     opacity: 0.9;
@@ -105,7 +100,7 @@ a{
     justify-content:center;
     align-items:center;
     gap:16px;
-    margin-top:5px;   /* lùi xuống */
+    margin-top:5px;
     flex-wrap:wrap;
 }
 
@@ -122,19 +117,18 @@ a{
 
     transition:all 0.3s ease;
 }
- 
+
 
 .nav a.active,
 .nav a:hover{
     background:#e63946;
     color:#fff;
     box-shadow:0 6px 16px rgba(230,57,70,0.35);
-   transform: translateY(-2px);
-   
+    transform: translateY(-2px);
+
 }
 
 
-/* ========== SECTION ========== */
 .section {
     max-width: 1400px;
     margin: 0 auto;
@@ -150,7 +144,6 @@ a{
     letter-spacing: 1px;
 }
 
-/* Gạch nhấn màu cam bên dưới */
 .section-title::after {
     content: "";
     position: absolute;
@@ -162,16 +155,15 @@ a{
     border-radius: 2px;
 }
 
-/* ========== PRODUCT GRID ========== */
 .products {
     display: grid;
-    grid-template-columns: repeat(5,minmax(0,1fr)); 
-    gap: 16px;
+    grid-template-columns: repeat(5,minmax(0,1fr));
+    gap: 20px;
 }
 .product-link {
     text-decoration: none;
     color: inherit;
-     display: block;
+    display: block;
 }
 .product-card {
     background: #fff;
@@ -182,8 +174,8 @@ a{
     display: flex;
     flex-direction: column;
     height: 100%;
-     z-index: 1;
-     position: relative;
+    z-index: 1;
+    position: relative;
 }
 
 .product-card:hover {
@@ -218,7 +210,6 @@ a{
 }
 
 
-/* ========== BUTTONS ========== */
 .btn-group {
     margin-top: auto;
     display: flex;
@@ -257,28 +248,34 @@ a{
     color: #fff;
 }
 
-/* ========== VIEW ALL BUTTON ========== */
-.view-all{
-    text-align:center;
-    margin-top:30px;
+.view-all {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    width: 100%;
 }
 
-.view-all a{
-    padding:12px 32px;
-    border-radius:30px;
-    border:1px solid #ddd;
-    background:#fff;
-    font-size:18px;
+.view-all a {
+    display: inline-block;
+    padding: 12px 35px;
+    background-color: transparent;
+    color: #e63946;
+    border: 2px solid #e63946;
+    border-radius: 25px;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
 }
 
-.view-all a:hover{
-    background:#e63946;
-    color:#fff;
+.view-all a:hover {
+    background-color: #e63946;
+    color: #ffffff;
+    box-shadow: 0 5px 15px rgba(230, 57, 70, 0.3);
+    transform: translateY(-2px);
 }
 
-
-
-/* ========== RESPONSIVE ========== */
 @media (max-width: 1500px){
     .products{ grid-template-columns: repeat(4,1fr); }
 }
@@ -292,12 +289,54 @@ a{
 }
 
 @media (max-width: 480px){
-    .products{ grid-template-columns: 1fr; } 
-    
+    .products{ grid-template-columns: 1fr; }
+
+}
+.full-width {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    border-radius: 0;
 }
 
+.promo-slider {
+    width: 100%;
+    max-width: 1400px;
+    margin: 10px auto 30px;
+    overflow: hidden;
+    position: relative;
+}
 
+.slides {
+    display: flex;
+    width: 100%;
+}
 
+.slide {
+    flex: 0 0 100%;
+    aspect-ratio: 1920 / 300;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    cursor: pointer;
+}
 
+.slide:nth-child(1) { background-image: url('../../images/banner1.png'); }
+.slide:nth-child(2) { background-image: url('../../images/banner2.jpg'); }
+.slide:nth-child(3) { background-image: url('../../images/banner3.jpg'); }
 
+.overlay {
+    position: absolute;
+    bottom: 15%;
+    left: 4%;
+    color: white;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+@media (max-width: 1200px) { .products { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px) { .products { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .products { grid-template-columns: 1fr; } }
 

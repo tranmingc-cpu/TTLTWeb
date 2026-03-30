@@ -41,13 +41,11 @@ public class OrderSuccessServlet extends HttpServlet {
             return;
         }
 
-        // ✅ LOAD ORDER TỪ DB
         OrderDAO orderDAO = new OrderDAO();
         List<Order> orders = orderDAO.getOrdersByIds(orderIds);
 
         request.setAttribute("orders", orders);
 
-        // ✅ clear session tránh refresh bug
         session.removeAttribute("orderIds");
 
         request.getRequestDispatcher("/views/jsp/orderSuccess.jsp")
