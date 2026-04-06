@@ -31,7 +31,7 @@ public class UserServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		request.setAttribute("accounts", new AccountDAO().countUser());
+		request.setAttribute("accounts", new AccountDAO().getAllAccount());
 		request.getRequestDispatcher("/views/admin/user.jsp")
 				.forward(request, response);
 	}

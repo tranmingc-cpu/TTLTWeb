@@ -32,10 +32,9 @@ public class LogoutServlet extends HttpServlet {
 
 		HttpSession session = request.getSession(false);
 		if (session != null) {
-			session.invalidate(); // xoá user
+			session.invalidate();
 		}
 
-		//  NẾU CÓ REFERER → QUAY LẠI
 		if (referer != null && !referer.contains("/login")) {
 			response.sendRedirect(referer);
 		} else {
