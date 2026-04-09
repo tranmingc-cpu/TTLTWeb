@@ -28,7 +28,6 @@ public class AccountDAO {
                 acc.setIdAccount(rs.getInt("ID"));
                 acc.setUserName(rs.getString("USERNAME"));
                 acc.setPassword(rs.getString("PASS"));
-
                 String role = rs.getString("ROLES");
                 acc.setRole(Role.valueOf(role.trim().toUpperCase()));
 
@@ -166,6 +165,36 @@ public class AccountDAO {
         return list;
     }
 
+    public boolean updateStatus(int id, int status) {
+        String sql = "UPDATE ACCOUNT SET STATUS = ? WHERE ID =?";
+        try (Connection con = DBConnect.getConnect();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, status);
+            ps.setInt(2, id);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean insertUser(Account acc) {
+        String sql = "INSERT INTO Account (username, password, role, status) VALUES (?, ?, ?, ?)";
+
+        try (Connection con = DBConnect.getConnect();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, acc.getUserName());
+            ps.setString(2, acc.getPassword());
+            ps.setString(3, acc.getRole().name());
+            ps.setInt(4, acc.getStatus());
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 }
 
 
