@@ -1,13 +1,15 @@
-package SellerController;
+package adminController;
 
+import DAO.CategoryDAO;
+import DAO.FoodDAOimpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
-
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import model.Food;
-import DAO.CategoryDAO;
-import DAO.FoodDAOimpl;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -30,7 +32,7 @@ public class EditFoodServlet extends HttpServlet {
         Food food = foodDAO.getFoodbyFoodId(id);
 
         if (food == null) {
-            response.sendRedirect(request.getContextPath() + "/seller/food");
+            response.sendRedirect(request.getContextPath() + "/admin/food");
             return;
         }
 

@@ -3,12 +3,13 @@ package DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+import java.sql.SQLException;
+import java.util.List;
+import java.util.ArrayList;
 import model.Account;
 import model.Account.Role;
 
 public class AccountDAO {
-    // lấy login và pass trong dtb và kiểm tra role của nó
     public Account login(String username, String pass) {
         String sql = "SELECT * FROM ACCOUNT WHERE USERNAME = ? AND PASS = ?";
 
@@ -27,7 +28,6 @@ public class AccountDAO {
                 acc.setIdAccount(rs.getInt("ID"));
                 acc.setUserName(rs.getString("USERNAME"));
                 acc.setPassword(rs.getString("PASS"));
-
                 String role = rs.getString("ROLES");
                 acc.setRole(Role.valueOf(role.trim().toUpperCase()));
 
@@ -39,7 +39,7 @@ public class AccountDAO {
         }
         return null;
     }
-    // đăng kí
+
     public void register(Account acc) {
         String sql = """
             INSERT INTO ACCOUNT (ID, USERNAME, PASS, ROLES)
@@ -62,7 +62,7 @@ public class AccountDAO {
             e.printStackTrace();
         }
     }
-    // kiểm tra acc có tồn tại chưa
+
     public boolean checkExitAccount(String username) {
         String sql = "SELECT 1 FROM ACCOUNT WHERE USERNAME = ?";
 
@@ -80,7 +80,7 @@ public class AccountDAO {
         }
         return false;
     }
-    // đếm số user
+
     public int countUser() {
         String sql = "SELECT COUNT(*) FROM ACCOUNT";
 
@@ -123,6 +123,7 @@ public class AccountDAO {
         }
         return null;
     }
+
     // cập nhập mk mới
     public void updatePassword(int accId, String newPassword) {
         String sql = "UPDATE ACCOUNT SET PASS = ? WHERE ID = ?";
@@ -140,4 +141,60 @@ public class AccountDAO {
             e.printStackTrace();
         }
     }
+
+    public List<Account> getAllAccount() {
+        List<Account> list = new ArrayList<>();
+        String sql = "SELECT * FROM ACCOUNT";
+        try {
+            Connection conn = DBConnect.getConnect();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Account acc = new Account();
+                acc.setIdAccount(rs.getInt("ID"));
+                acc.setUserName(rs.getString("USERNAME"));
+                acc.setRole(Role.valueOf(
+                        rs.getString("ROLES").trim().toUpperCase()
+                ));
+                list.add(acc);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public boolean updateStatus(int id, int status) {
+        String sql = "UPDATE ACCOUNT SET STATUS = ? WHERE ID =?";
+        try (Connection con = DBConnect.getConnect();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, status);
+            ps.setInt(2, id);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean insertUser(Account acc) {
+        String sql = "INSERT INTO Account (username, password, role, status) VALUES (?, ?, ?, ?)";
+
+        try (Connection con = DBConnect.getConnect();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, acc.getUserName());
+            ps.setString(2, acc.getPassword());
+            ps.setString(3, acc.getRole().name());
+            ps.setInt(4, acc.getStatus());
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 }
+
+

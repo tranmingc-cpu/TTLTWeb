@@ -3,7 +3,9 @@ package DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
+import model.Account;
 import model.User;
 
 public class UserDAO {
@@ -77,4 +79,20 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 	}
-}
+	public void insertUser(Account acc){
+		String sql ="INSERT INO ACCOUNT(USERNAME, PASS,ROLE, STATUS";
+		try (Connection conn = DBConnect.getConnect();
+		     PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setString(1, acc.getUserName());
+			ps.setString(2, acc.getPassword());
+			ps.setString(3, acc.getRole().name());
+			ps.setString(4, acc.getRole().name());
+			ps.executeUpdate();
+		} catch (Exception e) {
+e.printStackTrace();		}
+
+
+		}
+
+
+		}

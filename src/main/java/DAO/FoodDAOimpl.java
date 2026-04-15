@@ -10,7 +10,6 @@ import java.util.List;
 import model.Food;
 
 public class FoodDAOimpl implements FoodDAO {
-	// lấy thông tin của food đã tồn tại theo id
 	public Food infomation (int id ) {
 		String sql = "SELECT * FROM Food WHERE id = ?";
 		try (Connection con = DBConnect.getConnect();
@@ -187,7 +186,6 @@ public class FoodDAOimpl implements FoodDAO {
 		}
 		return list;
 	}
-	// lấy 1 số trong danh sách food để hiển thị
 	@Override
 	public List<Food> findLimit(int limit) {
 		List<Food> list = new ArrayList<>();
@@ -213,7 +211,7 @@ public class FoodDAOimpl implements FoodDAO {
 		}
 		return list;
 	}
-	public int  countFood() {
+	public static int  countFood() {
 		String sql = "SELECT COUNT(*) FROM FOOD";
 		try (
 				Connection con = DBConnect.getConnect();
@@ -228,7 +226,6 @@ public class FoodDAOimpl implements FoodDAO {
 		}
 		return 0;
 	}
-	// lấy danh sách đồ ăn của nhà hàng đó 
 	public List<Food> getFoodsByRestaurant(int resid) {
 		List<Food> list = new ArrayList<>();
 		String sql = "SELECT * FROM Food WHERE RESID = ?";

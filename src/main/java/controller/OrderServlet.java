@@ -50,12 +50,10 @@ public class OrderServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-        // nguoi dung submit form thì lưu tt vào session
-        // LẤY THÔNG TIN USER NHẬP
+
         String address = request.getParameter("address");
         String note = request.getParameter("note");
 
-        // LƯU SESSION
         session.setAttribute("orderAddress", address);
         session.setAttribute("orderNote", note);
 

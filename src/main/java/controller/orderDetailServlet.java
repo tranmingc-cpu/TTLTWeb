@@ -43,7 +43,6 @@ public class orderDetailServlet extends HttpServlet {
         }
 
         int orderId = Integer.parseInt(request.getParameter("id"));
-        // lấy order theo orderid 
 
         List<OrderDetails> details = orderDAO.getOrderDetails(orderId);
         request.setAttribute("details", details);

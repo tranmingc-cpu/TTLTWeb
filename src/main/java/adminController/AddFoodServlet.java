@@ -1,24 +1,26 @@
-package SellerController;
+package adminController;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
-
-import model.Food;
-import model.Restaurant;
-import model.Account;
-import model.Category;
 import DAO.CategoryDAO;
 import DAO.FoodDAOimpl;
 import DAO.SellerDAO;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+import model.Account;
+import model.Category;
+import model.Food;
+import model.Restaurant;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 
-@WebServlet("/seller/food/add")
+@WebServlet("/admin/food/add")
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5,
@@ -28,7 +30,6 @@ public class AddFoodServlet extends HttpServlet {
 
     private FoodDAOimpl foodDAO = new FoodDAOimpl();
 
-    // ===== SHOW FORM =====
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -48,14 +49,12 @@ public class AddFoodServlet extends HttpServlet {
         });
         request.setCharacterEncoding("UTF-8");
 
-        // ===== ACCOUNT =====
         Account acc = (Account) request.getSession().getAttribute("account");
         if (acc == null) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
 
-        // ===== RESTAURANT =====
         SellerDAO sellerDAO = new SellerDAO();
         Restaurant restaurant = sellerDAO.getByAccountId(acc.getIdAccount());
         if (restaurant == null) {
@@ -65,7 +64,6 @@ public class AddFoodServlet extends HttpServlet {
 
         int restaurantId = restaurant.getResId();
 
-        // ===== FORM DATA =====
         String name = request.getParameter("name");
         double price = Double.parseDouble(request.getParameter("price"));
         String description = request.getParameter("description");
@@ -84,7 +82,6 @@ public class AddFoodServlet extends HttpServlet {
         System.out.println("food id"+foodId);
         int categoryId = Integer.parseInt(categoryRaw);
         System.out.println("category id"+categoryId);
-        // ===== UPLOAD IMAGE =====
         Part filePart = request.getPart("image");
         String fileName = null;
 
@@ -100,7 +97,6 @@ public class AddFoodServlet extends HttpServlet {
         }
 
 
-        // ===== SET FOOD =====
         Food food = new Food();
         food.setId(foodId);
         food.setName(name);
@@ -110,10 +106,8 @@ public class AddFoodServlet extends HttpServlet {
         food.setResID(restaurantId);
         food.setCATEGORYId(categoryId);
 
-        // ===== INSERT =====
         foodDAO.insert(food);
 
-        // ===== BACK TO LIST =====
         response.sendRedirect(request.getContextPath() + "/seller/food");
     }
 }
