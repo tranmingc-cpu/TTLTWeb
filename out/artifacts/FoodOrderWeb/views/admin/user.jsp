@@ -11,7 +11,6 @@
           href="${pageContext.request.contextPath}/views/admin/user.css">
 </head>
 <body>
-
 <jsp:include page="/views/jsp/demo.jsp"/>
 
 <div class="admin-container">
@@ -23,32 +22,15 @@
             <a href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
         </div>
     </header>
-
-    <aside class="admin-sidebar">
-        <a href="${pageContext.request.contextPath}/admin/dashboard">🏠 Dashboard</a>
-        <a href="${pageContext.request.contextPath}/admin/product">🍔 Quản lý món ăn</a>
-        <a href="${pageContext.request.contextPath}/admin/order">📦 Quản lý đơn hàng</a>
-        <a href="${pageContext.request.contextPath}/admin/user">👤 Quản lý user</a>
-    </aside>
-
+    <jsp:include page="/views/admin/sidebar.jsp"/>
     <main class="admin-content">
 
         <h2>Quản lý tài khoản</h2>
 
-        <h3>➕ Thêm tài khoản</h3>
-        <form action="${pageContext.request.contextPath}/admin/user/add" method="post" class="add-user-form">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
 
-            <select name="role">
-                <option value="user">User</option>
-                <option value="seller">Seller</option>
-                <option value="admin">Admin</option>
-            </select>
-
-            <button type="submit">Thêm</button>
-        </form>
-
+        <a href="${pageContext.request.contextPath}/admin/user/add-page">
+            <button type="button">➕ Thêm tài khoản</button>
+        </a>
         <br>
 
         <table class="user-table">

@@ -6,7 +6,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
 
+import model.Account.Role;
 import DAO.AccountDAO;
 import DAO.UserDAO;
 import model.Account;
@@ -14,7 +16,7 @@ import model.Account;
 /**
  * Servlet implementation class UserServlet
  */
-@WebServlet("/admin/user")
+@WebServlet("/admin/user/*")
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -31,19 +33,26 @@ public class UserServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-String action = request.getParameter("action");
-int id;
-AccountDAO dao = new AccountDAO();
-if("lock".equals(action)){
-	id = Integer.parseInt(request.getParameter("id"));
-	Account target = dao.getAccountById(id);
-	if(!"admin".equals((target.getRole()))){
-		dao.updateStatus(id,0);
-	}
-	response.sendRedirect("user");
-}
+		String path = request.getPathInfo();
+		AccountDAO dao = new AccountDAO();
+		if (path != null && path.equals("/add-page")) {
+			request.getRequestDispatcher("/views/admin/add-user.jsp")
+					.forward(request, response);
+			return;
+		}
+		String action = request.getParameter("action");
+		if ("lock".equals(action)) {
+			int id = Integer.parseInt(request.getParameter("id"));
+			Account target = dao.getAccountById(id);
 
-		request.setAttribute("accounts", new AccountDAO().getAllAccount());
+			if (!"admin".equals(target.getRole())) {
+				dao.updateStatus(id, 0);
+			}
+
+			response.sendRedirect(request.getContextPath() + "/admin/user");
+			return;
+		}
+		request.setAttribute("accounts", dao.getAllAccount());
 		request.getRequestDispatcher("/views/admin/user.jsp")
 				.forward(request, response);
 	}
@@ -54,16 +63,23 @@ if("lock".equals(action)){
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
+		String path = request.getPathInfo();
 
-		Account acc = new Account();
-		acc.setUserName(username);
-		acc.setPassword(password);
-		acc.setStatus(1);
+		if (path != null && path.equals("/add")) {
 
-		new AccountDAO().insertUser(acc);
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			String roleStr = request.getParameter("role").toUpperCase();
+			Role roles = Role.valueOf(roleStr);
 
-		response.sendRedirect("user");
+			Account acc = new Account();
+			acc.setUserName(username);
+			acc.setPassword(password);
+			acc.setRole(roles);
+			acc.setStatus(1);
+			new AccountDAO().insertUser(acc);
+
+			response.sendRedirect(request.getContextPath() + "/admin/user");
+		}
 	}
 }

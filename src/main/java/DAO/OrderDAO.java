@@ -6,7 +6,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Map;
+import java.util.HashMap;
 import model.CartItem;
 import model.Food;
 import model.Order;
@@ -128,7 +129,6 @@ public class OrderDAO {
 		return list;
 	}
 
-	/* ===== GET ORDER ===== */
 	public List<Order> getOrdersByIds(List<Integer> orderIds) {
 		List<Order> orders = new ArrayList<>();
 
@@ -244,7 +244,7 @@ public class OrderDAO {
 		return list;
 	}
 
-	/* ===== UPDATE STATUS ===== */
+
 	public void updateStatus(int orderId, String status) {
 		String sql = "UPDATE ORDERS SET STATUS = ? WHERE ID = ?";
 		try (Connection con = DBConnect.getConnect(); PreparedStatement ps = con.prepareStatement(sql)) {
@@ -449,5 +449,83 @@ public class OrderDAO {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+	/*public List<Map<String, Object>> getRevenueByMonth() {
+		List<Map<String, Object>> list = new ArrayList<>();
+
+		String sql = """
+        SELECT 
+            MONTH(ORDERDATE) AS month,
+            RESID,
+            SUM(TOTAL) AS revenue
+        FROM ORDERS
+        GROUP BY MONTH(ORDERDATE), RESID
+        ORDER BY month
+    """;
+
+		try (Connection conn = DBConnect.getConnect();   // ✅ sửa ở đây
+		     PreparedStatement ps = conn.prepareStatement(sql);
+		     ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+				Map<String, Object> row = new HashMap<>();
+				row.put("month", rs.getInt("month"));
+				row.put("resid", rs.getInt("RESID"));
+				row.put("revenue", rs.getDouble("revenue"));
+				list.add(row);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}*/
+	public List<Map<String, Object>> getRevenueByMonth() {
+		List<Map<String, Object>> list = new ArrayList<>();
+
+		String sql = """
+        WITH Months AS (
+            SELECT 1 AS month
+            UNION SELECT 2
+            UNION SELECT 3
+            UNION SELECT 4
+            UNION SELECT 5
+            UNION SELECT 6
+            UNION SELECT 7
+            UNION SELECT 8
+            UNION SELECT 9
+            UNION SELECT 10
+            UNION SELECT 11
+            UNION SELECT 12
+        )
+        SELECT 
+            m.month,
+            o.RESID,
+            ISNULL(SUM(o.TOTAL), 0) AS revenue
+        FROM Months m
+        LEFT JOIN ORDERS o 
+            ON MONTH(o.ORDERDATE) = m.month
+        GROUP BY m.month, o.RESID
+        ORDER BY m.month
+    """;
+
+		try (Connection conn = DBConnect.getConnect();
+		     PreparedStatement ps = conn.prepareStatement(sql);
+		     ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+				Map<String, Object> row = new HashMap<>();
+				row.put("month", rs.getInt("month"));
+				row.put("resid", rs.getInt("RESID")); // có thể null
+				row.put("revenue", rs.getDouble("revenue"));
+				list.add(row);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
 	}
 }
