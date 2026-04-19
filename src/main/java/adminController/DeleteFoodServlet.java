@@ -1,14 +1,15 @@
-package SellerController;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
+package adminController;
 
 import DAO.FoodDAOimpl;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/seller/food/delete")
+@WebServlet("/admin/food/delete")
 public class DeleteFoodServlet extends HttpServlet {
 
     FoodDAOimpl foodDAO = new FoodDAOimpl();

@@ -1,5 +1,6 @@
 package adminController;
 
+import DAO.FoodDAOimpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -36,14 +37,13 @@ public class AdminDashboardServlet extends HttpServlet {
         OrderDAO orderDao = new OrderDAO();
         AccountDAO accDao = new AccountDAO();
         HttpSession session = request.getSession();
-        // Lấy account từ session (đã được AdminFilter kiểm tra)
         Account acc = (Account) session.getAttribute("account");
         if (acc != null) {
             request.setAttribute("adminName", acc.getUserName());
         }
-
-        request.setAttribute("totalUser", accDao.countUser());
-        request.setAttribute("totalOrder", orderDao.countOrder());
+         request.setAttribute("totalFoods", FoodDAOimpl.countFood());
+        request.setAttribute("totalUsers", accDao.countUser());
+        request.setAttribute("totalOrders", orderDao.countOrder());
         request.setAttribute("totalRevenue", orderDao.totalRevenue());
 
 

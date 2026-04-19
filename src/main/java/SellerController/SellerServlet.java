@@ -18,7 +18,7 @@ import DAO.SellerDAO;
 /**
  * Servlet implementation class SellerServlet
  */
-@WebServlet("/seller/food")
+@WebServlet("/seller/")
 public class SellerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

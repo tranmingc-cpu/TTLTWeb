@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import DAO.AccountDAO;
 import DAO.UserDAO;
+import model.Account;
 
 /**
  * Servlet implementation class UserServlet
@@ -30,8 +31,19 @@ public class UserServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+String action = request.getParameter("action");
+int id;
+AccountDAO dao = new AccountDAO();
+if("lock".equals(action)){
+	id = Integer.parseInt(request.getParameter("id"));
+	Account target = dao.getAccountById(id);
+	if(!"admin".equals((target.getRole()))){
+		dao.updateStatus(id,0);
+	}
+	response.sendRedirect("user");
+}
 
-		request.setAttribute("accounts", new AccountDAO().countUser());
+		request.setAttribute("accounts", new AccountDAO().getAllAccount());
 		request.getRequestDispatcher("/views/admin/user.jsp")
 				.forward(request, response);
 	}
@@ -39,9 +51,19 @@ public class UserServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+
+		Account acc = new Account();
+		acc.setUserName(username);
+		acc.setPassword(password);
+		acc.setStatus(1);
+
+		new AccountDAO().insertUser(acc);
+
+		response.sendRedirect("user");
+	}
 }

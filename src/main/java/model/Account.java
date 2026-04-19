@@ -5,14 +5,17 @@ public class Account {
 	private String userName;
 	private String password;
 	private String email;
-
+ private int status;
 	private Role role;
 	public Account() {
 
 	}public enum Role {
 		ADMIN, SELLER, USER
 	}
-
+public int getStatus(){return status;}
+	public void setStatus(int status){
+		this.status = status;
+	}
 	public int getIdAccount() {
 		return idAccount;
 	}

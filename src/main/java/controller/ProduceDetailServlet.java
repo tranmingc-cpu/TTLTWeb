@@ -43,7 +43,6 @@ public class ProduceDetailServlet extends HttpServlet {
 			request.getRequestDispatcher("/views/jsp/product-detail.jsp").forward(request, response);
 			return;
 		}
-		// check id food
 		int id;
 		try {
 			id = Integer.parseInt(idR);
