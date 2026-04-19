@@ -17,7 +17,7 @@
 </head>
 
 <body>
-<jsp:include page="/views/jsp/demo.jsp" />
+<jsp:include page="${pageContext.request.contextPath}/views/jsp/demo.jsp" />
 <c:if test="${empty orders}">
     <c:redirect url="Trangchu" />
 </c:if>

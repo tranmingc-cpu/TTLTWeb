@@ -10,7 +10,7 @@
           href="${pageContext.request.contextPath}/views/admin/order-list.css">
 </head>
 <body>
-<jsp:include page="/views/jsp/demo.jsp"/>
+<jsp:include page="${pageContext.request.contextPath}/views/jsp/demo.jsp"/>
 <div class="admin-container">
     <header class="admin-header">
         <h1>ADMIN PANEL</h1>
@@ -47,7 +47,7 @@
 
                             <td>
                                 <img class="food-img"
-                                     src="${pageContext.request.contextPath}/image/${f.image}"
+                                     src="${pageContext.request.contextPath}/images/${f.image}"
                                      alt="${f.name}">
                             </td>
 

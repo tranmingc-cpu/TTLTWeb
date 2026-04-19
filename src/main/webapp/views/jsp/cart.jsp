@@ -13,7 +13,7 @@
 
 <body class="d-flex flex-column min-vh-100">
 
-<jsp:include page="/views/jsp/demo.jsp"/>
+<jsp:include page="${pageContext.request.contextPath}/views/jsp/demo.jsp"/>
 
 <div class="cart-container">
 
@@ -43,12 +43,12 @@
 		<c:forEach items="${cart}" var="item">
 			<tr>
 
-				<td class="food-info"><img
-						src="${pageContext.request.contextPath}/images/${item.food.image}"
-						onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'"
-						alt="${item.food.name}"> ${item.food.name}</td>
-
-				<td><fmt:formatNumber value="${item.food.price}"
+				<td class="food-info">
+					<img src="${item.food.image}"
+					     onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'"
+					     alt="${item.food.name}">
+						${item.food.name}
+				</td><fmt:formatNumber value="${item.food.price}"
 									  type="number" /> đ</td>
 				<td>
 					<form action="${pageContext.request.contextPath}/cart"
@@ -109,8 +109,6 @@
 				Mua hàng
 			</a>
 
-
-
 		</div>
 	</div>
 </div>
@@ -134,7 +132,7 @@
 		<div class="food-suggest-list">
 			<c:forEach items="${restaurantFoods}" var="f">
 				<div class="food-card">
-					<img src="${pageContext.request.contextPath}/images/${f.image}"
+					<img src="${f.image}">
 						 onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'">
 
 					<p class="food-name">${f.name}</p>
@@ -150,7 +148,7 @@
 			</c:forEach>
 		</div>
 	</div>
-	<jsp:include page="/views/jsp/footer.jsp" />
+    <jsp:include page="${pageContext.request.contextPath}/views/jsp/footer.jsp" />
 </c:if>
 
 </body>

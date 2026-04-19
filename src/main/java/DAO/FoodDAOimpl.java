@@ -68,8 +68,7 @@ public class FoodDAOimpl implements FoodDAO {
 			ps.setString(3, food.getDescription());
 			ps.setString(4, food.getImage());
 			ps.setInt(5, food.getId());
-			ps.setInt(6,food.getId());
-			ps.setInt(7, accId);
+			ps.setInt(6, accId);
 			ps.executeUpdate();
 
 		} catch (Exception e) {

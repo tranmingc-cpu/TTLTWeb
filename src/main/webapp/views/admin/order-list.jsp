@@ -8,7 +8,7 @@
           href="${pageContext.request.contextPath}/views/admin/order-list.css">
 </head>
 <body>
-<jsp:include page="/views/jsp/demo.jsp"/>
+<jsp:include page="${pageContext.request.contextPath}/views/jsp/demo.jsp"/>
 <div class="admin-container">
 
     <header class="admin-header">

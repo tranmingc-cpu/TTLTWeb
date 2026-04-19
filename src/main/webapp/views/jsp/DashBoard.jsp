@@ -9,7 +9,7 @@
           href="${pageContext.request.contextPath}/views/Shared/dashboard.css">
 </head>
 <body>
-<jsp:include page="/views/jsp/demo.jsp"></jsp:include>
+<jsp:include page="${pageContext.request.contextPath}/views/jsp/demo.jsp"></jsp:include>
 <div class="stats">
     <div class="stat green">
         <p>Total Revenue</p>

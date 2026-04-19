@@ -15,7 +15,7 @@
 
 <div class="page-container">
 
-	<jsp:include page="/views/jsp/demo.jsp" />
+	<jsp:include page="${pageContext.request.contextPath}/views/jsp/demo.jsp" />
 
 	<div class="nav">
 		<a class="${empty param.action ? 'active' : ''}"
@@ -78,8 +78,8 @@
 
 						<a class="product-link"
 						   href="${pageContext.request.contextPath}/product-detail?id=${f.id}">
-							<img src="${pageContext.request.contextPath}/images/${f.image}"
-								 onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'">
+							<img src="${f.image}"
+							     onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'">
 							<h3 class="product-name">${f.name}</h3>
 						</a>
 
@@ -114,7 +114,7 @@
 
 	</main>
 
-	<jsp:include page="/views/jsp/footer.jsp" />
+	<jsp:include page="${pageContext.request.contextPath}/views/jsp/footer.jsp" />
 
 </div>
 

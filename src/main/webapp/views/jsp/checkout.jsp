@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<jsp:include page="/views/jsp/demo.jsp"/>
+<jsp:include page="${pageContext.request.contextPath}/views/jsp/demo.jsp"/>
 
 <div class="checkout-container">
 
@@ -81,7 +81,7 @@
     </div>
 </div>
 
-<jsp:include page="/views/jsp/footer.jsp"/>
+<jsp:include page="${pageContext.request.contextPath}/views/jsp/footer.jsp"/>
 
 </body>
 </html>

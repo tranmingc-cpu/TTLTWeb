@@ -12,14 +12,10 @@
           href="${pageContext.request.contextPath}/views/admin/dashboard.css">
 </head>
 <body>
-    <jsp:include page="/views/jsp/demo.jsp"/>
+<jsp:include page="${pageContext.request.contextPath}/views/jsp/demo.jsp"/>
 <div class="admin-container">
     <header class="admin-header">
         <h1>ADMIN PANEL</h1>
-        <div class="admin-user">
-            Xin chào <b>${adminName}</b> |
-            <a href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
-        </div>
     </header>
 
     <aside class="admin-sidebar">
@@ -31,10 +27,6 @@
 
     <main class="admin-content">
         <h2>Thống kê nhanh</h2>
-        <div class="card">
-            <h3>Biểu đồ doanh thu </h3>
-            <canvas id="revenueChart"></canvas>
-        </div>
         <div class="stats">
             <div class="stat-box">
                 👤 Users<br>
@@ -58,7 +50,10 @@
                 </b>
             </div>
         </div>
-
+        <div class="card">
+            <h3>Biểu đồ doanh thu </h3>
+            <canvas id="revenueChart"></canvas>
+        </div>
     </main>
 
 </div>

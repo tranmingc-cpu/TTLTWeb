@@ -25,7 +25,7 @@
 
 <div class="page-container">
 
-	<jsp:include page="/views/jsp/demo.jsp" />
+	<jsp:include page="${pageContext.request.contextPath}/views/jsp/demo.jsp" />
 
 	<main class="content">
 
@@ -48,9 +48,9 @@
 			<div class="food-detail">
 
 				<div class="food-image">
-					<img src="${pageContext.request.contextPath}/images/${food.image}"
-						 onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'"
-						 alt="${food.name}">
+					<img src="${food.image}"
+					     onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'"
+					     alt="${food.name}">
 				</div>
 
 				<div class="food-info">
@@ -99,7 +99,7 @@
 
 	</main>
 
-	<jsp:include page="/views/jsp/footer.jsp" />
+	<jsp:include page="${pageContext.request.contextPath}/views/jsp/footer.jsp" />
 
 </div>
 
