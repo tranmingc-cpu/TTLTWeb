@@ -35,10 +35,14 @@ public class RegisterServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String address = request.getParameter("address");
-        String numberStr = request.getParameter("number");
+        String numberStr = request.getParameter("phone");
         String roleParam = request.getParameter("role");
-        Role role = Role.valueOf(roleParam.toUpperCase());
-
+        Role role;
+        try {
+            role = Role.valueOf(roleParam.toUpperCase());
+        } catch (Exception e) {
+            role = Role.USER;
+        }
 
         // 1️⃣ Validate
         if (username == null || email == null || password == null ||
@@ -49,6 +53,7 @@ public class RegisterServlet extends HttpServlet {
                     .forward(request, response);
             return;
         }
+
 
         int number = 0;
         try {
@@ -79,10 +84,10 @@ public class RegisterServlet extends HttpServlet {
 
         dao.register(acc);
 
-        //  Thành công → về login
-        request.setAttribute("success", "Đăng ký thành công! Vui lòng đăng nhập.");
-        request.getRequestDispatcher("/views/jsp/login.jsp")
-                .forward(request, response);
+    //  Thành công → về login (DÙNG REDIRECT + SESSION)
+        request.getSession().setAttribute("success", "Đăng ký thành công! Vui lòng đăng nhập.");
+        response.sendRedirect("login");
     }
+
 }
 

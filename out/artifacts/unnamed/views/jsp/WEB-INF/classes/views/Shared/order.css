@@ -1,0 +1,100 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+body {
+    background: #f5f7fa;
+    color: #333;
+}
+
+.order-container {
+    max-width: 520px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 28px 32px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.order-container h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    font-size: 22px;
+    color: #ff5722;
+}
+
+.order-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.order-form label {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.order-form input,
+.order-form textarea {
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    transition: all 0.25s ease;
+}
+
+.order-form textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+.order-form input:focus,
+.order-form textarea:focus {
+    border-color: #ff5722;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255,87,34,0.15);
+}
+
+.order-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 22px;
+}
+
+.btn-back {
+    text-decoration: none;
+    font-size: 14px;
+    color: #666;
+    transition: 0.2s;
+}
+
+.btn-back:hover {
+    color: #ff5722;
+}
+
+.btn-next {
+    padding: 12px 22px;
+    background: linear-gradient(135deg, #ff5722, #ff7043);
+    border: none;
+    color: #fff;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 15px rgba(255,87,34,0.35);
+}
+
+.btn-next:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255,87,34,0.45);
+}
+
+.btn-next:active {
+    transform: translateY(0);
+}

@@ -1,0 +1,140 @@
+@charset "UTF-8";
+
+.food-form {
+    max-width: 540px;
+    background: linear-gradient(180deg, #ffffff, #f8fafc);
+    padding: 28px 26px;
+    border-radius: 18px;
+    box-shadow:
+            0 20px 40px rgba(0, 0, 0, 0.12),
+            inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    animation: fadeUp 0.4s ease;
+}
+.form-page {
+    min-height: calc(100vh - 120px);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 40px;
+}
+
+.food-form h2 {
+    margin-bottom: 20px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #0f172a;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #334155;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #cbd5f5;
+    font-size: 14px;
+    background-color: #fff;
+    transition: all 0.25s ease;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #94a3b8;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+
+.preview-img {
+    margin-top: 8px;
+    width: 140px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 14px;
+    margin-top: 22px;
+}
+
+.btn-add {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: #fff;
+    padding: 11px 22px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: 0 8px 18px rgba(34, 197, 94, 0.35);
+    transition: all 0.25s ease;
+}
+
+.btn-add:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 26px rgba(34, 197, 94, 0.45);
+}
+.form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #cbd5f5;
+    font-size: 14px;
+    background: #fff;
+}
+
+.form-group select:focus {
+    outline: none;
+    border-color: #6366f1;
+}
+
+.btn-cancel {
+    background-color: #e5e7eb;
+    padding: 11px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #111827;
+    font-weight: 500;
+    transition: all 0.25s ease;
+}
+
+.btn-cancel:hover {
+    background-color: #d1d5db;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

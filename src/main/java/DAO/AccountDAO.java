@@ -42,19 +42,19 @@ public class AccountDAO {
 
     public void register(Account acc) {
         String sql = """
-            INSERT INTO ACCOUNT (ID, USERNAME, PASS, ROLES)
+            INSERT INTO ACCOUNT (USERNAME, PASS, ROLES, EMAIL)
             VALUES (?, ?, ?, ?)
-        """;
+            """;
 
         try (
                 Connection c = DBConnect.getConnect();
                 PreparedStatement ps = c.prepareStatement(sql)
         ) {
 
-            ps.setInt(1, acc.getIdAccount());
-            ps.setString(2, acc.getUserName());
-            ps.setString(3, acc.getPassword());
-            ps.setString(4, acc.getRole().name());
+            ps.setString(1, acc.getUserName());
+            ps.setString(2, acc.getPassword());
+            ps.setString(3, acc.getRole().name());
+            ps.setString(4, acc.getEmail());
 
             ps.executeUpdate();
 
@@ -141,6 +141,63 @@ public class AccountDAO {
             e.printStackTrace();
         }
     }
+
+    public Account findByEmail(String email) {
+        String sql = "SELECT * FROM ACCOUNT WHERE EMAIL = ?";
+
+        try (
+                Connection con = DBConnect.getConnect();
+                PreparedStatement ps = con.prepareStatement(sql)
+        ) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Account acc = new Account();
+                acc.setIdAccount(rs.getInt("ID"));
+                acc.setUserName(rs.getString("USERNAME"));
+                acc.setPassword(rs.getString("PASS"));
+                acc.setEmail(rs.getString("EMAIL"));
+
+                acc.setRole(Role.valueOf(
+                        rs.getString("ROLES").trim().toUpperCase()
+                ));
+
+                return acc;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public int insertGoogle(Account acc) {
+        String sql = "INSERT INTO ACCOUNT (USERNAME, PASS, ROLES, EMAIL) VALUES (?, ?, ?, ?)";
+
+        try (
+                Connection con = DBConnect.getConnect();
+                PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+
+            ps.setString(1, acc.getUserName()); // có thể null
+            ps.setString(2, ""); // không dùng password
+            ps.setString(3, acc.getRole().name());
+            ps.setString(4, acc.getEmail());
+
+            ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1); // trả về ID
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+}
+
 
     public List<Account> getAllAccount() {
         List<Account> list = new ArrayList<>();

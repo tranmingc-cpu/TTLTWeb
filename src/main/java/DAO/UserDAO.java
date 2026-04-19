@@ -79,6 +79,8 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 	}
+	}
+
 	public void insertUser(Account acc){
 		String sql ="INSERT INO ACCOUNT(USERNAME, PASS,ROLE, STATUS";
 		try (Connection conn = DBConnect.getConnect();
