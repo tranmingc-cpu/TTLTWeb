@@ -3,6 +3,13 @@
     <output-path>$PROJECT_DIR$/out/artifacts/unnamed/views/jsp</output-path>
     <root id="root">
       <element id="dir-copy" path="$PROJECT_DIR$/src/main/webapp" />
+      <element id="library" level="project" name="lib" />
+      <element id="javaee-facet-resources" facet="TTLTWeb/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="TTLTWeb" />
+        </element>
+      </element>
     </root>
   </artifact>
 </component>
