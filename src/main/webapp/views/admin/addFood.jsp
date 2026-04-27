@@ -8,9 +8,8 @@
     <title>Thêm món ăn</title>
 
     <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/views/seller/addFood.css">
+          href="${pageContext.request.contextPath}/views/admin/addFood.css">
 </head>
-
 <body>
 <jsp:include page="/views/jsp/demo.jsp"/>
 
@@ -24,7 +23,7 @@
         </c:if>
 
         <form class="food-form"
-              action="${pageContext.request.contextPath}/seller/food/add"
+              action="${pageContext.request.contextPath}/admin/food/add"
               method="post"
               enctype="multipart/form-data">
 
@@ -65,7 +64,7 @@
 
             <div class="form-actions">
                 <button type="submit" class="btn-add">💾 Lưu món</button>
-                <a href="${pageContext.request.contextPath}/seller/food"
+                <a href="${pageContext.request.contextPath}/admin/food"
                    class="btn-cancel">❌ Hủy</a>
             </div>
 

@@ -58,7 +58,7 @@ public class AddFoodServlet extends HttpServlet {
         SellerDAO sellerDAO = new SellerDAO();
         Restaurant restaurant = sellerDAO.getByAccountId(acc.getIdAccount());
         if (restaurant == null) {
-            response.sendRedirect(request.getContextPath() + "/seller/food");
+            response.sendRedirect(request.getContextPath() + "/admin/food");
             return;
         }
 
@@ -73,7 +73,7 @@ public class AddFoodServlet extends HttpServlet {
         if (idRaw == null || idRaw.isEmpty()
                 || categoryRaw == null || categoryRaw.isEmpty()) {
             System.out.println("raw"+categoryRaw);
-            response.sendRedirect(request.getContextPath() + "/seller/food/add");
+            response.sendRedirect(request.getContextPath() + "/admin/food/add");
             return;
 
         }
@@ -108,6 +108,6 @@ public class AddFoodServlet extends HttpServlet {
 
         foodDAO.insert(food);
 
-        response.sendRedirect(request.getContextPath() + "/seller/food");
+        response.sendRedirect(request.getContextPath() + "/admin/food");
     }
 }

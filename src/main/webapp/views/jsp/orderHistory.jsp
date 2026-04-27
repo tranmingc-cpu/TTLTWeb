@@ -11,8 +11,7 @@
           href="${pageContext.request.contextPath}/views/Shared/orderHistory.css">
 </head>
 <body>
-<jsp:include page="${pageContext.request.contextPath}/views/jsp/demo.jsp" />
-
+<jsp:include page="/views/jsp/demo.jsp" />
 <div class="order-container">
     <h2>📦 Đơn hàng của tôi</h2>
 

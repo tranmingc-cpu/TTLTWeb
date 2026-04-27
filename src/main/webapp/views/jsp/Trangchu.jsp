@@ -15,8 +15,7 @@
 
 <div class="page-container">
 
-	<jsp:include page="${pageContext.request.contextPath}/views/jsp/demo.jsp" />
-
+	<jsp:include page="/views/jsp/demo.jsp" />
 	<div class="nav">
 		<a class="${empty param.action ? 'active' : ''}"
 		   href="${pageContext.request.contextPath}/Trangchu.jsp">Trang Chủ</a>
@@ -114,8 +113,7 @@
 
 	</main>
 
-	<jsp:include page="${pageContext.request.contextPath}/views/jsp/footer.jsp" />
-
+	<jsp:include page="/views/jsp/footer.jsp" />
 </div>
 
 </body>

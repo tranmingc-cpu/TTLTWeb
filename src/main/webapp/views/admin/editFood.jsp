@@ -9,7 +9,7 @@
     <title>Chỉnh sửa món ăn</title>
 
     <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/views/seller/editFood.css">
+          href="${pageContext.request.contextPath}/views/admin/editFood.css">
 </head>
 
 <body>
@@ -18,7 +18,7 @@
 <div class="container">
     <h2>🍽️ Chỉnh sửa món ăn</h2>
 
-    <form action="${pageContext.request.contextPath}/seller/food/edit"
+    <form action="${pageContext.request.contextPath}/admin/food/edit"
           method="post"
           enctype="multipart/form-data"
           class="edit-form">

@@ -11,18 +11,14 @@
           href="${pageContext.request.contextPath}/views/admin/user.css">
 </head>
 <body>
-<jsp:include page="${pageContext.request.contextPath}/views/jsp/demo.jsp"/>
+<jsp:include page="/views/jsp/demo.jsp"/>
 
 <div class="admin-container">
 
     <header class="admin-header">
         <h1>ADMIN PANEL</h1>
-        <div class="admin-user">
-            Xin chào <b>${adminName}</b> |
-            <a href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
-        </div>
     </header>
-    <jsp:include page="${pageContext.request.contextPath}/views/admin/sidebar.jsp"/>
+    <jsp:include page="/views/admin/sidebar.jsp"/>
     <main class="admin-content">
 
         <h2>Quản lý tài khoản</h2>

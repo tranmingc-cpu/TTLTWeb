@@ -13,8 +13,7 @@
 
 <body class="d-flex flex-column min-vh-100">
 
-<jsp:include page="${pageContext.request.contextPath}/views/jsp/demo.jsp"/>
-
+<jsp:include page="/views/jsp/demo.jsp" />
 <div class="cart-container">
 
 	<button onclick="history.back()">← Quay lại</button>
@@ -148,7 +147,7 @@
 			</c:forEach>
 		</div>
 	</div>
-    <jsp:include page="${pageContext.request.contextPath}/views/jsp/footer.jsp" />
+	<jsp:include page="/views/jsp/footer.jsp" />
 </c:if>
 
 </body>

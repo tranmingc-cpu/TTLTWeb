@@ -34,9 +34,11 @@ public class SearchServlet extends HttpServlet {
 		String keyword = request.getParameter("keyword");
 		FoodDAOimpl foodao = new FoodDAOimpl();
 		List<Food> result = foodao.findByName(keyword);
-		// gợi ý 5 tên liên quan
-		List<Food>suggest = foodao.findByName(keyword).stream().limit(5).toList();
-		request.setAttribute("foodlist", result);
+
+		List<Food> suggest = foodao.findByName(keyword)
+				.stream()
+				.limit(5)
+				.collect(java.util.stream.Collectors.toList());		request.setAttribute("foodlist", result);
 		request.setAttribute("suggestList", suggest);
 		request.getRequestDispatcher("/views/jsp/Trangchu.jsp").forward(request, response);
 	}

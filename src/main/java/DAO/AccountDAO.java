@@ -196,62 +196,60 @@ public class AccountDAO {
         }
         return -1;
     }
+
+public List<Account> getAllAccount() {
+    List<Account> list = new ArrayList<>();
+    String sql = "SELECT * FROM ACCOUNT";
+    try {
+        Connection conn = DBConnect.getConnect();
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Account acc = new Account();
+            acc.setIdAccount(rs.getInt("ID"));
+            acc.setUserName(rs.getString("USERNAME"));
+            acc.setRole(Role.valueOf(
+                    rs.getString("ROLES").trim().toUpperCase()
+            ));
+            list.add(acc);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return list;
 }
 
+public boolean updateStatus(int id, int status) {
+    String sql = "UPDATE ACCOUNT SET STATUS = ? WHERE ID =?";
+    try (Connection con = DBConnect.getConnect();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setInt(1, status);
+        ps.setInt(2, id);
+        return ps.executeUpdate() > 0;
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return false;
+}
 
-    public List<Account> getAllAccount() {
-        List<Account> list = new ArrayList<>();
-        String sql = "SELECT * FROM ACCOUNT";
-        try {
-            Connection conn = DBConnect.getConnect();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Account acc = new Account();
-                acc.setIdAccount(rs.getInt("ID"));
-                acc.setUserName(rs.getString("USERNAME"));
-                acc.setRole(Role.valueOf(
-                        rs.getString("ROLES").trim().toUpperCase()
-                ));
-                list.add(acc);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+public boolean insertUser(Account acc) {
+    String sql = "INSERT INTO Account (username, password, role, status) VALUES (?, ?, ?, ?)";
 
-        return list;
+    try (Connection con = DBConnect.getConnect();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setString(1, acc.getUserName());
+        ps.setString(2, acc.getPassword());
+        ps.setString(3, acc.getRole().name());
+        ps.setInt(4, acc.getStatus());
+        return ps.executeUpdate() > 0;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
 
-    public boolean updateStatus(int id, int status) {
-        String sql = "UPDATE ACCOUNT SET STATUS = ? WHERE ID =?";
-        try (Connection con = DBConnect.getConnect();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, status);
-            ps.setInt(2, id);
-            return ps.executeUpdate() > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean insertUser(Account acc) {
-        String sql = "INSERT INTO Account (username, password, role, status) VALUES (?, ?, ?, ?)";
-
-        try (Connection con = DBConnect.getConnect();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setString(1, acc.getUserName());
-            ps.setString(2, acc.getPassword());
-            ps.setString(3, acc.getRole().name());
-            ps.setInt(4, acc.getStatus());
-            return ps.executeUpdate() > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
+    return false;
+}
 }
 
 

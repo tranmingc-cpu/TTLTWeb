@@ -9,7 +9,7 @@
     <title>Món ăn của nhà hàng tôi</title>
 
     <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/views/seller/sellerFood.css">
+          href="${pageContext.request.contextPath}/views/admin/sellerFood.css">
 </head>
 
 <body>

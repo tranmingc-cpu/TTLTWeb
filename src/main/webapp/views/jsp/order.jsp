@@ -13,8 +13,7 @@
 </head>
 <body>
 
-<jsp:include page="${pageContext.request.contextPath}/views/jsp/demo.jsp"/>
-
+<jsp:include page="/views/jsp/demo.jsp" />
 <div class="order-container">
 
     <h2>📦 THÔNG TIN GIAO HÀNG</h2>
@@ -62,7 +61,6 @@
 
 </div>
 
-<jsp:include page="${pageContext.request.contextPath}/views/jsp/footer.jsp"/>
-
+<jsp:include page="/views/jsp/footer.jsp" />
 </body>
 </html>

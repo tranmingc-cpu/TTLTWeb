@@ -210,7 +210,7 @@ public class FoodDAOimpl implements FoodDAO {
 		}
 		return list;
 	}
-	public static int  countFood() {
+	public  int countFood() {
 		String sql = "SELECT COUNT(*) FROM FOOD";
 		try (
 				Connection con = DBConnect.getConnect();
@@ -352,6 +352,37 @@ public class FoodDAOimpl implements FoodDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	public List<Food> findByPage(int page, int pageSize) {
+		List<Food> list = new ArrayList<>();
+
+		String sql = "SELECT * FROM FOOD ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+		try (Connection conn = DBConnect.getConnect();
+		     PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			int offset = (page - 1) * pageSize;
+
+			ps.setInt(1, offset);
+			ps.setInt(2, pageSize);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Food f = new Food();
+				f.setId(rs.getInt("ID"));
+				f.setName(rs.getString("FNAME"));
+				f.setImage(rs.getString("IMAGES"));
+				f.setPrice(rs.getDouble("PRICE"));
+
+				list.add(f);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
 	}
 }
 

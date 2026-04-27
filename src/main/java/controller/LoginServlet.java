@@ -33,45 +33,41 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
+        if (username != null) username = username.trim();
+        if (password != null) password = password.trim();
+
         AccountDAO accountDAO = new AccountDAO();
         CartDAO cartDAO = new CartDAO();
 
         Account acc = accountDAO.login(username, password);
 
-        if (acc != null) {
-
-            HttpSession session = request.getSession(true);
-
-
-            session.setAttribute("account", acc);
-
-
-            cartDAO.getOrCreateCart(acc.getIdAccount());
-
-            String redirect = (String) session.getAttribute("redirectAfterLogin");
-
-            if (redirect != null) {
-                response.sendRedirect(request.getContextPath() + redirect);
-                session.removeAttribute("redirectAfterLogin");
-                return;
-            }
-            // ✅ redirect mặc định
-            response.sendRedirect(request.getContextPath() + "/Trangchu");
-            return;
-
-            if (acc.getRole() == Role.ADMIN) {
-                response.sendRedirect(request.getContextPath() + "/admin/dashboard");
-            } else if (acc.getRole() == Role.SELLER) {
-                response.sendRedirect(request.getContextPath() + "/seller/food");
-            } else if (acc.getRole() == Role.USER) {
-                response.sendRedirect(request.getContextPath() + "/Trangchu");
-            }
+        if (acc == null) {
             request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
+            request.getRequestDispatcher("/views/jsp/login.jsp")
+                    .forward(request, response);
+            return;
         }
-        // ❌ LOGIN THẤT BẠI
-        request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
-        request.getRequestDispatcher("/views/jsp/login.jsp")
-                .forward(request, response);
 
+        HttpSession session = request.getSession(true);
+        session.setAttribute("account", acc);
+
+        cartDAO.getOrCreateCart(acc.getIdAccount());
+
+        String redirect = (String) session.getAttribute("redirectAfterLogin");
+        if (redirect != null) {
+            session.removeAttribute("redirectAfterLogin");
+            response.sendRedirect(request.getContextPath() + redirect);
+            return;
+        }
+
+        if (acc.getRole() != null) {
+            switch (acc.getRole()) {
+                case ADMIN -> response.sendRedirect(request.getContextPath() + "/admin/dashboard");
+                case SELLER -> response.sendRedirect(request.getContextPath() + "/seller/food");
+                default -> response.sendRedirect(request.getContextPath() + "/Trangchu");
+            }
+        } else {
+            response.sendRedirect(request.getContextPath() + "/Trangchu");
+        }
     }
 }

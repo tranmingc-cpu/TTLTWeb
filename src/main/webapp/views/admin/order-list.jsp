@@ -8,7 +8,7 @@
           href="${pageContext.request.contextPath}/views/admin/order-list.css">
 </head>
 <body>
-<jsp:include page="${pageContext.request.contextPath}/views/jsp/demo.jsp"/>
+<jsp:include page="/views/jsp/demo.jsp"/>
 <div class="admin-container">
 
     <header class="admin-header">
@@ -19,12 +19,8 @@
         </div>
     </header>
 
-    <aside class="admin-sidebar">
-        <a href="${pageContext.request.contextPath}/admin/dashboard">🏠 Dashboard</a>
-        <a href="${pageContext.request.contextPath}/admin/product">🍔 Quản lý món ăn</a>
-        <a href="${pageContext.request.contextPath}/admin/order">📦 Quản lý đơn hàng</a>
-        <a href="${pageContext.request.contextPath}/admin/user">👤 Quản lý user</a>
-    </aside>
+    <jsp:include page="/views/admin/sidebar.jsp"/>
+
 
     <main class="admin-content">
 
