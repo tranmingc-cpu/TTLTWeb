@@ -70,7 +70,7 @@ public class RegisterServlet extends HttpServlet {
         acc.setUserName(username);
         acc.setPassword(password); // đồ án ok, nâng cao thì hash
         acc.setEmail(email);
-        acc.setRole( role);
+        acc.setRole(role);
 
         // 3️⃣ Gọi DAO
         AccountDAO dao = new AccountDAO();
@@ -84,9 +84,10 @@ public class RegisterServlet extends HttpServlet {
 
         dao.register(acc);
 
-    //  Thành công → về login (DÙNG REDIRECT + SESSION)
-        request.getSession().setAttribute("success", "Đăng ký thành công! Vui lòng đăng nhập.");
-        response.sendRedirect("login");
+        //  Thành công → về login (DÙNG REDIRECT + SESSION)
+        request.setAttribute("success", "Đăng ký thành công!");
+        request.getRequestDispatcher("/views/jsp/register.jsp")
+                .forward(request, response);
     }
 
 }
