@@ -104,7 +104,6 @@ public class OrderDAO {
 		String sql = """
 				    SELECT *
 				    FROM ORDERS
-				    ORDER BY ORDERDATE DESC
 				""";
 
 		try (Connection con = DBConnect.getConnect();
@@ -116,6 +115,7 @@ public class OrderDAO {
 				o.setOrderId(rs.getInt("ID"));
 				o.setAccountId(rs.getInt("ACCOUNTID"));
 				o.setTotalAmount(rs.getDouble("TOTAL"));
+				o.setResId(rs.getInt(rs.getInt("RESID")));
 				o.setAddress(rs.getString("ADDRES"));
 				o.setOrderDate(rs.getTimestamp("ORDERDATE"));
 				o.setStatus(rs.getString("STATUSS"));

@@ -55,7 +55,6 @@ public class ProfileServlet extends HttpServlet {
         User profile = userDAO.getProfileByAccId(acc.getIdAccount());
 
         if (profile == null) {
-            // Chưa tạo profile hoặc bị xoá
             request.setAttribute("error", "Chưa có thông tin hồ sơ người dùng");
         } else {
             request.setAttribute("profile", profile);
@@ -83,7 +82,6 @@ public class ProfileServlet extends HttpServlet {
         String number = request.getParameter("number");
         String address = request.getParameter("address");
         String password = request.getParameter("password");
-// lấy thông tin user profile
         UserDAO userDAO = new UserDAO();
         User profile = userDAO.getProfileByAccId(acc.getIdAccount());
 
@@ -107,7 +105,7 @@ public class ProfileServlet extends HttpServlet {
         if (password != null && !password.trim().isEmpty()) {
             AccountDAO accDAO = new AccountDAO();
             accDAO.updatePassword(acc.getIdAccount(), password);
-            session.invalidate(); // logout sau khi đổi pass
+            session.invalidate();
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
