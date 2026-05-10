@@ -28,6 +28,17 @@ public class ResetPasswordServlet extends HttpServlet {
         String otpInput = request.getParameter("otp");
         String newPassword = request.getParameter("password");
 
+        if (!isStrongPassword(newPassword)) {
+
+            request.setAttribute("error",
+                    "Mật khẩu phải có ít nhất 8 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt!");
+
+            request.getRequestDispatcher("/views/jsp/reset-password.jsp")
+                    .forward(request, response);
+
+            return;
+        }
+
         HttpSession session = request.getSession();
 
         String otpSession = (String) session.getAttribute("otp");
@@ -64,5 +75,22 @@ public class ResetPasswordServlet extends HttpServlet {
         request.getRequestDispatcher("/views/jsp/login.jsp")
                 .forward(request, response);
 
+    }
+    private boolean isStrongPassword(String password) {
+
+        // ít nhất 8 ký tự
+        // có chữ thường
+        // có chữ hoa
+        // có số
+        // có ký tự đặc biệt
+
+        String regex =
+                "^(?=.*[a-z])" +
+                        "(?=.*[A-Z])" +
+                        "(?=.*\\d)" +
+                        "(?=.*[@$!%*?&])" +
+                        "[A-Za-z\\d@$!%*?&]{8,}$";
+
+        return password.matches(regex);
     }
 }
