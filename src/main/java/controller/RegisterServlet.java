@@ -65,6 +65,19 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
+        // Validate password mạnh
+        String passwordPattern =
+                "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$";
+
+        if (!password.matches(passwordPattern)) {
+            request.setAttribute("error",
+                    "Mật khẩu phải có ít nhất 8 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt!");
+
+            request.getRequestDispatcher("/views/jsp/register.jsp")
+                    .forward(request, response);
+            return;
+        }
+
         // 2️⃣ Tạo account
         Account acc = new Account();
         acc.setUserName(username);
