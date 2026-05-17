@@ -26,18 +26,19 @@
               action="${pageContext.request.contextPath}/admin/food/add"
               method="post"
               enctype="multipart/form-data">
-
-            <div class="form-group">
-                <label>ID món ăn</label>
-                <input type="number" name="id" required>
-            </div>
-
             <div class="form-group">
                 <label>Tên món ăn</label>
                 <input type="text" name="name" required>
             </div>
 
             <div class="form-group">
+                <label>Nhà hàng</label>
+                <select name="restaurantId" required>
+                    <option value="">-- Chọn nhà hàng --</option>
+                    <c:forEach var="r" items="${restaurants}">
+                        <option value="${r.resId}">${r.name}</option>
+                    </c:forEach>
+                </select>
                 <label>Danh mục</label>
                 <select name="categoryId" required>
                     <option value="">-- Chọn danh mục --</option>
@@ -56,7 +57,10 @@
                 <label>Ảnh món ăn</label>
                 <input type="file" name="image" accept="image/*" required>
             </div>
-
+ <div class="form-group">
+     <label>Số lượng</label>
+     <input type="number" name="quantity" placeholder="Nhập số lượng..." />
+ </div>
             <div class="form-group">
                 <label>Mô tả</label>
                 <textarea name="description" rows="4" required></textarea>

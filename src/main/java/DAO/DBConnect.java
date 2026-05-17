@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DBConnect {
 	private static String DriveClass ="com.microsoft.sqlserver.jdbc.SQLServerDriver";
-	private static String url ="jdbc:sqlserver://DESKTOP-1AQF1D9:1433;databaseName=FoodTruyenThong;encrypt=true;trustServerCertificate=true;";
+	private static String url ="jdbc:sqlserver://DESKTOP-1AQF1D9:1433;databaseName=DoAnTruyenThong;encrypt=true;trustServerCertificate=true;";
 
 	private static String username = "sa";
 

@@ -183,5 +183,22 @@ public class SellerDAO {
 		}
 		return -1;
 	}
+	public List<Restaurant> getAll() {
+		List<Restaurant> list = new ArrayList<>();
+		String sql = "SELECT * FROM RESTAURENT";
+		try (Connection con = DBConnect.getConnect();
+		     PreparedStatement ps = con.prepareStatement(sql);
+		     ResultSet rs = ps.executeQuery()) {
+			while (rs.next()) {
+				Restaurant r = new Restaurant();
+				r.setId(rs.getInt("RESID"));
+				r.setName(rs.getString("RNAME"));
+				list.add(r);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 }
 

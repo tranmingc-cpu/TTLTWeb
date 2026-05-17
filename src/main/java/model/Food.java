@@ -7,6 +7,7 @@ public class Food {
 	private String description;
 	private String image;
 	private int ResID;
+	private int quantity;
 	private int categoryId;
 	public int getCATEGORYId() {
 		return categoryId;
@@ -25,7 +26,8 @@ public class Food {
 
 	public Food() {
 	}
-
+     public int getQuantity(){ return quantity;}
+	public void setQuantity(int quantity){this.quantity = quantity; }
 	public String getImage() {
 		return image;
 	}
