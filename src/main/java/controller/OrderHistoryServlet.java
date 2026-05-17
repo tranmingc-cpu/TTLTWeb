@@ -44,7 +44,6 @@ public class OrderHistoryServlet extends HttpServlet {
 
         Account acc = (Account) session.getAttribute("account");
 
-        // chỉ lấy đơn CHƯA hoàn thành
         List<Order> orders =
                 orderDAO.getActiveOrdersByAccount(acc.getIdAccount());
 

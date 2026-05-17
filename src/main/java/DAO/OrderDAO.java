@@ -14,7 +14,6 @@ import model.OrderDetails;
 
 public class OrderDAO {
 
-	/* ===== CREATE ORDER ===== */
 	public int createOrder(int accId, int resId, double total, String address) {
 
 		String sql = """
@@ -44,7 +43,6 @@ public class OrderDAO {
 		return -1;
 	}
 
-	/* ===== INSERT ORDER DETAIL ===== */
 	public void insertOrderDetail(int orderId, int foodId, int quantity, double price) {
 
 		String sql = """
@@ -66,7 +64,7 @@ public class OrderDAO {
 		}
 	}
 
-	// đếm số order
+	// đếm số order theo id cửa hàng
 	public int countFoodByRes(int resid) {
 		String sql = "SELECT COUNT(*) FROM FOOD WHERE RESID=?";
 		try (Connection con = DBConnect.getConnect(); PreparedStatement ps = con.prepareStatement(sql)) {
@@ -88,7 +86,7 @@ public class OrderDAO {
 			 PreparedStatement ps = con.prepareStatement(sql);
 			 ResultSet rs = ps.executeQuery();) {
 			if (rs.next()) {
-				return rs.getDouble(1); // nếu null → trả về 0
+				return rs.getDouble(1);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

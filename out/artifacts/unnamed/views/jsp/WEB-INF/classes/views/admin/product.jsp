@@ -47,11 +47,11 @@
 
                             <td>
                                 <img class="food-img"
-                                     src="${pageContext.request.contextPath}/images/${f.images}"
-                                     alt="${f.fname}">
+                                     src="${pageContext.request.contextPath}/image/${f.image}"
+                                     alt="${f.name}">
                             </td>
 
-                            <td>${f.fname}</td>
+                            <td>${f.name}</td>
                         </tr>
                     </c:forEach>
                 </c:when>

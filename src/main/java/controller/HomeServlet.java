@@ -91,7 +91,7 @@ public class HomeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
-        // THÊM MÓN
+
 
         if ("insert".equals(action)) {
 
@@ -105,7 +105,7 @@ public class HomeServlet extends HttpServlet {
             dao.insert(f);
             response.sendRedirect("product-detail?action=list");
         }
-        // CẬP NHẬT
+
 
         else if ("update".equals(action)) {
 
