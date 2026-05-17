@@ -55,6 +55,7 @@ public class LoginServlet extends HttpServlet {
                 session.removeAttribute("redirectAfterLogin");
                 return;
             }
+
             if (acc.getRole() == Role.ADMIN) {
                 response.sendRedirect(request.getContextPath() + "/admin/dashboard");
             } else if (acc.getRole() == Role.SELLER) {
@@ -65,6 +66,10 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
 
         }
+        // ❌ LOGIN THẤT BẠI
+        request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
+        request.getRequestDispatcher("/views/jsp/login.jsp")
+                .forward(request, response);
 
     }
 }

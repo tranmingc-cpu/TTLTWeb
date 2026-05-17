@@ -11,6 +11,7 @@ import model.Account.Role;
 import java.io.IOException;
 
 import DAO.AccountDAO;
+import util.PasswordUtils;
 
 /**
  * Servlet implementation class RegisterServlet
@@ -35,10 +36,14 @@ public class RegisterServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String address = request.getParameter("address");
-        String numberStr = request.getParameter("number");
+        String numberStr = request.getParameter("phone");
         String roleParam = request.getParameter("role");
-        Role role = Role.valueOf(roleParam.toUpperCase());
-
+        Role role;
+        try {
+            role = Role.valueOf(roleParam.toUpperCase());
+        } catch (Exception e) {
+            role = Role.USER;
+        }
 
         // 1️⃣ Validate
         if (username == null || email == null || password == null ||
@@ -50,6 +55,7 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
+
         int number = 0;
         try {
             number = Integer.parseInt(numberStr);
@@ -60,12 +66,26 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
+        // Validate password mạnh
+        String passwordPattern =
+                "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$";
+
+        if (!password.matches(passwordPattern)) {
+            request.setAttribute("error",
+                    "Mật khẩu phải có ít nhất 8 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt!");
+
+            request.getRequestDispatcher("/views/jsp/register.jsp")
+                    .forward(request, response);
+            return;
+        }
+
         // 2️⃣ Tạo account
         Account acc = new Account();
         acc.setUserName(username);
-        acc.setPassword(password); // đồ án ok, nâng cao thì hash
+        String hashedPassword = PasswordUtils.toMD5(password);
+        acc.setPassword(hashedPassword);
         acc.setEmail(email);
-        acc.setRole( role);
+        acc.setRole(role);
 
         // 3️⃣ Gọi DAO
         AccountDAO dao = new AccountDAO();
@@ -79,10 +99,11 @@ public class RegisterServlet extends HttpServlet {
 
         dao.register(acc);
 
-        //  Thành công → về login
-        request.setAttribute("success", "Đăng ký thành công! Vui lòng đăng nhập.");
-        request.getRequestDispatcher("/views/jsp/login.jsp")
+        //  Thành công → về login (DÙNG REDIRECT + SESSION)
+        request.setAttribute("success", "Đăng ký thành công!");
+        request.getRequestDispatcher("/views/jsp/register.jsp")
                 .forward(request, response);
     }
+
 }
 

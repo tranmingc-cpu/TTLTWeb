@@ -22,6 +22,8 @@ public class LoginFilter implements Filter {
                         uri.equals("/login") ||
                         uri.equals("/")||
                         uri.equals("/register") ||
+                         uri.equals("/forgot-password") ||
+                        uri.equals("/reset-password") ||
                         uri.equals("/product-detail") ||
                         uri.equals("/Trangchu") ||
                         uri.startsWith("/views/") ||

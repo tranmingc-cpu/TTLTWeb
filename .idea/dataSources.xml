@@ -2,17 +2,19 @@
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
 
-    <data-source source="LOCAL" name="FoodWeb@localhost" uuid="b88afac8-828e-419c-ad93-f4f4ea5df9e1">
+    <data-source source="LOCAL" name="FoodTruyenThong@LAPTOP-48S93SMM" uuid="b4aecc2f-f4b6-4fbd-b306-0216ee244154"></data-source>
+
       <driver-ref>sqlserver.ms</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
       <jdbc-url>jdbc:sqlserver://localhost;database=FoodWeb</jdbc-url>
 
     <data-source source="LOCAL" name="FoodOnlineDTB@LAPTOP-48S93SMM" uuid="8cd1c969-da5d-471d-8133-c63524f5c3c6">
+
       <driver-ref>sqlserver.ms</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
-      <jdbc-url>jdbc:sqlserver://LAPTOP-48S93SMM\NDK;database=FoodOnlineDTB</jdbc-url>
+      <jdbc-url>jdbc:sqlserver://LAPTOP-48S93SMM;database=FoodTruyenThong</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
