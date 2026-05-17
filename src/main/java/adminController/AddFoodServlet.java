@@ -16,7 +16,7 @@ import model.Account;
 import model.Category;
 import model.Food;
 import model.Restaurant;
-
+import java.util.stream.Collectors;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,17 +39,32 @@ public class AddFoodServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        String searchRes = request.getParameter("searchRes");
+        String searchCat = request.getParameter("searchCat");
         CategoryDAO categoryDAO = new CategoryDAO();
         List<Category> categories = categoryDAO.findAll();
-        request.setAttribute("categories", categories);
-
+        if (searchCat != null && !searchCat.isBlank()) {
+            String keyword = searchCat.toLowerCase().trim();
+            categories = categories.stream()
+                    .filter(c -> c.getName().toLowerCase().contains(keyword))
+                    .collect(Collectors.toList()); // Đổi chỗ này
+        }
         SellerDAO sellerDAO = new SellerDAO();
         List<Restaurant> restaurants = sellerDAO.getAll();
+        if (searchRes != null && !searchRes.isBlank()) {
+            String keyword = searchRes.toLowerCase().trim();
+            restaurants = restaurants.stream()
+                    .filter(r -> r.getName().toLowerCase().contains(keyword))
+                    .collect(Collectors.toList()); // Đổi chỗ này
+        }
+
+        request.setAttribute("categories", categories);
         request.setAttribute("restaurants", restaurants);
+        request.setAttribute("searchRes", searchRes);
+        request.setAttribute("searchCat", searchCat);
 
         request.getRequestDispatcher("/views/admin/addFood.jsp").forward(request, response);
     }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -66,13 +81,6 @@ public class AddFoodServlet extends HttpServlet {
         String priceStr = request.getParameter("price");
         String description = request.getParameter("description");
         String quantityRaw = request.getParameter("quantity");
-
-        System.out.println("=== DEBUG ADD FOOD ===");
-        System.out.println("restaurantId = " + resIdRaw);
-        System.out.println("categoryId   = " + categoryRaw);
-        System.out.println("name         = " + name);
-        System.out.println("price        = " + priceStr);
-        System.out.println("quantity     = " + quantityRaw);
 
         if (resIdRaw == null || resIdRaw.isEmpty()
                 || categoryRaw == null || categoryRaw.isEmpty()
@@ -99,7 +107,7 @@ public class AddFoodServlet extends HttpServlet {
                 Cloudinary cloudinary = CloudinaryConfig.getInstance();
                 Map uploadResult = cloudinary.uploader().upload(is.readAllBytes(), options);
                 imageUrl = (String) uploadResult.get("secure_url");
-                System.out.println("✅ Upload Cloudinary thành công: " + imageUrl);
+                System.out.println(" Upload Cloudinary success: " + imageUrl);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -117,7 +125,6 @@ public class AddFoodServlet extends HttpServlet {
         food.setQuantity(quantity);
 
         foodDAO.insertFood(food);
-        System.out.println("✅ Insert food thành công!");
 
         response.sendRedirect(request.getContextPath() + "/admin/product");
     }

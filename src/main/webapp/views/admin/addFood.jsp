@@ -54,9 +54,27 @@
             </div>
 
             <div class="form-group">
-                <label>Ảnh món ăn</label>
-                <input type="file" name="image" accept="image/*" required>
+                <label>Hình ảnh món ăn (Tối đa 2MB):</label>
+                <input type="file" id="fileImage" name="image" accept="image/*" onchange="checkFileSize(this)" required />
+                <span id="error-message" style="color: red; display: none; font-weight: bold; margin-top: 5px;"></span>
             </div>
+            <script>
+                function checkFileSize(input) {
+                    const maxBytes = 1024 * 1024 * 2; // Giới hạn 2MB tương ứng với Servlet
+                    const file = input.files[0];
+                    const errorSpan = document.getElementById("error-message");
+
+                    if (file) {
+                        if (file.size > maxBytes) {
+                            errorSpan.textContent = "❌ File ảnh quá lớn! Vui lòng chọn file dưới 2MB.";
+                            errorSpan.style.display = "block";
+                            input.value = "";
+                        } else {
+                            errorSpan.style.display = "none";
+                        }
+                    }
+                }
+            </script>
  <div class="form-group">
      <label>Số lượng</label>
      <input type="number" name="quantity" placeholder="Nhập số lượng..." />
