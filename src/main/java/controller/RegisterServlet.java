@@ -11,6 +11,7 @@ import model.Account.Role;
 import java.io.IOException;
 
 import DAO.AccountDAO;
+import util.PasswordUtils;
 
 /**
  * Servlet implementation class RegisterServlet
@@ -81,7 +82,8 @@ public class RegisterServlet extends HttpServlet {
         // 2️⃣ Tạo account
         Account acc = new Account();
         acc.setUserName(username);
-        acc.setPassword(password); // đồ án ok, nâng cao thì hash
+        String hashedPassword = PasswordUtils.toMD5(password);
+        acc.setPassword(hashedPassword);
         acc.setEmail(email);
         acc.setRole(role);
 

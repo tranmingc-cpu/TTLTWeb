@@ -6,10 +6,12 @@ import java.sql.ResultSet;
 
 import model.Account;
 import model.Account.Role;
+import util.PasswordUtils;
 
 public class AccountDAO {
     // lấy login và pass trong dtb và kiểm tra role của nó
     public Account login(String username, String pass) {
+        String hashedPassword = PasswordUtils.toMD5(pass);
         String sql = "SELECT * FROM ACCOUNT WHERE USERNAME = ? AND PASS = ?";
 
         try (
@@ -18,7 +20,7 @@ public class AccountDAO {
         ) {
 
             ps.setString(1, username);
-            ps.setString(2, pass);
+            ps.setString(2, hashedPassword);
 
             ResultSet rs = ps.executeQuery();
 
