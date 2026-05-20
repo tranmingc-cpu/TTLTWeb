@@ -72,7 +72,6 @@ public class CheckoutServlet extends HttpServlet {
 				.forward(request, response);
 	}
 
-
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -93,14 +92,26 @@ public class CheckoutServlet extends HttpServlet {
 			return;
 		}
 
-		// LẤY THÔNG TIN TỪ SESSION (ORDER)
 		String address = (String) session.getAttribute("orderAddress");
 		String note = (String) session.getAttribute("orderNote");
 
-		Map<Integer, List<CartItem>> cartByRes = new HashMap<>();
+		// 1. KIỂM TRA PROFILE TRÁNH LỖI NULL POINTER EXCEPTION
 		User profile = new UserDAO().getProfileByAccId(acc.getIdAccount());
-		String email = profile.getEmail();
-		// tạo order với tt vừa lưu
+		String email = "";
+
+		if (profile != null) {
+			email = profile.getEmail();
+			if (address == null || address.trim().isEmpty()) {
+				address = profile.getAddress();
+			}
+		}
+
+		// Dự phòng nếu địa chỉ vẫn trống rỗng
+		if (address == null || address.trim().isEmpty()) {
+			address = "Địa chỉ chưa cập nhật";
+		}
+
+		Map<Integer, List<CartItem>> cartByRes = new HashMap<>();
 		for (CartItem item : cart) {
 			cartByRes
 					.computeIfAbsent(item.getFood().getResID(), k -> new ArrayList<>())
@@ -116,12 +127,18 @@ public class CheckoutServlet extends HttpServlet {
 					.mapToDouble(CartItem::getTotalPrice)
 					.sum() + shipFee;
 
-			int orderId = orderDAO.createOrder( // tao order
+			int orderId = orderDAO.createOrder(
 					acc.getIdAccount(),
 					entry.getKey(),
 					total,
 					address
 			);
+
+			// Kiểm tra đề phòng tạo order thất bại
+			if (orderId <= 0) {
+				System.out.println("❌ Không thể tạo đơn hàng cho nhà hàng ID: " + entry.getKey());
+				continue;
+			}
 
 			for (CartItem item : entry.getValue()) {
 				orderDAO.insertOrderDetail(
@@ -132,19 +149,27 @@ public class CheckoutServlet extends HttpServlet {
 				);
 			}
 
-			// GỬI MAIL Ở ĐÂY
-			String subject = "Xác nhận đơn hàng #" + orderId;
-			String content = """
-		            Cảm ơn bạn đã đặt hàng ❤️
+			// 2. CHỈ GỬI MAIL KHI CÓ EMAIL HỢP LỆ
+			if (email != null && !email.trim().isEmpty()) {
+				try {
+					String subject = "Xác nhận đơn hàng #" + orderId;
+					String content = """
+                       Cảm ơn bạn đã đặt hàng ❤️
 
-		            Mã đơn hàng: #%d
-		            Tổng tiền: %.0f đ
-		            Địa chỉ giao hàng: %s
+                       Mã đơn hàng: #%d
+                       Tổng tiền: %.0f đ
+                       Địa chỉ giao hàng: %s
 
-		            Đơn hàng đang được xử lý.
-		            """.formatted(orderId, total, address);
+                       Đơn hàng đang được xử lý.
+                       """.formatted(orderId, total, address);
 
-			EmailUtil.send(email, subject, content);
+					EmailUtil.send(email, subject, content);
+				} catch (Exception e) {
+					System.out.println("❌ Lỗi gửi mail cho đơn hàng #" + orderId + ": " + e.getMessage());
+				}
+			} else {
+				System.out.println("⚠️ Tài khoản không có email, bỏ qua bước gửi mail xác nhận.");
+			}
 
 			orderIds.add(orderId);
 		}
@@ -156,74 +181,4 @@ public class CheckoutServlet extends HttpServlet {
 
 		response.sendRedirect(request.getContextPath() + "/orderSuccess");
 	}
-}
-      /*  HttpSession session = request.getSession(false);
-     
-
-        if (session == null || session.getAttribute("account") == null) {
-            response.sendRedirect(request.getContextPath() + "/login");
-            return;
-        }
-        Account acc = (Account) session.getAttribute("account");
-
-            int cart0 = cartDAO.getCartIdByAccount(acc.getIdAccount());
-            List<CartItem> cart = cartDAO.getCartItems(cart0);
-        if (cart == null || cart.isEmpty()) {
-            response.sendRedirect(request.getContextPath() + "/cart");
-            return;
-        }
-        // lấy thông tin user  
-        User profile = new UserDAO().getProfileByAccId(acc.getIdAccount());
-        String address = profile.getAddress();
-        Map<Integer, List<CartItem>> cartByRes = new HashMap<>();
-
-        for (CartItem item : cart) {
-            cartByRes
-              .computeIfAbsent(item.getFood().getResID(), k -> new ArrayList<>())
-              .add(item);
-        }
- // tạo order và thêm vào order deatail
-        List<Integer> orderIds = new ArrayList<>();
-
-        for (var entry : cartByRes.entrySet()) {
-
-			double shipFee = 20000;
-			double total = entry.getValue().stream().mapToDouble(CartItem::getTotalPrice).sum() + shipFee;
-
-			int orderId = orderDAO.createOrder(acc.getIdAccount(), entry.getKey(), total, address);
-			if (orderId <= 0) {
-			    System.out.println("❌ CREATE ORDER FAILED for RESID = " + entry.getKey());
-			    continue; // KHÔNG insert order detail
-			}
-            for (CartItem item : entry.getValue()) {
-                orderDAO.insertOrderDetail( // insert orderdetail
-                        orderId,
-                        item.getFood().getId(),
-                        item.getQuantity(),
-                        item.getFood().getPrice()
-                );
-            }
-// gửi mail sau khi tạo order và inser vào orderdetail
-            String subject = "Xác nhận đơn hàng #" + orderId;
-            String content = """
-                Cảm ơn bạn đã đặt hàng ❤️
-
-                Mã đơn hàng: #%d
-                Tổng tiền: %.0f đ
-                Địa chỉ giao hàng: %s
-
-                Đơn hàng đang được xử lý.
-                """.formatted(orderId, total, address);
-            System.out.println(">>> BEFORE SEND MAIL");
-            EmailUtil.send(profile.getEmail(), subject, content);
-            System.out.println(">>> AFTER SEND MAIL");
-            orderIds.add(orderId);
-        }
-
-        cartDAO.clearCartByUser(acc.getIdAccount());
-        session.setAttribute("orderIds", orderIds);
-
-        response.sendRedirect(request.getContextPath() + "/orderSuccess");
-    }
-
-} */
+	}

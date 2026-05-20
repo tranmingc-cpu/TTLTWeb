@@ -60,7 +60,7 @@
             </div>
             <script>
                 function checkFileSize(input) {
-                    const maxBytes = 1024 * 1024 * 2; // Giới hạn 2MB tương ứng với Servlet
+                    const maxBytes = 1024 * 1024 * 2;
                     const file = input.files[0];
                     const errorSpan = document.getElementById("error-message");
 

@@ -113,18 +113,20 @@
             </c:if>
 
             <c:if test="${startPage > 1}">
-                <a href="${pageContext.request.contextPath}/admin/product?page=${startPage - 1}">
+                <a href="${pageContext.request.contextPath}/admin/food?page=${startPage - 1}">
                     «
                 </a>
             </c:if>
+
             <c:forEach begin="${startPage}" end="${endPage}" var="i">
-                <a href="${pageContext.request.contextPath}/admin/product?page=${i}"
+                <a href="${pageContext.request.contextPath}/admin/food?page=${i}"
                    class="${i == currentPage ? 'active' : ''}">
                         ${i}
                 </a>
             </c:forEach>
+
             <c:if test="${endPage < totalPages}">
-                <a href="${pageContext.request.contextPath}/admin/product?page=${endPage + 1}">
+                <a href="${pageContext.request.contextPath}/admin/food?page=${endPage + 1}">
                     »
                 </a>
             </c:if>

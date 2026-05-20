@@ -44,8 +44,8 @@
             <tr>
                 <th>#</th>
                 <th>Mã đơn</th>
-                <th>Khách hàng (AccountID)</th>
-                <th>Nhà hàng (ResID)</th>
+                <th>Khách hàng</th>
+                <th>Nhà hàng </th>
                 <th>Địa chỉ</th>
                 <th>Ngày đặt</th>
                 <th>Tổng tiền</th>
