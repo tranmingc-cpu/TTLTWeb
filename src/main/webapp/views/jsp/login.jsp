@@ -104,7 +104,9 @@
                 <span>Chưa có tài khoản?</span>
                 <a href="register">Đăng ký</a>
                 <span class="separator">|</span>
-                <a href="forgot-password">Quên mật khẩu?</a>
+                <a href="${pageContext.request.contextPath}/forgot-password">
+                    Quên mật khẩu?
+                </a>
             </div>
 
         </form>

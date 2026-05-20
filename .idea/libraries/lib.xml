@@ -13,6 +13,10 @@
       <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/jakarta.mail-2.0.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/jakarta.activation-2.0.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/jakarta.servlet.jsp.jstl-api-3.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../jakarta.servlet-api-5.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../jakarta.mail-2.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../jakarta.activation-2.0.1.jar!/" />
+
       <root url="jar://$USER_HOME$/Downloads/jakarta.servlet-api-5.0.0.jar!/" />
       <root url="jar://$USER_HOME$/Downloads/gson-2.10.1.jar!/" />
     </CLASSES>
