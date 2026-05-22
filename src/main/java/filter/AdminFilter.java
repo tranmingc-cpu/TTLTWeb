@@ -39,7 +39,7 @@ public class AdminFilter implements Filter {
         }
 
         Account acc = (Account) session.getAttribute("account");
-
+        System.out.println("ROLE DB = [" + acc.getRole() + "]");
         if (acc == null || acc.getRole() != Role.ADMIN) {
             res.sendRedirect(req.getContextPath() + "/login");
             return;
