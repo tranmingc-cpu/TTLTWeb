@@ -1,5 +1,6 @@
 package DAO;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +16,7 @@ import model.OrderDetails;
 
 public class OrderDAO {
 
-	public int createOrder(int accId, int resId, double total, String address) {
+	public int createOrder(int accId, int resId, BigDecimal total, String address) {
 
 		String sql = """
 				    INSERT INTO ORDERS (ACCOUNTID, RESID, TOTAL, ADDRES, ORDERDATE, STATUSS)
@@ -27,7 +28,7 @@ public class OrderDAO {
 
 			ps.setInt(1, accId);
 			ps.setInt(2, resId);
-			ps.setDouble(3, total);
+			ps.setBigDecimal(3, total);
 			ps.setString(4, address);
 			ps.setString(5, "PENDING");
 
@@ -44,7 +45,7 @@ public class OrderDAO {
 		return -1;
 	}
 
-	public void insertOrderDetail(int orderId, int foodId, int quantity, double price) {
+	public void insertOrderDetail(int orderId, int foodId, BigDecimal quantity, BigDecimal price) {
 
 		String sql = """
 				    INSERT INTO ORDERSDETAIL (ORDERID, FOODID, QUANTITY, PRICE)
@@ -55,8 +56,8 @@ public class OrderDAO {
 
 			ps.setInt(1, orderId);
 			ps.setInt(2, foodId);
-			ps.setInt(3, quantity);
-			ps.setDouble(4, price);
+			ps.setBigDecimal(3, quantity);
+			ps.setBigDecimal(4, price);
 
 			ps.executeUpdate();
 
@@ -114,7 +115,7 @@ public class OrderDAO {
 				Order o = new Order();
 				o.setOrderId(rs.getInt("ID"));
 				o.setAccountId(rs.getInt("ACCOUNTID"));
-				o.setTotalAmount(rs.getDouble("TOTAL"));
+				o.setTotalAmount(rs.getBigDecimal("TOTAL"));
 				o.setResId(rs.getInt(rs.getInt("RESID")));
 				o.setAddress(rs.getString("ADDRES"));
 				o.setOrderDate(rs.getTimestamp("ORDERDATE"));
@@ -148,7 +149,7 @@ public class OrderDAO {
 					o.setOrderId(rs.getInt("ID"));
 					o.setAccountId(rs.getInt("ACCOUNTID"));
 					o.setResId(rs.getInt("RESID"));
-					o.setTotalAmount(rs.getDouble("TOTAL"));
+					o.setTotalAmount(rs.getBigDecimal("TOTAL"));
 					o.setStatus(rs.getString("STATUSS"));
 					o.setOrderDate(rs.getTimestamp("ORDERDATE"));
 					o.setAddress(rs.getString("ADDRES"));
@@ -183,7 +184,7 @@ public class OrderDAO {
 				Order o = new Order();
 				o.setOrderId(rs.getInt("ID"));
 				o.setResId(rs.getInt("RESID"));
-				o.setTotalAmount(rs.getDouble("TOTAL"));
+				o.setTotalAmount(rs.getBigDecimal("TOTAL"));
 				o.setAddress(rs.getString("ADDRES"));
 				o.setStatus(rs.getString("STATUSS"));
 				o.setOrderDate(rs.getTimestamp("ORDERDATE"));
@@ -232,7 +233,7 @@ public class OrderDAO {
 				f.setId(rs.getInt("f_id"));
 				f.setName(rs.getString("f_name")); // FNAME
 				f.setImage(rs.getString("f_image")); // IMAGES
-				f.setPrice(rs.getDouble("f_price")); // giá hiện tại
+				f.setPrice(rs.getBigDecimal("f_price")); // giá hiện tại
 
 				d.setFood(f);
 				list.add(d);
@@ -331,7 +332,7 @@ public class OrderDAO {
 
 				Order o = new Order();
 				o.setOrderId(rs.getInt("ID"));
-				o.setTotalAmount(rs.getDouble("TOTAL"));
+				o.setTotalAmount(rs.getBigDecimal("TOTAL"));
 				o.setStatus(rs.getString("STATUSS"));
 				o.setOrderDate(rs.getTimestamp("ORDERDATE"));
 
@@ -368,7 +369,7 @@ public class OrderDAO {
 				o.setOrderId(rs.getInt("ID"));
 				o.setAccountId(rs.getInt("ACCOUNTID"));
 				o.setResId(rs.getInt("RESID"));
-				o.setTotalAmount(rs.getDouble("TOTAL"));
+				o.setTotalAmount(rs.getBigDecimal("TOTAL"));
 				o.setAddress(rs.getString("ADDRES"));
 				o.setOrderDate(rs.getTimestamp("ORDERDATE"));
 				o.setStatus(rs.getString("STATUSS"));
@@ -404,7 +405,7 @@ public class OrderDAO {
 			while (rs.next()) {
 				Order o = new Order();
 				o.setOrderId(rs.getInt("ID"));
-				o.setTotalAmount(rs.getDouble("TOTAL"));
+				o.setTotalAmount(rs.getBigDecimal("TOTAL"));
 				o.setOrderDate(rs.getDate("ORDERDATE"));
 				o.setStatus(rs.getString("STATUSS"));
 				o.setResId(rs.getInt("RESID"));

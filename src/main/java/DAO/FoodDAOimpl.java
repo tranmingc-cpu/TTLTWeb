@@ -22,11 +22,11 @@ public class FoodDAOimpl implements FoodDAO {
 				Food f = new Food();
 				f.setId(rs.getInt("ID"));
 				f.setName(rs.getString("FNAME"));
-				f.setPrice(rs.getDouble("PRICE"));
+				f.setPrice(rs.getBigDecimal("PRICE"));
 				f.setDescription(rs.getString("DESCRIPTIONS"));
 				f.setImage(rs.getString("IMAGES"));
 				f.setResID(rs.getInt("RESID"));
-				f.setQuantity(rs.getInt("QUANTITY"));
+				f.setQuantity(rs.getBigDecimal("QUANTITY"));
 				return f;
 			}
 
@@ -45,12 +45,12 @@ public class FoodDAOimpl implements FoodDAO {
 		     PreparedStatement ps = con.prepareStatement(sql)) {
 
 			ps.setString(1, food.getName());
-			ps.setDouble(2, food.getPrice());
+			ps.setBigDecimal(2, food.getPrice());
 			ps.setString(3, food.getDescription());
 			ps.setInt(4, food.getCATEGORYId());
 			ps.setString(5, food.getImage());
 			ps.setInt(6, food.getResID());
-			ps.setInt(7, food.getQuantity());
+			ps.setBigDecimal(7, food.getQuantity());
 
 			int rows = ps.executeUpdate();
 			System.out.println("Rows affected = " + rows);
@@ -63,13 +63,13 @@ public class FoodDAOimpl implements FoodDAO {
 	@Override
 	public void updateBySeller(Food food , int accId) {
 		String sql = "UPDATE FOOD SET FNAME=?, PRICE=?, DESCRIPTIONS=?, QUANTITY=?, IMAGES=? WHERE ID=?  "
-				+ "AND RESID = (SELECT RESID FROM RESTAURENT WHERE ACCID=?)";
+				+ "AND RESID = (SELECT RESID FROM RESTAURANT WHERE ACCID=?)";
 		try (Connection con = DBConnect.getConnect();
 		     PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setString(1, food.getName());
-			ps.setDouble(2, food.getPrice());
+			ps.setBigDecimal(2, food.getPrice());
 			ps.setString(3, food.getDescription());
-			ps.setInt(4, food.getQuantity());
+			ps.setBigDecimal(4, food.getQuantity());
 			ps.setString(5, food.getImage());
 			ps.setInt(6, food.getId());
 			ps.setInt(7, accId);
@@ -87,9 +87,9 @@ public class FoodDAOimpl implements FoodDAO {
 		     PreparedStatement ps = con.prepareStatement(sql)) {
 
 			ps.setString(1, food.getName());
-			ps.setDouble(2, food.getPrice());
+			ps.setBigDecimal(2, food.getPrice());
 			ps.setString(3, food.getDescription());
-			ps.setInt(4, food.getQuantity());
+			ps.setBigDecimal(4, food.getQuantity());
 			ps.setString(5, food.getImage());
 			ps.setInt(6, food.getId());
 			ps.setInt(7, food.getResID());
@@ -129,10 +129,10 @@ public class FoodDAOimpl implements FoodDAO {
 				Food f = new Food();
 				f.setId(rs.getInt("ID"));
 				f.setName(rs.getString("FNAME"));
-				f.setPrice(rs.getDouble("PRICE"));
+				f.setPrice(rs.getBigDecimal("PRICE"));
 				f.setDescription(rs.getString("DESCRIPTIONS"));
 				f.setImage(rs.getString("IMAGES"));
-				f.setQuantity(rs.getInt("QUANTITY"));
+				f.setQuantity(rs.getBigDecimal("QUANTITY"));
 				list.add(f);
 			}
 
@@ -156,11 +156,11 @@ public class FoodDAOimpl implements FoodDAO {
 				Food f = new Food();
 				f.setId(rs.getInt("ID"));
 				f.setName(rs.getString("FNAME"));
-				f.setPrice(rs.getDouble("PRICE"));
+				f.setPrice(rs.getBigDecimal("PRICE"));
 				f.setDescription(rs.getString("DESCRIPTIONS"));
 				f.setImage(rs.getString("IMAGES"));
 				f.setCATEGORYId(rs.getInt("CATEGORYID"));
-				f.setQuantity(rs.getInt("QUANTITY"));
+				f.setQuantity(rs.getBigDecimal("QUANTITY"));
 				list.add(f);
 			}
 
@@ -183,8 +183,8 @@ public class FoodDAOimpl implements FoodDAO {
 				f.setId(rs.getInt("ID"));
 				f.setName(rs.getString("FNAME"));
 				f.setImage(rs.getString("IMAGES"));
-				f.setPrice(rs.getDouble("PRICE"));
-				f.setQuantity(rs.getInt("QUANTITY"));
+				f.setPrice(rs.getBigDecimal("PRICE"));
+				f.setQuantity(rs.getBigDecimal("QUANTITY"));
 				list.add(f);
 			}
 
@@ -209,10 +209,10 @@ public class FoodDAOimpl implements FoodDAO {
 				Food f = new Food();
 				f.setId(rs.getInt("ID"));
 				f.setName(rs.getString("FNAME"));
-				f.setPrice(rs.getDouble("PRICE"));
+				f.setPrice(rs.getBigDecimal("PRICE"));
 				f.setDescription(rs.getString("DESCRIPTIONS"));
 				f.setImage(rs.getString("IMAGES"));
-				f.setQuantity(rs.getInt("QUANTITY"));
+				f.setQuantity(rs.getBigDecimal("QUANTITY"));
 				list.add(f);
 			}
 		} catch (Exception e) {
@@ -249,12 +249,12 @@ public class FoodDAOimpl implements FoodDAO {
 				Food f = new Food();
 				f.setId(rs.getInt("ID"));
 				f.setName(rs.getString("FNAME"));
-				f.setPrice(rs.getDouble("PRICE"));
+				f.setPrice(rs.getBigDecimal("PRICE"));
 				f.setImage(rs.getString("IMAGES"));
 				f.setDescription(rs.getString("DESCRIPTIONS"));
 				f.setResID(rs.getInt("RESID"));
 				f.setCATEGORYId(rs.getInt("CATEGORYID"));
-				f.setQuantity(rs.getInt("QUANTITY"));
+				f.setQuantity(rs.getBigDecimal("QUANTITY"));
 				list.add(f);
 			}
 		} catch (Exception e) {
@@ -310,12 +310,12 @@ public class FoodDAOimpl implements FoodDAO {
 				Food f = new Food();
 				f.setId(rs.getInt("ID"));
 				f.setName(rs.getString("FNAME"));
-				f.setPrice(rs.getDouble("PRICE"));
+				f.setPrice(rs.getBigDecimal("PRICE"));
 				f.setDescription(rs.getString("DESCRIPTIONS"));
 				f.setCATEGORYId(rs.getInt("CATEGORYID"));
 				f.setImage(rs.getString("IMAGES"));
 				f.setResID(rs.getInt("RESID"));
-				f.setQuantity(rs.getInt("QUANTITY"));
+				f.setQuantity(rs.getBigDecimal("QUANTITY"));
 				list.add(f);
 			}
 		} catch (Exception e) {
@@ -339,10 +339,10 @@ public class FoodDAOimpl implements FoodDAO {
 				food = new Food();
 				food.setId(rs.getInt("ID"));
 				food.setName(rs.getString("FNAME"));
-				food.setPrice(rs.getDouble("PRICE"));
+				food.setPrice(rs.getBigDecimal("PRICE"));
 				food.setImage(rs.getString("IMAGES"));
 				food.setResID(rs.getInt("RESID"));
-				food.setQuantity(rs.getInt("QUANTITY"));
+				food.setQuantity(rs.getBigDecimal("QUANTITY"));
 			}
 
 		} catch (SQLException e) {
@@ -385,8 +385,8 @@ public class FoodDAOimpl implements FoodDAO {
 				f.setId(rs.getInt("ID"));
 				f.setName(rs.getString("FNAME"));
 				f.setImage(rs.getString("IMAGES"));
-				f.setPrice(rs.getDouble("PRICE"));
-				f.setQuantity(rs.getInt("QUANTITY"));
+				f.setPrice(rs.getBigDecimal("PRICE"));
+				f.setQuantity(rs.getBigDecimal("QUANTITY"));
 
 				list.add(f);
 			}

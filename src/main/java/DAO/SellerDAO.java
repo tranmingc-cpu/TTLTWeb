@@ -11,11 +11,10 @@ import model.Restaurant;
 
 public class SellerDAO {
 	public Restaurant getRestaurantById(int resid) {
-		String sql = "SELECT * FROM RESTAURENT WHERE RESID = ?";
+		String sql = "SELECT * FROM RESTAURANT WHERE RESID = ?";
 
 		try (Connection con = DBConnect.getConnect();
 			 PreparedStatement ps = con.prepareStatement(sql)) {
-
 			ps.setInt(1, resid);
 			ResultSet rs = ps.executeQuery();
 
@@ -26,8 +25,8 @@ public class SellerDAO {
 				r.setAddress(rs.getString("ADDRES"));
 				r.setPhone(rs.getString("PHONE"));
 				r.setEmail(rs.getString("EMAIL"));
-				r.setDescription(rs.getString("DECRIPTION"));
-				r.setRating(rs.getDouble("RATING"));
+				r.setDescription(rs.getString("DESCRIPTION"));
+				r.setRating(rs.getBigDecimal("RATING"));
 				return r;
 			}
 		} catch (Exception e) {
@@ -39,8 +38,8 @@ public class SellerDAO {
 	//  CẬP NHẬT THÔNG TIN NHÀ HÀNG
 	public void updateRestaurant(Restaurant r) {
 		String sql = """
-	            UPDATE RESTAURENT
-	            SET RNAME = ?, ADDRES = ?, PHONE = ?, EMAIL = ?, DECRIPTION = ?, RATING = ?
+	            UPDATE RESTAURANT
+	            SET RNAME = ?, ADDRES = ?, PHONE = ?, EMAIL = ?, DESCRIPTION = ?, RATING = ?
 	            WHERE RESID = ?
 	        """;
 
@@ -52,7 +51,7 @@ public class SellerDAO {
 			ps.setString(3, r.getPhone());
 			ps.setString(4, r.getEmail());
 			ps.setString(5, r.getDescription());
-			ps.setDouble(6, r.getRating());
+			ps.setBigDecimal(6, r.getRating());
 			ps.setInt(7, r.getResId());
 			ps.executeUpdate();
 		} catch (Exception e) {
@@ -60,7 +59,7 @@ public class SellerDAO {
 		}
 	}
 	public Restaurant getByAccountId(int accId) {
-		String sql = "SELECT * FROM RESTAURENT WHERE ACCID = ?";
+		String sql = "SELECT * FROM RESTAURANT WHERE ACCID = ?";
 
 		try (Connection con = DBConnect.getConnect();
 			 PreparedStatement ps = con.prepareStatement(sql)) {
@@ -76,7 +75,7 @@ public class SellerDAO {
 				r.setAddress(rs.getString("ADDRES"));
 				r.setPhone(rs.getString("PHONE"));
 				r.setEmail(rs.getString("EMAIL"));
-				r.setDescription(rs.getString("DECRIPTION"));
+				r.setDescription(rs.getString("DESCRIPTION"));
 
 				return r;
 			}
@@ -100,9 +99,9 @@ public class SellerDAO {
 				Food f = new Food();
 				f.setId(rs.getInt("ID"));
 				f.setName(rs.getString("FNAME"));
-				f.setPrice(rs.getInt("PRICE"));
-				f.setImage(rs.getString("IMAGE"));
-				f.setDescription(rs.getString("DESCRIPTION"));
+				f.setPrice(rs.getBigDecimal("PRICE"));
+				f.setImage(rs.getString("IMAGES"));
+				f.setDescription(rs.getString("DESCRIPTIONS"));
 				list.add(f);
 			}
 		} catch (Exception e) {
@@ -112,7 +111,7 @@ public class SellerDAO {
 	}
 	public void addFood(Food f, int resId) {
 		String sql = """
-	            INSERT INTO FOOD (RESID, FNAME, PRICE, IMAGE, DESCRIPTION)
+	            INSERT INTO FOOD (RESID, FNAME, PRICE, IMAGES, DESCRIPTIONS)
 	            VALUES (?, ?, ?, ?, ?)
 	        """;
 
@@ -121,7 +120,7 @@ public class SellerDAO {
 
 			ps.setInt(1, resId);
 			ps.setString(2, f.getName());
-			ps.setDouble(3, f.getPrice());
+			ps.setBigDecimal(3, f.getPrice());
 			ps.setString(4, f.getImage());
 			ps.setString(5, f.getDescription());
 
@@ -134,7 +133,7 @@ public class SellerDAO {
 	public void updateFood(Food f, int resId) {
 		String sql = """
 	            UPDATE FOOD
-	            SET FNAME = ?, PRICE = ?, IMAGE = ?, DESCRIPTION = ?
+	            SET FNAME = ?, PRICE = ?, IMAGES = ?, DESCRIPTIONS = ?
 	            WHERE ID = ? AND RESID = ?
 	        """;
 
@@ -142,7 +141,7 @@ public class SellerDAO {
 			 PreparedStatement ps = con.prepareStatement(sql)) {
 
 			ps.setString(1, f.getName());
-			ps.setDouble(2, f.getPrice());
+			ps.setBigDecimal(2, f.getPrice());
 			ps.setString(3, f.getImage());
 			ps.setString(4, f.getDescription());
 			ps.setInt(5, f.getId());
@@ -169,7 +168,7 @@ public class SellerDAO {
 	}
 	// lay resid thoe accid
 	public int getResIdByAccid (int accId) {
-		String sql = "SELECT RESID FROM RESTAURENT WHERE ACCID=?";
+		String sql = "SELECT RESID FROM RESTAURANT WHERE ACCID=?";
 
 		try (Connection con = DBConnect.getConnect();
 			 PreparedStatement ps = con.prepareStatement(sql)) {
@@ -185,7 +184,7 @@ public class SellerDAO {
 	}
 	public List<Restaurant> getAll() {
 		List<Restaurant> list = new ArrayList<>();
-		String sql = "SELECT * FROM RESTAURENT";
+		String sql = "SELECT * FROM RESTAURANT";
 		try (Connection con = DBConnect.getConnect();
 		     PreparedStatement ps = con.prepareStatement(sql);
 		     ResultSet rs = ps.executeQuery()) {

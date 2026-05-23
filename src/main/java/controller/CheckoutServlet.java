@@ -12,6 +12,7 @@ import model.CartItem;
 import model.User;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,13 +50,17 @@ public class CheckoutServlet extends HttpServlet {
 			return;
 		}
 		// tính total
-		double subTotal = 0;
+		BigDecimal subTotal = BigDecimal.ZERO;
+
 		for (CartItem item : cart) {
-			subTotal += item.getTotalPrice();
+			subTotal = subTotal.add(item.getTotalPrice()
+			);
 		}
 
-		int shipFee = 20000;
-		double total = subTotal + shipFee;
+		BigDecimal shipFee = new BigDecimal("20000");
+
+		BigDecimal total = subTotal.add(shipFee);
+
 
 		//  LẤY TỪ ORDER SERVLET
 		String address = (String) session.getAttribute("orderAddress");
@@ -122,11 +127,12 @@ public class CheckoutServlet extends HttpServlet {
 
 		for (var entry : cartByRes.entrySet()) {
 
-			double shipFee = 20000;
-			double total = entry.getValue().stream()
-					.mapToDouble(CartItem::getTotalPrice)
-					.sum() + shipFee;
+			BigDecimal shipFee = new BigDecimal("20000");
 
+			BigDecimal total = entry.getValue().stream()
+					.map(CartItem::getTotalPrice)
+					.reduce(BigDecimal.ZERO, BigDecimal::add)
+					.add(shipFee);
 			int orderId = orderDAO.createOrder(
 					acc.getIdAccount(),
 					entry.getKey(),

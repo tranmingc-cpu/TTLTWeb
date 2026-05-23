@@ -16,6 +16,8 @@ import model.Account;
 import model.Category;
 import model.Food;
 import model.Restaurant;
+
+import java.math.BigDecimal;
 import java.util.stream.Collectors;
 import java.io.File;
 import java.io.IOException;
@@ -92,8 +94,8 @@ public class AddFoodServlet extends HttpServlet {
 
         int restaurantId = Integer.parseInt(resIdRaw);
         int categoryId   = Integer.parseInt(categoryRaw);
-        double price     = Double.parseDouble(priceStr);
-        int quantity     = Integer.parseInt(quantityRaw);
+        BigDecimal price = new BigDecimal(priceStr);
+        BigDecimal quantity  = new BigDecimal(quantityRaw);
 
         Part filePart = request.getPart("image");
         String imageUrl = null;

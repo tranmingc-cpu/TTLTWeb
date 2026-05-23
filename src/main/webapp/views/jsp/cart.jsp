@@ -139,7 +139,6 @@
 					<span class="food-price"> <fmt:formatNumber
 							value="${f.price}" type="number" /> đ
 						</span>
-
 					<a
 							href="${pageContext.request.contextPath}/cart?action=add&foodId=${f.id}&quantity=1"
 							class="btn-add"> + Thêm </a>

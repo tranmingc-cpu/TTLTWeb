@@ -1,5 +1,7 @@
 package model;
 
+import java.math.BigDecimal;
+
 public class Restaurant {
 	private int Resid;
 	private String name;
@@ -7,8 +9,8 @@ public class Restaurant {
 	private int accid;
 	private String phone;
 	private String email;
-	private String description;
-	private double rating;
+	private String DESCRIPTION;
+	private BigDecimal rating;
 	public Restaurant () {
 	}
 
@@ -51,22 +53,22 @@ public class Restaurant {
 		this.email = email;
 	}
 	public String getDescription() {
-		return description;
+		return DESCRIPTION;
 	}
 	public void setDescription(String description) {
-		this.description = description;
+		this.DESCRIPTION = DESCRIPTION;
 	}
-	public double getRating() {
+	public BigDecimal getRating() {
 		return rating;
 	}
-	public void setRating(double rating) {
+	public void setRating(BigDecimal rating) {
 		this.rating = rating;
 	}
 
 	@Override
 	public String toString() {
 		return "Restaurant [Resid=" + Resid + ", name=" + name + ", address=" + address + ", accid=" + accid + ", phone="
-				+ phone + ", email=" + email + ", description=" + description + ", rating=" + rating + "]";
+				+ phone + ", email=" + email + ", description=" + DESCRIPTION + ", rating=" + rating + "]";
 	}
 
 
