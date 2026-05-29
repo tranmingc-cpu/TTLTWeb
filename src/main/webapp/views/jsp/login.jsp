@@ -9,7 +9,6 @@
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/views/Shared/login.css">
     <style>
-    /* ===== SOCIAL ===== */
     .social-login {
     display: flex;
     justify-content: center;

@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
+import model.Account;
 import model.CartItem;
 import model.Food;
 
@@ -244,13 +244,13 @@ public class CartDAO {
 				Food food = new Food();
 				food.setId(rs.getInt("FOOD_ID"));
 				food.setName(rs.getString("FNAME"));
-				food.setPrice(rs.getDouble("PRICE"));
+				food.setPrice(rs.getBigDecimal("PRICE"));
 				food.setImage(rs.getString("IMAGES"));
 				food.setResID(rs.getInt("RESID"));
 
 				CartItem item = new CartItem();
 				item.setDetailId(rs.getInt("DEATILID"));
-				item.setQuantity(rs.getInt("QUANTITY"));
+				item.setQuantity(rs.getBigDecimal("QUANTITY"));
 				item.setFood(food);
 
 				list.add(item);

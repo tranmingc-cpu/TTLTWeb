@@ -1,14 +1,13 @@
 package controller;
 
 import model.Account;
-
 import model.CartItem;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import DAO.CartDAO;
@@ -34,9 +33,7 @@ public class CartServlet extends HttpServlet {
 
         String action = request.getParameter("action");
 
-        /* ================= ADD ================= */
         if ("add".equals(action)) {
-
             String foodIdRaw = request.getParameter("foodId");
             String qtyRaw = request.getParameter("quantity");
 
@@ -55,9 +52,7 @@ public class CartServlet extends HttpServlet {
             return;
         }
 
-        /* ================= UPDATE ================= */
         if ("update".equals(action)) {
-
             String detailIdRaw = request.getParameter("detailId");
             String qtyRaw = request.getParameter("quantity");
 
@@ -78,9 +73,8 @@ public class CartServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/cart");
             return;
         }
-        /* ================= REMOVE ================= */
-        if ("delete".equals(action)) {
 
+        if ("delete".equals(action)) {
             String detailIdRaw = request.getParameter("detailId");
 
             if (detailIdRaw != null) {
@@ -92,39 +86,39 @@ public class CartServlet extends HttpServlet {
             return;
         }
 
-        /* ================= LOAD CART ================= */
+        // ===== XỬ LÝ HIỂN THỊ GIỎ HÀNG =====
         int cart0 = cartDAO.getCartIdByAccount(acc.getIdAccount());
-        ArrayList<CartItem> cart =
-                new ArrayList<>(cartDAO.getCartItems(cart0));
-        int subTotal = 0;
+        ArrayList<CartItem> cart = new ArrayList<>(cartDAO.getCartItems(cart0));
+
+        BigDecimal subTotal = BigDecimal.ZERO;
+
+        // Vòng lặp này CHỈ dùng để tính tiền
         for (CartItem item : cart) {
-            subTotal += item.getTotalPrice();
+            if (item.getTotalPrice() != null) {
+                subTotal = subTotal.add(item.getTotalPrice());
+            }
         }
 
-        int total = subTotal ;
+        BigDecimal total = subTotal; // Tạm thời tổng bằng subTotal (khi chưa áp mã giảm giá)
 
-        /* ===== RESTAURANT & SUGGEST ===== */
+        // Lấy thông tin nhà hàng và gợi ý món ăn (Đưa ra ngoài vòng lặp)
         if (!cart.isEmpty()) {
             int restaurantId = cart.get(0).getFood().getResID();
 
             SellerDAO rDAO = new SellerDAO();
             FoodDAOimpl fDAO = new FoodDAOimpl();
 
-            request.setAttribute("restaurant",
-                    rDAO.getRestaurantById(restaurantId));
-            request.setAttribute("restaurantFoods",
-                    fDAO.getFoodsByRestaurant(restaurantId));
+            request.setAttribute("restaurant", rDAO.getRestaurantById(restaurantId));
+            request.setAttribute("restaurantFoods", fDAO.getFoodsByRestaurant(restaurantId));
         }
 
+        // Đẩy dữ liệu sang trang JSP
         request.setAttribute("cart", cart);
         request.setAttribute("subTotal", subTotal);
         request.setAttribute("total", total);
 
-        request.getRequestDispatcher("/views/jsp/cart.jsp")
-                .forward(request, response);
-
+        request.getRequestDispatcher("/views/jsp/cart.jsp").forward(request, response);
     }
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

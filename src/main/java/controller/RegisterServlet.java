@@ -23,7 +23,6 @@ public class RegisterServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // CHỈ hiển thị trang register
         request.getRequestDispatcher("/views/jsp/register.jsp")
                 .forward(request, response);
     }

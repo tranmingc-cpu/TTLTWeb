@@ -7,29 +7,23 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Thông tin cá nhân</title>
-
-
 	<link rel="stylesheet"
 		  href="${pageContext.request.contextPath}/views/Shared/profile.css">
-
 </head>
 <body>
 
-<!-- HEADER -->
 <jsp:include page="/views/jsp/demo.jsp" />
 <div class="Account"> TÀI KHOẢN </div>
 <div class="profile-wrapper">
 
 	<div class="profile-card">
 
-		<!-- AVATAR -->
 		<div class="profile-avatar">
 			<img src="${pageContext.request.contextPath}/images/user.png"
 				 alt="Avatar">
 			<h3>${sessionScope.account.userName}</h3>
 		</div>
 
-		<!-- FORM -->
 		<form action="${pageContext.request.contextPath}/profile"
 			  method="post" class="profile-form">
 

@@ -1,15 +1,17 @@
 package model;
+import model.Food;
+import java.math.BigDecimal;
 
 public class CartItem {
 	private Food food;
-	private int quantity;
+	private BigDecimal quantity;
 	private int DetailId ;
 	private double total;
 
 	public CartItem() {
 	}
 
-	public double getToatl() {
+	public double getTotal() {
 		return total;
 	}
 	public void setTotal(double d) {
@@ -28,15 +30,17 @@ public class CartItem {
 	public void setFood(Food food) {
 		this.food = food;
 	}
-	public int getQuantity() {
+	public BigDecimal getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(int quantity) {
+	public void setQuantity(BigDecimal quantity) {
 		this.quantity = quantity;
 	}
-	public double getTotalPrice () {
-		return food.getPrice() * quantity;
-
+	public BigDecimal getTotalPrice () {
+		if (food == null || food.getPrice() == null) {
+			return BigDecimal.ZERO;
+		}
+			return food.getPrice().multiply(quantity);
 	}
 	public int getResid() {
 		return food.getResID();

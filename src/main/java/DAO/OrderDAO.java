@@ -1,12 +1,14 @@
 package DAO;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Map;
+import java.util.HashMap;
 import model.CartItem;
 import model.Food;
 import model.Order;
@@ -14,7 +16,7 @@ import model.OrderDetails;
 
 public class OrderDAO {
 
-	public int createOrder(int accId, int resId, double total, String address) {
+	public int createOrder(int accId, int resId, BigDecimal total, String address) {
 
 		String sql = """
 				    INSERT INTO ORDERS (ACCOUNTID, RESID, TOTAL, ADDRES, ORDERDATE, STATUSS)
@@ -26,7 +28,7 @@ public class OrderDAO {
 
 			ps.setInt(1, accId);
 			ps.setInt(2, resId);
-			ps.setDouble(3, total);
+			ps.setBigDecimal(3, total);
 			ps.setString(4, address);
 			ps.setString(5, "PENDING");
 
@@ -43,7 +45,7 @@ public class OrderDAO {
 		return -1;
 	}
 
-	public void insertOrderDetail(int orderId, int foodId, int quantity, double price) {
+	public void insertOrderDetail(int orderId, int foodId, BigDecimal quantity, BigDecimal price) {
 
 		String sql = """
 				    INSERT INTO ORDERSDETAIL (ORDERID, FOODID, QUANTITY, PRICE)
@@ -54,8 +56,8 @@ public class OrderDAO {
 
 			ps.setInt(1, orderId);
 			ps.setInt(2, foodId);
-			ps.setInt(3, quantity);
-			ps.setDouble(4, price);
+			ps.setBigDecimal(3, quantity);
+			ps.setBigDecimal(4, price);
 
 			ps.executeUpdate();
 
@@ -103,7 +105,6 @@ public class OrderDAO {
 		String sql = """
 				    SELECT *
 				    FROM ORDERS
-				    ORDER BY ORDERDATE DESC
 				""";
 
 		try (Connection con = DBConnect.getConnect();
@@ -114,7 +115,8 @@ public class OrderDAO {
 				Order o = new Order();
 				o.setOrderId(rs.getInt("ID"));
 				o.setAccountId(rs.getInt("ACCOUNTID"));
-				o.setTotalAmount(rs.getDouble("TOTAL"));
+				o.setTotalAmount(rs.getBigDecimal("TOTAL"));
+				o.setResId(rs.getInt(rs.getInt("RESID")));
 				o.setAddress(rs.getString("ADDRES"));
 				o.setOrderDate(rs.getTimestamp("ORDERDATE"));
 				o.setStatus(rs.getString("STATUSS"));
@@ -128,7 +130,6 @@ public class OrderDAO {
 		return list;
 	}
 
-	/* ===== GET ORDER ===== */
 	public List<Order> getOrdersByIds(List<Integer> orderIds) {
 		List<Order> orders = new ArrayList<>();
 
@@ -148,7 +149,7 @@ public class OrderDAO {
 					o.setOrderId(rs.getInt("ID"));
 					o.setAccountId(rs.getInt("ACCOUNTID"));
 					o.setResId(rs.getInt("RESID"));
-					o.setTotalAmount(rs.getDouble("TOTAL"));
+					o.setTotalAmount(rs.getBigDecimal("TOTAL"));
 					o.setStatus(rs.getString("STATUSS"));
 					o.setOrderDate(rs.getTimestamp("ORDERDATE"));
 					o.setAddress(rs.getString("ADDRES"));
@@ -183,7 +184,7 @@ public class OrderDAO {
 				Order o = new Order();
 				o.setOrderId(rs.getInt("ID"));
 				o.setResId(rs.getInt("RESID"));
-				o.setTotalAmount(rs.getDouble("TOTAL"));
+				o.setTotalAmount(rs.getBigDecimal("TOTAL"));
 				o.setAddress(rs.getString("ADDRES"));
 				o.setStatus(rs.getString("STATUSS"));
 				o.setOrderDate(rs.getTimestamp("ORDERDATE"));
@@ -232,7 +233,7 @@ public class OrderDAO {
 				f.setId(rs.getInt("f_id"));
 				f.setName(rs.getString("f_name")); // FNAME
 				f.setImage(rs.getString("f_image")); // IMAGES
-				f.setPrice(rs.getDouble("f_price")); // giá hiện tại
+				f.setPrice(rs.getBigDecimal("f_price")); // giá hiện tại
 
 				d.setFood(f);
 				list.add(d);
@@ -244,7 +245,7 @@ public class OrderDAO {
 		return list;
 	}
 
-	/* ===== UPDATE STATUS ===== */
+
 	public void updateStatus(int orderId, String status) {
 		String sql = "UPDATE ORDERS SET STATUS = ? WHERE ID = ?";
 		try (Connection con = DBConnect.getConnect(); PreparedStatement ps = con.prepareStatement(sql)) {
@@ -331,7 +332,7 @@ public class OrderDAO {
 
 				Order o = new Order();
 				o.setOrderId(rs.getInt("ID"));
-				o.setTotalAmount(rs.getDouble("TOTAL"));
+				o.setTotalAmount(rs.getBigDecimal("TOTAL"));
 				o.setStatus(rs.getString("STATUSS"));
 				o.setOrderDate(rs.getTimestamp("ORDERDATE"));
 
@@ -368,7 +369,7 @@ public class OrderDAO {
 				o.setOrderId(rs.getInt("ID"));
 				o.setAccountId(rs.getInt("ACCOUNTID"));
 				o.setResId(rs.getInt("RESID"));
-				o.setTotalAmount(rs.getDouble("TOTAL"));
+				o.setTotalAmount(rs.getBigDecimal("TOTAL"));
 				o.setAddress(rs.getString("ADDRES"));
 				o.setOrderDate(rs.getTimestamp("ORDERDATE"));
 				o.setStatus(rs.getString("STATUSS"));
@@ -404,7 +405,7 @@ public class OrderDAO {
 			while (rs.next()) {
 				Order o = new Order();
 				o.setOrderId(rs.getInt("ID"));
-				o.setTotalAmount(rs.getDouble("TOTAL"));
+				o.setTotalAmount(rs.getBigDecimal("TOTAL"));
 				o.setOrderDate(rs.getDate("ORDERDATE"));
 				o.setStatus(rs.getString("STATUSS"));
 				o.setResId(rs.getInt("RESID"));
@@ -449,5 +450,83 @@ public class OrderDAO {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+	/*public List<Map<String, Object>> getRevenueByMonth() {
+		List<Map<String, Object>> list = new ArrayList<>();
+
+		String sql = """
+        SELECT 
+            MONTH(ORDERDATE) AS month,
+            RESID,
+            SUM(TOTAL) AS revenue
+        FROM ORDERS
+        GROUP BY MONTH(ORDERDATE), RESID
+        ORDER BY month
+    """;
+
+		try (Connection conn = DBConnect.getConnect();   // ✅ sửa ở đây
+		     PreparedStatement ps = conn.prepareStatement(sql);
+		     ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+				Map<String, Object> row = new HashMap<>();
+				row.put("month", rs.getInt("month"));
+				row.put("resid", rs.getInt("RESID"));
+				row.put("revenue", rs.getDouble("revenue"));
+				list.add(row);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}*/
+	public List<Map<String, Object>> getRevenueByMonth() {
+		List<Map<String, Object>> list = new ArrayList<>();
+
+		String sql = """
+        WITH Months AS (
+            SELECT 1 AS month
+            UNION SELECT 2
+            UNION SELECT 3
+            UNION SELECT 4
+            UNION SELECT 5
+            UNION SELECT 6
+            UNION SELECT 7
+            UNION SELECT 8
+            UNION SELECT 9
+            UNION SELECT 10
+            UNION SELECT 11
+            UNION SELECT 12
+        )
+        SELECT 
+            m.month,
+            o.RESID,
+            ISNULL(SUM(o.TOTAL), 0) AS revenue
+        FROM Months m
+        LEFT JOIN ORDERS o 
+            ON MONTH(o.ORDERDATE) = m.month
+        GROUP BY m.month, o.RESID
+        ORDER BY m.month
+    """;
+
+		try (Connection conn = DBConnect.getConnect();
+		     PreparedStatement ps = conn.prepareStatement(sql);
+		     ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+				Map<String, Object> row = new HashMap<>();
+				row.put("month", rs.getInt("month"));
+				row.put("resid", rs.getInt("RESID")); // có thể null
+				row.put("revenue", rs.getDouble("revenue"));
+				list.add(row);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
 	}
 }
