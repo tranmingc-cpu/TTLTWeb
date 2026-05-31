@@ -7,6 +7,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Food Online</title>
+
 	<link rel="stylesheet"
 		  href="${pageContext.request.contextPath}/views/Shared/index.css">
 </head>
@@ -17,6 +18,7 @@
 
 	<jsp:include page="/views/jsp/demo.jsp" />
 
+	<!-- NAV -->
 	<div class="nav">
 		<a class="${empty param.action ? 'active' : ''}"
 		   href="${pageContext.request.contextPath}/Trangchu.jsp">Trang Chủ</a>
@@ -34,58 +36,42 @@
 		   href="${pageContext.request.contextPath}/Trangchu?action=category&ID=4">Bánh Việt Nam</a>
 
 		<a class="${param.ID == '5' ? 'active' : ''}"
-		   href="${pageContext.request.contextPath}/Trangchu?action=category&ID=5">Món Theo Mùa</a>
+		   href="${pageContext.request.contextPath}/Trangchu?action=category&ID=5"> Món Theo Mùa</a>
+
 		<a class="${param.ID == '6' ? 'active' : ''}"
 		   href="${pageContext.request.contextPath}/Trangchu?action=category&ID=6">Khác</a>
 	</div>
 
+	<!-- SLIDER -->
 	<div class="promo-slider">
-		<div class="slides">
-			<div class="slide" onclick="location.href='${pageContext.request.contextPath}/Trangchu?action=category&ID=1'">
+		<div class="slides" id="slides">
+
+			<div class="slide">
 				<div class="overlay">
 					<h2>🍜 Giảm 30% món bún</h2>
 					<p>Ăn ngon mỗi ngày</p>
 				</div>
 			</div>
-			<div class="slide" onclick="location.href='${pageContext.request.contextPath}/Trangchu?action=category&ID=2'">
+
+			<div class="slide">
 				<div class="overlay">
 					<h2>🍛 Cơm chỉ từ 35K</h2>
 					<p>No bụng giá mềm</p>
 				</div>
 			</div>
-			<div class="slide" onclick="location.href='${pageContext.request.contextPath}/Trangchu?action=all'">
+
+			<div class="slide">
 				<div class="overlay">
 					<h2>🔥 Combo hấp dẫn</h2>
 					<p>Giảm đến 40%</p>
 				</div>
 			</div>
+
 		</div>
 	</div>
+
+	<!-- CONTENT -->
 	<main class="page-content">
-
-		<div class="filter-bar">
-
-			<form action="${pageContext.request.contextPath}/search" method="get">
-
-				<!-- giữ keyword -->
-				<input type="hidden" name="keyword" value="${param.keyword}">
-
-				<!-- category -->
-				<select name="categoryId">
-					<option value="">Danh mục</option>
-					<option value="1">Món nước</option>
-					<option value="2">Cơm</option>
-				</select>
-
-				<!-- giá -->
-				<input type="number" name="minPrice" placeholder="Từ">
-				<input type="number" name="maxPrice" placeholder="Đến">
-
-				<button>Lọc</button>
-
-			</form>
-
-		</div>
 
 		<div class="section">
 			<div class="section-title">${title}</div>
@@ -108,39 +94,44 @@
 						</a>
 
 						<div class="product-price">${f.price} VND</div>
-						<div class="product-note">#${f.id}-Hasky</div>
 
 						<div class="btn-group">
 							<a class="btn-cart"
 							   href="${pageContext.request.contextPath}/cart?action=add&foodId=${f.id}&quantity=1">
-								THÊM VÀO GIỎ
+								Giỏ
 							</a>
 
 							<a class="btn-buy"
 							   href="${pageContext.request.contextPath}/cart?action=add&foodId=${f.id}&quantity=1&buyNow=true">
-								MUA NGAY
+								Mua
 							</a>
 						</div>
 
 					</div>
+
 				</c:forEach>
 
 			</div>
 		</div>
-
-		<c:if test="${title eq 'Món ăn nổi bật'}">
-			<div class="view-all">
-				<a href="${pageContext.request.contextPath}/Trangchu?action=all">
-					Xem tất cả
-				</a>
-			</div>
-		</c:if>
 
 	</main>
 
 	<jsp:include page="/views/jsp/footer.jsp" />
 
 </div>
+
+<!-- JS SLIDER -->
+<script>
+	let index = 0;
+	const slides = document.getElementById("slides");
+	const total = slides.children.length;
+
+	setInterval(() => {
+		index++;
+		if(index >= total) index = 0;
+		slides.style.transform = "translateX(-" + (index * 100) + "%)";
+	}, 3000);
+</script>
 
 </body>
 </html>
