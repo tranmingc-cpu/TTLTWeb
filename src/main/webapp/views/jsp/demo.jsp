@@ -55,6 +55,7 @@
 			<input type="text" name="keyword" list="foodList"
 				   placeholder="Tìm đồ ăn, đồ uống" value="${param.keyword}">
 
+
 			<button type="submit">🔍</button>
 			<datalist id="foodList">
 				<c:forEach var="f" items="${foodlist}">
