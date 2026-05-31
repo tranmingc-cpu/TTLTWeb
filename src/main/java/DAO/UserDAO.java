@@ -79,7 +79,6 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 	}
-
 	public void insertUser(Account acc){
 		String sql ="INSERT INO ACCOUNT(USERNAME, PASS,ROLE, STATUS";
 		try (Connection conn = DBConnect.getConnect();
@@ -90,7 +89,8 @@ public class UserDAO {
 			ps.setString(4, acc.getRole().name());
 			ps.executeUpdate();
 		} catch (Exception e) {
-e.printStackTrace();		}
+e.printStackTrace();
+		}
 
 
 		}

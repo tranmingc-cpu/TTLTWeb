@@ -14,7 +14,7 @@ import model.Food;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-@WebServlet("/seller/food/edit")
+@WebServlet("/admin/food/edit")
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024,
         maxFileSize = 5 * 1024 * 1024
@@ -39,7 +39,7 @@ public class EditFoodServlet extends HttpServlet {
         request.setAttribute("food", food);
         request.setAttribute("categories", categoryDAO.findAll());
 
-        request.getRequestDispatcher("/views/seller/editFood.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/admin/editFood.jsp").forward(request, response);
     }
 
     @Override
@@ -77,6 +77,6 @@ public class EditFoodServlet extends HttpServlet {
 
         foodDAO.update(food);
 
-        response.sendRedirect(request.getContextPath() + "/seller/food");
+        response.sendRedirect(request.getContextPath() + "/admin/food");
     }
 }

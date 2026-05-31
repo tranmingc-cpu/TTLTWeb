@@ -13,8 +13,7 @@
 </head>
 <body>
 
-<jsp:include page="/views/jsp/demo.jsp"/>
-
+<jsp:include page="/views/jsp/demo.jsp" />
 <div class="checkout-container">
 
     <h2>💳 XÁC NHẬN THANH TOÁN</h2>
@@ -81,7 +80,6 @@
     </div>
 </div>
 
-<jsp:include page="/views/jsp/footer.jsp"/>
-
+<jsp:include page="/views/jsp/footer.jsp" />
 </body>
 </html>

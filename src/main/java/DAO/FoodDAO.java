@@ -3,7 +3,7 @@ import java.util.List;
 
 import model.Food;
 public interface FoodDAO {
-public void insert (Food food);
+public void insertFood (Food food);
     public void update(Food food);
     public void delete(int id,int restId);
     public List<Food> findByName(String name);
