@@ -63,6 +63,30 @@
 	</div>
 	<main class="page-content">
 
+		<div class="filter-bar">
+
+			<form action="${pageContext.request.contextPath}/search" method="get">
+
+				<!-- giữ keyword -->
+				<input type="hidden" name="keyword" value="${param.keyword}">
+
+				<!-- category -->
+				<select name="categoryId">
+					<option value="">Danh mục</option>
+					<option value="1">Món nước</option>
+					<option value="2">Cơm</option>
+				</select>
+
+				<!-- giá -->
+				<input type="number" name="minPrice" placeholder="Từ">
+				<input type="number" name="maxPrice" placeholder="Đến">
+
+				<button>Lọc</button>
+
+			</form>
+
+		</div>
+
 		<div class="section">
 			<div class="section-title">${title}</div>
 
