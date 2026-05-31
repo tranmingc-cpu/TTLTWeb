@@ -186,3 +186,48 @@ body {
 .action-btn:hover {
     opacity: 0.85;
 }
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background: white;
+    width: 400px;
+    padding: 25px;
+    border-radius: 10px;
+    margin: 15% auto;
+    text-align: center;
+}
+
+.modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-cancel,
+.btn-delete-confirm {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-cancel {
+    background: gray;
+    color: white;
+}
+
+.btn-delete-confirm {
+    background: red;
+    color: white;
+}

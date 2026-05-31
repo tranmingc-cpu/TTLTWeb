@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 public class Coupons {
     private int id;
-    private int code;
+    private String code;
     private String discountType;
     private BigDecimal discountValue;
     private BigDecimal minOrderValue;
@@ -26,11 +26,11 @@ public class Coupons {
         this.id = id;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
