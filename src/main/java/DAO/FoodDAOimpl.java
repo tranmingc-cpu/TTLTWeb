@@ -366,6 +366,62 @@ public class FoodDAOimpl implements FoodDAO {
 		}
 	}
 
+	public List<Food> searchAdvanced(String keyword, Integer categoryId, Double minPrice, Double maxPrice) {
+		List<Food> list = new ArrayList<>();
+
+		StringBuilder sql = new StringBuilder("SELECT * FROM Food WHERE 1=1");
+
+		if (keyword != null && !keyword.isEmpty()) {
+			sql.append(" AND (FNAME LIKE ? OR DESCRIPTIONS LIKE ?)");
+		}
+		if (categoryId != null) {
+			sql.append(" AND CATEGORYID = ?");
+		}
+		if (minPrice != null) {
+			sql.append(" AND PRICE >= ?");
+		}
+		if (maxPrice != null) {
+			sql.append(" AND PRICE <= ?");
+		}
+
+		try (Connection con = DBConnect.getConnect();
+			 PreparedStatement ps = con.prepareStatement(sql.toString())) {
+
+			int index = 1;
+
+			if (keyword != null && !keyword.isEmpty()) {
+				ps.setString(index++, "%" + keyword + "%");
+				ps.setString(index++, "%" + keyword + "%");
+			}
+			if (categoryId != null) {
+				ps.setInt(index++, categoryId);
+			}
+			if (minPrice != null) {
+				ps.setDouble(index++, minPrice);
+			}
+			if (maxPrice != null) {
+				ps.setDouble(index++, maxPrice);
+			}
+
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Food f = new Food();
+				f.setId(rs.getInt("ID"));
+				f.setName(rs.getString("FNAME"));
+				f.setPrice(rs.getDouble("PRICE"));
+				f.setImage(rs.getString("IMAGES"));
+				list.add(f);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+}
+
+
 	public List<Food> findByPage(int page, int pageSize) {
 		List<Food> list = new ArrayList<>();
 		String sql = "SELECT * FROM FOOD ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
