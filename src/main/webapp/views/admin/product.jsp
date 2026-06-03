@@ -7,9 +7,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Quản lý món ăn</title>
-
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/views/admin/order-list.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/admin/product.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/views/Shared/notification.css">
+
 </head>
 
 <body>
@@ -17,7 +17,6 @@
 <jsp:include page="/views/jsp/demo.jsp"/>
 
 <div class="admin-container">
-
     <div class="admin-header">
         <h1>ADMIN PANEL</h1>
     </div>
@@ -78,10 +77,10 @@
                                        href="${pageContext.request.contextPath}/admin/food/edit?id=${f.id}">
                                         ✏️ Sửa
                                     </a>
-
-                                    <a class="action-btn btn-delete"
-                                       href="${pageContext.request.contextPath}/admin/food/delete?id=${f.id}"
-                                       onclick="return confirm('Xóa món này?')">
+                                    <a class="action-btn btn-delete btn-delete-trigger"
+                                       href="javascript:void(0);"
+                                       data-url="${pageContext.request.contextPath}/admin/product?action=delete&id=${f.id}"
+                                       data-message="Bạn có chắc chắn muốn xóa món ăn này không?">
                                         🗑️ Xóa
                                     </a>
                                 </td>
@@ -113,20 +112,20 @@
             </c:if>
 
             <c:if test="${startPage > 1}">
-                <a href="${pageContext.request.contextPath}/admin/food?page=${startPage - 1}">
+                <a href="${pageContext.request.contextPath}/admin/product?page=${startPage - 1}">
                     «
                 </a>
             </c:if>
 
             <c:forEach begin="${startPage}" end="${endPage}" var="i">
-                <a href="${pageContext.request.contextPath}/admin/food?page=${i}"
+                <a href="${pageContext.request.contextPath}/admin/product?page=${i}"
                    class="${i == currentPage ? 'active' : ''}">
                         ${i}
                 </a>
             </c:forEach>
 
             <c:if test="${endPage < totalPages}">
-                <a href="${pageContext.request.contextPath}/admin/food?page=${endPage + 1}">
+                <a href="${pageContext.request.contextPath}/admin/product?page=${endPage + 1}">
                     »
                 </a>
             </c:if>
@@ -135,6 +134,6 @@
 
     </div>
 </div>
-
+<jsp:include page="/views/jsp/notification.jsp"/>
 </body>
 </html>

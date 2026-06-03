@@ -6,38 +6,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CouponDAO {
-    public boolean addCoupon(Coupons coupon) {
+        public boolean addCoupon(Coupons coupon) {
+            System.out.println("==> TEST DAO: " + coupon.getCode());
+            String sql = "INSERT INTO COUPONS (CODE, DISCOUNTTYPE, DISCOUNTVALUE, MINORDERVALUE, "
+                    + "MAXDISCOUNTAMOUNT, QUANTITY, STARTDATE, ENDDATE, STATUS ) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        String sql = "INSERT INTO COUPONS (CODE, DISCOUNTTYPE, DISCOUNTVALUE, MINORDERVALUE, "
-                + "MAXDISCOUNTAMOUNT, QUANTITY, STARTDATE, ENDDATE, STATUS, USEDCOUNT) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            try (Connection conn = DBConnect.getConnect();
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
 
-        try (Connection conn = DBConnect.getConnect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, coupon.getCode());
-            ps.setString(2, coupon.getDiscountType());
-            ps.setBigDecimal(3, coupon.getDiscountValue());
-            ps.setBigDecimal(4, coupon.getMinOrderValue());
-            ps.setBigDecimal(5, coupon.getMaxDiscountAmount());
-            ps.setInt(6, coupon.getQuantity());
-            ps.setTimestamp(7, coupon.getStartDate());
-            ps.setTimestamp(8, coupon.getEndDate());
-            ps.setBoolean(9, coupon.isStatus());
-
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+                ps.setString(1, coupon.getCode());
+                ps.setString(2, coupon.getDiscountType());
+                ps.setBigDecimal(3, coupon.getDiscountValue());
+                ps.setBigDecimal(4, coupon.getMinOrderValue());
+                ps.setBigDecimal(5, coupon.getMaxDiscountAmount());
+                ps.setInt(6, coupon.getQuantity());
+                ps.setTimestamp(7, coupon.getStartDate());
+                ps.setTimestamp(8, coupon.getEndDate());
+                ps.setBoolean(9, coupon.isStatus());
+                return ps.executeUpdate() > 0;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
-    }
 
     public boolean deleteCoupon(int id) {
         String sql = "DELETE FROM COUPONS WHERE ID = ?";
-
         try (Connection conn = DBConnect.getConnect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -114,7 +111,6 @@ public class CouponDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("đã lấy dtb "  + list );
         }
         return list;
     }
