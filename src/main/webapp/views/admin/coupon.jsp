@@ -8,6 +8,8 @@
     <meta charset="UTF-8">
     <title>Quản lý mã giảm giá</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/admin/coupon.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/views/Shared/notification.css">
+
 </head>
 <body>
 
@@ -30,7 +32,7 @@
 
         <div class="page-header">
             <h2>🎫 Quản lý mã giảm giá (Coupon)</h2>
-            <a class="btn-add" href="${pageContext.request.contextPath}/views/admin/add-coupon" style="text-decoration: none; padding: 10px 16px; display: inline-block;">
+            <a class="btn-add" href="${pageContext.request.contextPath}/views/admin/add-coupon.jsp" style="text-decoration: none; padding: 10px 16px; display: inline-block;">
                 ➕ Thêm mã mới
             </a>
         </div>
@@ -96,9 +98,10 @@
                                     </c:choose>
                                 </td>
                                 <td>
-                                    <a class="action-btn btn-delete"
-                                       href="${pageContext.request.contextPath}/admin/coupon?action=delete&id=${c.id}"
-                                       onclick="return confirm('Xóa mã giảm giá này?')">
+                                    <a class="action-btn btn-delete btn-delete-trigger"
+                                       href="javascript:void(0);"
+                                       data-url="${pageContext.request.contextPath}/admin/coupon?action=delete&id=${c.id}"
+                                       data-message="Bạn có chắc chắn muốn xóa mã giảm giá này không?">
                                         🗑️ Xóa
                                     </a>
                                 </td>
@@ -108,8 +111,7 @@
                     <c:otherwise>
                         <tr>
                             <td colspan="11" class="empty-text">
-                                🚫 Chưa có mã giảm giá nào được tạo
-                            </td>
+                                🚫 Chưa có mã giảm giá nào td>
                         </tr>
                     </c:otherwise>
                 </c:choose>
@@ -118,6 +120,6 @@
         </div>
     </div>
 </div>
-
+<jsp:include page="/views/jsp/notification.jsp"/>
 </body>
 </html>

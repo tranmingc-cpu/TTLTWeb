@@ -26,7 +26,6 @@ public class CouponServlet extends HttpServlet {
         if (action == null) {
             action = "list";
         }
-
         switch (action) {
             case "list":
                 showList(request, response);
@@ -51,7 +50,6 @@ public class CouponServlet extends HttpServlet {
     private void showList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<Coupons> coupons = copDao.getAllCounpons();
-        System.out.println("dsanh giam gia "+ coupons);
         request.setAttribute("coupons", coupons);
         request.getRequestDispatcher("/views/admin/coupon.jsp").forward(request, response);
     }
