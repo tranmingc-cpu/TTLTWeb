@@ -13,8 +13,7 @@
 
 <body class="d-flex flex-column min-vh-100">
 
-<jsp:include page="/views/jsp/demo.jsp"/>
-
+<jsp:include page="/views/jsp/demo.jsp" />
 <div class="cart-container">
 
 	<button onclick="history.back()">← Quay lại</button>
@@ -43,12 +42,12 @@
 		<c:forEach items="${cart}" var="item">
 			<tr>
 
-				<td class="food-info"><img
-						src="${pageContext.request.contextPath}/images/${item.food.image}"
-						onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'"
-						alt="${item.food.name}"> ${item.food.name}</td>
-
-				<td><fmt:formatNumber value="${item.food.price}"
+				<td class="food-info">
+					<img src="${item.food.image}"
+					     onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'"
+					     alt="${item.food.name}">
+						${item.food.name}
+				</td><fmt:formatNumber value="${item.food.price}"
 									  type="number" /> đ</td>
 				<td>
 					<form action="${pageContext.request.contextPath}/cart"
@@ -109,8 +108,6 @@
 				Mua hàng
 			</a>
 
-
-
 		</div>
 	</div>
 </div>
@@ -134,7 +131,7 @@
 		<div class="food-suggest-list">
 			<c:forEach items="${restaurantFoods}" var="f">
 				<div class="food-card">
-					<img src="${pageContext.request.contextPath}/images/${f.image}"
+					<img src="${f.image}">
 						 onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'">
 
 					<p class="food-name">${f.name}</p>
@@ -142,7 +139,6 @@
 					<span class="food-price"> <fmt:formatNumber
 							value="${f.price}" type="number" /> đ
 						</span>
-
 					<a
 							href="${pageContext.request.contextPath}/cart?action=add&foodId=${f.id}&quantity=1"
 							class="btn-add"> + Thêm </a>

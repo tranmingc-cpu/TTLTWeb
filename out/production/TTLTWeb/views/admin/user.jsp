@@ -11,8 +11,11 @@
           href="${pageContext.request.contextPath}/views/admin/user.css">
 </head>
 <body>
+
 <jsp:include page="/views/jsp/demo.jsp"/>
+
 <div class="admin-container">
+
     <header class="admin-header">
         <h1>ADMIN PANEL</h1>
         <div class="admin-user">
@@ -27,9 +30,26 @@
         <a href="${pageContext.request.contextPath}/admin/order">📦 Quản lý đơn hàng</a>
         <a href="${pageContext.request.contextPath}/admin/user">👤 Quản lý user</a>
     </aside>
+
     <main class="admin-content">
 
         <h2>Quản lý tài khoản</h2>
+
+        <h3>➕ Thêm tài khoản</h3>
+        <form action="${pageContext.request.contextPath}/admin/user/add" method="post" class="add-user-form">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+
+            <select name="role">
+                <option value="user">User</option>
+                <option value="seller">Seller</option>
+                <option value="admin">Admin</option>
+            </select>
+
+            <button type="submit">Thêm</button>
+        </form>
+
+        <br>
 
         <table class="user-table">
             <thead>
@@ -37,19 +57,61 @@
                 <th>ID</th>
                 <th>Tên tài khoản</th>
                 <th>Role</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
             </tr>
             </thead>
 
             <tbody>
             <c:choose>
+
                 <c:when test="${not empty accounts}">
                     <c:forEach var="acc" items="${accounts}">
                         <tr>
-                            <td>${acc.id}</td>
-                            <td>${acc.username}</td>
+                            <td>${acc.idAccount}</td>
+                            <td>${acc.userName}</td>
                             <td>${acc.role}</td>
 
+                            <td>
+                                <c:choose>
+                                    <c:when test="${acc.status == 1}">
+                                        <span style="color: green;">Hoạt động</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span style="color: red;">Đã khóa</span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
 
+                            <td>
+
+                                <c:if test="${acc.role.toString() != 'admin'}">
+                                    <c:choose>
+                                        <c:when test="${acc.status == 1}">
+                                            <form action="${pageContext.request.contextPath}/admin/user/status" method="post" style="display:inline;">
+                                                <input type="hidden" name="id" value="${acc.idAccount}">
+                                                <input type="hidden" name="status" value="0">
+                                                <button type="submit">🔒 Khóa</button>
+                                            </form>
+                                        </c:when>
+
+                                        <c:otherwise>
+                                            <form action="${pageContext.request.contextPath}/admin/user/status" method="post" style="display:inline;">
+                                                <input type="hidden" name="id" value="${acc.idAccount}">
+                                                <input type="hidden" name="status" value="1">
+                                                <button type="submit">🔓 Mở</button>
+                                            </form>
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                    <form action="${pageContext.request.contextPath}/admin/user/delete" method="post" style="display:inline;">
+                                        <input type="hidden" name="id" value="${acc.idAccount}">
+                                        <button type="submit" onclick="return confirm('Xóa user này?')">🗑 Xóa</button>
+                                    </form>
+
+                                </c:if>
+
+                            </td>
                         </tr>
                     </c:forEach>
                 </c:when>
@@ -59,6 +121,7 @@
                         <td colspan="5">Không có tài khoản nào</td>
                     </tr>
                 </c:otherwise>
+
             </c:choose>
             </tbody>
         </table>
@@ -66,5 +129,6 @@
     </main>
 
 </div>
+
 </body>
 </html>

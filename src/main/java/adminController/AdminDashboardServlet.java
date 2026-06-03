@@ -36,12 +36,13 @@ public class AdminDashboardServlet extends HttpServlet {
 
         OrderDAO orderDao = new OrderDAO();
         AccountDAO accDao = new AccountDAO();
+        FoodDAOimpl foodao = new FoodDAOimpl();
         HttpSession session = request.getSession();
         Account acc = (Account) session.getAttribute("account");
         if (acc != null) {
             request.setAttribute("adminName", acc.getUserName());
         }
-         request.setAttribute("totalFoods", FoodDAOimpl.countFood());
+         request.setAttribute("totalFoods", foodao.countFood());
         request.setAttribute("totalUsers", accDao.countUser());
         request.setAttribute("totalOrders", orderDao.countOrder());
         request.setAttribute("totalRevenue", orderDao.totalRevenue());

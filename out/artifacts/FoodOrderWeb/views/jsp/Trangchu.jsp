@@ -78,8 +78,8 @@
 
 						<a class="product-link"
 						   href="${pageContext.request.contextPath}/product-detail?id=${f.id}">
-							<img src="${pageContext.request.contextPath}/images/${f.image}"
-								 onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'">
+							<img src="${f.image}"
+							     onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'">
 							<h3 class="product-name">${f.name}</h3>
 						</a>
 

@@ -55,6 +55,7 @@
 			<input type="text" name="keyword" list="foodList"
 				   placeholder="Tìm đồ ăn, đồ uống" value="${param.keyword}">
 
+
 			<button type="submit">🔍</button>
 			<datalist id="foodList">
 				<c:forEach var="f" items="${foodlist}">
@@ -93,8 +94,19 @@
 					<c:if test="${not empty sessionScope.account}">
 						<a href="${pageContext.request.contextPath}/profile">Tài
 							khoản</a>
-						<a href="${pageContext.request.contextPath}/orderHistory">
-							Đơn hàng </a>
+						<c:choose>
+							<c:when test="${sessionScope.account.role eq 'ADMIN'}">
+								<a href="${pageContext.request.contextPath}/admin/dashboard">
+									Quản lý
+								</a>
+							</c:when>
+
+							<c:otherwise>
+								<a href="${pageContext.request.contextPath}/orderHistory">
+									Đơn hàng
+								</a>
+							</c:otherwise>
+						</c:choose>
 						<a href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
 					</c:if>
 				</div>

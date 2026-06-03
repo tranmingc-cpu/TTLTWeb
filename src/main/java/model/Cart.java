@@ -1,75 +1,107 @@
 package model;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Cart {
+
 	private int idcart;
-	private String usersid;
-	private List<CartItem> items;
+	private int accountId;
+	private List<CartItem> items = new ArrayList<>();
 
 	public Cart() {
 	}
-
 	public int getIdcart() {
 		return idcart;
 	}
-
 	public void setIdcart(int idcart) {
 		this.idcart = idcart;
 	}
-
-	public String getUsersid() {
-		return usersid;
+	public int getAccountId() {
+		return accountId;
 	}
-
-	public void setUsersid(String usersid) {
-		this.usersid = usersid;
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
 	}
-
 	public List<CartItem> getItems() {
 		return items;
 	}
-
 	public void setItems(List<CartItem> items) {
 		this.items = items;
 	}
-	// add món vào giỏ hàng
-	public void addItem(Food food, int quantity) {
-		for (CartItem Item : items) {
-			if(Item.getFood().getId()==food.getId()) {
-				Item.setQuantity(Item.getQuantity()+ quantity);
+	public void addItem(Food food, BigDecimal quantity) {
+		if (items == null) {
+			items = new ArrayList<>();
+		}
+		for (CartItem item : items) {
+			if (item.getFood() != null
+					&& item.getFood().getId() == food.getId()) {
+				item.setQuantity(
+						item.getQuantity().add(quantity)
+				);
 				return;
-
 			}
 		}
-		items.add(new CartItem());
+		CartItem newItem = new CartItem();
+		newItem.setFood(food);
+		newItem.setQuantity(quantity);
+		items.add(newItem);
 	}
-	public void removeItem (int FoodID) {
-		items.removeIf(item -> item.getFood().getId()==FoodID);
+	public void removeItem(int foodId) {
+		if (items != null) {
+			items.removeIf(item ->
+					item.getFood() != null
+							&& item.getFood().getId() == foodId
+			);
+		}
+	}
 
-	}
-	public double getTotalPrice () {
-		double total =0;
+	public BigDecimal getTotalPrice() {
+		BigDecimal total = BigDecimal.ZERO;
+		if (items == null) {
+			return total;
+		}
 		for (CartItem cartItem : items) {
-			total+= cartItem.getTotalPrice();
 
+			if (cartItem.getTotalPrice() != null) {
+
+				total = total.add(
+						cartItem.getTotalPrice()
+				);
+			}
 		}
 		return total;
 	}
-	public int getTotailQuantity() {
-		int q =0;
+	public BigDecimal getTotalQuantity() {
+		BigDecimal q = BigDecimal.ZERO;
+		if (items == null) {
+			return q;
+		}
 		for (CartItem c : items) {
-			q += c.getQuantity();
+
+			q = q.add(c.getQuantity());
 		}
 		return q;
 	}
-	public void Clear() {
-		items.clear();
+	public void clear() {
+		if (items != null) {
+			items.clear();
+		}
 	}
-	public void updateItem (int FoodID,int quantity) {
-		items.removeIf(i -> i.getFood().getId() == FoodID && quantity <= 0);
+
+	public void updateItem(int foodId, BigDecimal quantity) {
+		if (items == null) {
+			return;
+		}
+		items.removeIf(i ->
+				i.getFood() != null
+						&& i.getFood().getId() == foodId
+						&& quantity.compareTo(BigDecimal.ZERO) <= 0
+		);
 		for (CartItem cartI : items) {
-			if(cartI.getFood().getId()==FoodID) {
+			if (cartI.getFood() != null
+					&& cartI.getFood().getId() == foodId) {
 				cartI.setQuantity(quantity);
 				return;
 			}
