@@ -1,5 +1,6 @@
 package controller;
 
+import DAO.CouponDAO;
 import DAO.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,7 +11,7 @@ import jakarta.servlet.http.HttpSession;
 import model.Account;
 import model.CartItem;
 import model.User;
-
+import model.Coupons;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -56,10 +57,45 @@ public class CheckoutServlet extends HttpServlet {
 			subTotal = subTotal.add(item.getTotalPrice()
 			);
 		}
-
-		BigDecimal shipFee = new BigDecimal("20000");
+		BigDecimal shipFee = new BigDecimal("0");
 
 		BigDecimal total = subTotal.add(shipFee);
+		BigDecimal discount = BigDecimal.ZERO;
+
+		Coupons coupon = (Coupons) session.getAttribute("coupon");
+
+		if (coupon != null) {
+
+			if (total.compareTo(
+					coupon.getMinOrderValue()) >= 0) {
+
+				if ("percentage".equalsIgnoreCase(
+						coupon.getDiscountType())) {
+
+					discount = total
+							.multiply(
+									coupon.getDiscountValue())
+							.divide(
+									BigDecimal.valueOf(100));
+
+					if (coupon.getMaxDiscountAmount() != null
+							&& discount.compareTo(
+							coupon.getMaxDiscountAmount()) > 0) {
+
+						discount =
+								coupon.getMaxDiscountAmount();
+					}
+
+				} else if ("fixed".equalsIgnoreCase(
+						coupon.getDiscountType())) {
+
+					discount =
+							coupon.getDiscountValue();
+				}
+
+				total = total.subtract(discount);
+			}
+		}
 
 
 		//  LẤY TỪ ORDER SERVLET
@@ -68,10 +104,10 @@ public class CheckoutServlet extends HttpServlet {
 
 		request.setAttribute("cart", cart);
 		request.setAttribute("subTotal", subTotal);
-		request.setAttribute("shipFee", shipFee);
 		request.setAttribute("total", total);
 		request.setAttribute("address", address);
 		request.setAttribute("note", note);
+		request.setAttribute("shipFee", shipFee);
 
 		request.getRequestDispatcher("/views/jsp/checkout.jsp")
 				.forward(request, response);
@@ -80,7 +116,7 @@ public class CheckoutServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		CouponDAO coupondao= new CouponDAO();
 		HttpSession session = request.getSession(false);
 		if (session == null || session.getAttribute("account") == null) {
 			response.sendRedirect(request.getContextPath() + "/login");
@@ -100,7 +136,6 @@ public class CheckoutServlet extends HttpServlet {
 		String address = (String) session.getAttribute("orderAddress");
 		String note = (String) session.getAttribute("orderNote");
 
-		// 1. KIỂM TRA PROFILE TRÁNH LỖI NULL POINTER EXCEPTION
 		User profile = new UserDAO().getProfileByAccId(acc.getIdAccount());
 		String email = "";
 
@@ -127,12 +162,38 @@ public class CheckoutServlet extends HttpServlet {
 
 		for (var entry : cartByRes.entrySet()) {
 
-			BigDecimal shipFee = new BigDecimal("20000");
+			BigDecimal shipFee = new BigDecimal("0");
 
 			BigDecimal total = entry.getValue().stream()
 					.map(CartItem::getTotalPrice)
 					.reduce(BigDecimal.ZERO, BigDecimal::add)
 					.add(shipFee);
+			Coupons coupon =
+					(Coupons) session.getAttribute("coupon");
+			BigDecimal discount = BigDecimal.ZERO;
+			if (coupon != null) {
+
+				if (total.compareTo(
+						coupon.getMinOrderValue()) >= 0) {
+
+					if ("percentage".equalsIgnoreCase(
+							coupon.getDiscountType())) {
+
+						discount = total.multiply(coupon.getDiscountValue()).divide(BigDecimal.valueOf(100));
+
+						if (coupon.getMaxDiscountAmount() != null
+								&& discount.compareTo(coupon.getMaxDiscountAmount()) > 0) {
+
+							discount = coupon.getMaxDiscountAmount();
+						}
+
+					} else {
+						discount = coupon.getDiscountValue();
+					}
+
+					total = total.subtract(discount);
+				}
+			}
 			int orderId = orderDAO.createOrder(
 					acc.getIdAccount(),
 					entry.getKey(),
@@ -184,7 +245,14 @@ public class CheckoutServlet extends HttpServlet {
 		session.removeAttribute("orderNote");
 		cartDAO.clearCartByUser(acc.getIdAccount());
 		session.setAttribute("orderIds", orderIds);
+		if (session.getAttribute("coupon") != null) {
 
+			Coupons cp = (Coupons) session.getAttribute("coupon");
+
+			coupondao.increaseUsedCount(cp.getId());
+
+			session.removeAttribute("coupon");
+		}
 		response.sendRedirect(request.getContextPath() + "/orderSuccess");
 	}
 	}

@@ -47,8 +47,13 @@
 					     onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'"
 					     alt="${item.food.name}">
 						${item.food.name}
-				</td><fmt:formatNumber value="${item.food.price}"
-									  type="number" /> đ</td>
+				</td>
+
+				<td>
+					<fmt:formatNumber
+							value="${item.food.price}"
+							type="number"/> đ
+				</td>
 				<td>
 					<form action="${pageContext.request.contextPath}/cart"
 						  method="post">
@@ -87,28 +92,86 @@
 	</table>
 
 	<div class="cart-total">
+		<div class="voucher-box">
+			<form action="${pageContext.request.contextPath}/coupon"
+			      method="post">
+
+				<input type="text" name="couponCode" placeholder="Nhập mã giảm giá">
+
+				<button type="submit">
+					Áp dụng
+				</button>
+			</form>
+
+			<c:if test="${coupon != null}">
+				<p class="coupon-success">
+					Đã áp dụng mã:
+					<b>${coupon.code}</b>
+				</p>
+			</c:if>
+
+			<c:if test="${not empty couponMessage}">
+				<p class="coupon-error">
+						${couponMessage}
+				</p>
+			</c:if>
+
+			<c:if test="${not empty couponError}">
+				<p class="coupon-error">
+						${couponError}
+				</p>
+			</c:if>
+
+		</div>
+
 		<div>
 			<p>
-				Tạm tính: <strong> <fmt:formatNumber value="${subTotal}"
-													 type="number" /> đ
-			</strong>
+				Tạm tính:
+				<strong>
+					<fmt:formatNumber
+							value="${subTotal}"
+							type="number"/> đ
+				</strong>
 			</p>
 			<p>
-				Phí ship: <strong> <fmt:formatNumber value="${shipFee}"
-													 type="number" /> đ
-			</strong>
+				Phí ship:
+				<strong>
+					<fmt:formatNumber
+							value="${shipFee}"
+							type="number"/> đ
+				</strong>
 			</p>
+
+			<c:if test="${discount > 0}">
+				<p class="discount-row">
+					Giảm giá:
+					<strong>
+						-
+						<fmt:formatNumber
+								value="${discount}"
+								type="number"/> đ
+					</strong>
+				</p>
+			</c:if>
 		</div>
 
 		<div class="cart-final">
-			<span>Tổng tiền:</span> <strong> <fmt:formatNumber
-				value="${total}" type="number" /> đ
-		</strong>
-			<a href="${pageContext.request.contextPath}/order" class="btn-buy">
+
+			<span>Tổng tiền:</span>
+
+			<strong>
+				<fmt:formatNumber
+						value="${total}"
+						type="number"/> đ
+			</strong>
+
+			<a href="${pageContext.request.contextPath}/order"
+			   class="btn-buy">
 				Mua hàng
 			</a>
 
 		</div>
+
 	</div>
 </div>
 
@@ -130,19 +193,29 @@
 
 		<div class="food-suggest-list">
 			<c:forEach items="${restaurantFoods}" var="f">
+
 				<div class="food-card">
-					<img src="${f.image}">
-						 onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'">
 
-					<p class="food-name">${f.name}</p>
+					<img src="${f.image}"
+					     onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'">
 
-					<span class="food-price"> <fmt:formatNumber
-							value="${f.price}" type="number" /> đ
-						</span>
-					<a
-							href="${pageContext.request.contextPath}/cart?action=add&foodId=${f.id}&quantity=1"
-							class="btn-add"> + Thêm </a>
+					<p class="food-name">
+							${f.name}
+					</p>
+
+					<span class="food-price">
+                <fmt:formatNumber
+						value="${f.price}"
+		                type="number"/> đ
+            </span>
+
+					<a href="${pageContext.request.contextPath}/cart?action=add&foodId=${f.id}&quantity=1"
+					   class="btn-add">
+						+ Thêm
+					</a>
+
 				</div>
+
 			</c:forEach>
 		</div>
 	</div>
