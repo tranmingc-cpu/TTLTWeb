@@ -20,7 +20,7 @@
 
 	<div class="nav">
 		<a class="${empty param.action ? 'active' : ''}"
-		   href="${pageContext.request.contextPath}/Trangchu.jsp">Trang Chủ</a>
+		   href="${pageContext.request.contextPath}/Trangchu">Trang Chủ</a>
 
 		<a class="${param.ID == '1' ? 'active' : ''}"
 		   href="${pageContext.request.contextPath}/Trangchu?action=category&ID=1">Món Nước</a>
@@ -69,7 +69,6 @@
 		</div>
 	</div>
 
-	<!-- CONTENT -->
 	<main class="page-content">
 
 		<div class="section">

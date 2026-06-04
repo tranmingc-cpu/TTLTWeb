@@ -12,7 +12,6 @@
           href="${pageContext.request.contextPath}/views/Shared/checkout.css">
 </head>
 <body>
-
 <jsp:include page="/views/jsp/demo.jsp" />
 <div class="checkout-container">
 
@@ -45,19 +44,49 @@
             </tbody>
         </table>
 
-        <div class="summary">
-            <div>
-                <span>Tạm tính:</span>
-                <b><fmt:formatNumber value="${subTotal}" groupingUsed="true"/> ₫</b>
-            </div>
-            <div>
-                <span>Phí ship:</span>
-                <b><fmt:formatNumber value="${shipFee}" groupingUsed="true"/> ₫</b>
-            </div>
-            <div class="total">
-                <span>TỔNG:</span>
-                <b><fmt:formatNumber value="${total}" groupingUsed="true"/> ₫</b>
-            </div>
+        <div class="checkout-summary">
+
+            <c:if test="${coupon != null}">
+                <div class="coupon-info">
+                    🎉 Mã giảm giá:
+                    <b>${coupon.code}</b>
+                </div>
+            </c:if>
+
+            <p>
+                <span>Giá Gốc </span>
+                <strong>
+                    <fmt:formatNumber value="${subTotal}"
+                                      type="number"/> đ
+                </strong>
+            </p>
+
+            <p>
+                <span>Phí ship</span>
+                <strong>
+                    <fmt:formatNumber value="${shipFee}"
+                                      type="number"/> đ
+                </strong>
+            </p>
+
+            <c:if test="${discount > 0}">
+                <p class="discount-row">
+                    <span>Giảm giá</span>
+                    <strong>
+                        -
+                        <fmt:formatNumber value="${discount}"
+                                          type="number"/> đ
+                    </strong>
+                </p>
+            </c:if>
+
+            <p class="total-row">
+                <span>Tổng thanh toán</span>
+                <strong>
+                    <fmt:formatNumber value="${total}"
+                                      type="number"/> đ
+                </strong>
+            </p>
         </div>
 
         <div class="address-box">
@@ -76,10 +105,8 @@
                 ✅ Xác nhận thanh toán
             </button>
         </form>
-
     </div>
-</div>
-
+    </div>
 <jsp:include page="/views/jsp/footer.jsp" />
 </body>
 </html>
