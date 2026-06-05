@@ -24,7 +24,12 @@
     <div class="main-content">
     <main class="admin-content">
         <h2>Quản lý tài khoản</h2>
-
+        <c:if test="${not empty sessionScope.successMessage}">
+            <div class="success-message">
+                    ${sessionScope.successMessage}
+            </div>
+            <c:remove var="successMessage" scope="session"/>
+        </c:if>
         <div style="margin-bottom: 20px;">
             <a href="${pageContext.request.contextPath}/admin/user/add-page" style="text-decoration: none;">
                 <button type="button" class="btn-add">➕ Thêm tài khoản</button>

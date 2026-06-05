@@ -12,6 +12,7 @@ import model.Account.Role;
 import DAO.AccountDAO;
 import DAO.UserDAO;
 import model.Account;
+import util.PasswordUtils;
 
 /**
  * Servlet implementation class UserServlet
@@ -84,15 +85,23 @@ public class UserServlet extends HttpServlet {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
 			String roleStr = request.getParameter("role").toUpperCase();
+			AccountDAO dao = new AccountDAO();
+			if(dao.isUsernameExists((username))){
+				request.setAttribute("error", "Tên đăng nhập đã tồn tại!");
+				request.getRequestDispatcher("/views/admin/add-user.jsp")
+						.forward(request, response);
+				return;
+			}
 			Role roles = Role.valueOf(roleStr);
 
 			Account acc = new Account();
 			acc.setUserName(username);
-			acc.setPassword(password);
+			acc.setPassword(PasswordUtils.toMD5(password));
 			acc.setRole(roles);
 			acc.setStatus(1);
-			new AccountDAO().insertUser(acc);
 
+			new AccountDAO().insertUser(acc);
+			request.getSession().setAttribute("successMessage", "Thêm tài khoản thành công!");
 			response.sendRedirect(request.getContextPath() + "/admin/user");
 		}
 	}
