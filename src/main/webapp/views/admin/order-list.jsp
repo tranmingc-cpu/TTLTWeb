@@ -10,15 +10,11 @@
 </head>
 <body>
 <jsp:include page="/views/jsp/demo.jsp"/>
-<div class="admin-container">
 
-    <header class="admin-header">
+<div class="admin-container">
+    <div class="admin-header">
         <h1>ADMIN PANEL</h1>
-        <div class="admin-user">
-            Xin chào <b>${adminName}</b> |
-            <a href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
-        </div>
-    </header>
+    </div>
 
     <jsp:include page="/views/admin/sidebar.jsp"/>
 

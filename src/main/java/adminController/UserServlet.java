@@ -31,40 +31,54 @@ public class UserServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		String path = request.getPathInfo();
 		AccountDAO dao = new AccountDAO();
+
+		// Trang thêm user
 		if (path != null && path.equals("/add-page")) {
 			request.getRequestDispatcher("/views/admin/add-user.jsp")
 					.forward(request, response);
 			return;
 		}
+
 		String action = request.getParameter("action");
-		if ("lock".equals(action)) {
+
+		if (action != null) {
 			int id = Integer.parseInt(request.getParameter("id"));
 			Account target = dao.getAccountById(id);
 
-			if (!"admin".equals(target.getRole())) {
-				dao.updateStatus(id, 0);
+			if (target != null && target.getRole() != Role.ADMIN) {
+
+				if ("delete".equals(action)) {
+					dao.deleteUser(id);
+
+				} else if ("lock".equals(action)) {
+					dao.updateStatus(id, 0);
+
+				} else if ("unlock".equals(action)) {
+					dao.updateStatus(id, 1);
+				}
 			}
 
 			response.sendRedirect(request.getContextPath() + "/admin/user");
 			return;
 		}
+
 		request.setAttribute("accounts", dao.getAllAccount());
 		request.getRequestDispatcher("/views/admin/user.jsp")
 				.forward(request, response);
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		String path = request.getPathInfo();
-
 		if (path != null && path.equals("/add")) {
 
 			String username = request.getParameter("username");

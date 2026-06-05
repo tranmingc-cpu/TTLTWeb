@@ -3,15 +3,17 @@
 <html>
 <head>
     <title>Thêm tài khoản<</title>
-    <jsp:include page="/views/jsp/demo.jsp"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/views/admin/add-user.css">
 
 </head>
 <body>
+<jsp:include page="/views/jsp/demo.jsp"/>
 
 <div class="admin-container">
-    <header class="admin-header">
+    <div class="admin-header">
         <h1>ADMIN PANEL</h1>
-    </header>
+    </div>
+
     <jsp:include page="/views/admin/sidebar.jsp"/>
 
     <main class="admin-content">
