@@ -31,6 +31,7 @@ public class AccountDAO {
                 acc.setUserName(rs.getString("USERNAME"));
                 acc.setPassword(rs.getString("PASS"));
                 String role = rs.getString("ROLES");
+                acc.setStatus(rs.getInt("STATUS"));
                 acc.setRole(Account.Role.valueOf(role.trim().toUpperCase()));
                 return acc;
             }
@@ -178,7 +179,6 @@ public class AccountDAO {
         return -1;
     }
 
-    // ===== ADMIN =====
     public List<Account> getAllAccount() {
         List<Account> list = new ArrayList<>();
         String sql = "SELECT * FROM ACCOUNT";
@@ -193,6 +193,7 @@ public class AccountDAO {
                 acc.setIdAccount(rs.getInt("ID"));
                 acc.setUserName(rs.getString("USERNAME"));
                 acc.setRole(Role.valueOf(rs.getString("ROLES").trim().toUpperCase()));
+                acc.setStatus(rs.getInt("STATUS"));
                 list.add(acc);
             }
         } catch (SQLException e) {
@@ -230,6 +231,36 @@ public class AccountDAO {
 
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean deleteUser(int id) {
+        String sql = "DELETE FROM ACCOUNT WHERE ID = ?";
+
+        try {
+            Connection con  = DBConnect.getConnect();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    public boolean isUsernameExists(String username) {
+        String sql = "SELECT 1 FROM ACCOUNT WHERE  USERNAME = ?";
+        try {
+            Connection con = DBConnect.getConnect();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1,username);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;

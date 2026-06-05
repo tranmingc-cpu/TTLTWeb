@@ -40,6 +40,13 @@ public class LoginServlet extends HttpServlet {
                     .forward(request, response);
             return;
         }
+        // Tài khoản bị khóa
+        if (acc.getStatus() == 0) {
+            request.setAttribute("error", "Tài khoản của bạn đã bị khóa!");
+            request.getRequestDispatcher("/views/jsp/login.jsp")
+                    .forward(request, response);
+            return;
+        }
         HttpSession session = request.getSession(true);
         session.setAttribute("account", acc);
         cartDAO.getOrCreateCart(acc.getIdAccount());
