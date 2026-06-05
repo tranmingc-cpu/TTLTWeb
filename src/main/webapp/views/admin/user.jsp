@@ -7,23 +7,21 @@
     <meta charset="UTF-8">
     <title>Quản Lý User</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/admin/user.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/views/Shared/notification.css">
+
 </head>
 <body>
 
 <jsp:include page="/views/jsp/demo.jsp"/>
 
 <div class="admin-container">
-
-    <header class="admin-header">
+    <div class="admin-header">
         <h1>ADMIN PANEL</h1>
-        <div class="admin-user">
-            Xin chào, <span>${sessionScope.account.userName}</span>
-            <a href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
-        </div>
-    </header>
+    </div>
 
     <jsp:include page="/views/admin/sidebar.jsp"/>
 
+    <div class="main-content">
     <main class="admin-content">
         <h2>Quản lý tài khoản</h2>
 
@@ -62,29 +60,28 @@
                                 </c:choose>
                             </td>
                             <td>
-                                <c:if test="${acc.role.toString() != 'admin'}">
                                     <c:choose>
                                         <c:when test="${acc.status == 1}">
-                                            <form action="${pageContext.request.contextPath}/admin/user/status" method="post">
-                                                <input type="hidden" name="id" value="${acc.idAccount}">
-                                                <input type="hidden" name="status" value="0">
-                                                <button type="submit">🔒 Khóa</button>
-                                            </form>
+                                            <a class="action-btn btn-lock"
+                                               href="${pageContext.request.contextPath}/admin/user?action=lock&id=${acc.idAccount}">
+                                                🔒 Khóa
+                                            </a>
                                         </c:when>
+
                                         <c:otherwise>
-                                            <form action="${pageContext.request.contextPath}/admin/user/status" method="post">
-                                                <input type="hidden" name="id" value="${acc.idAccount}">
-                                                <input type="hidden" name="status" value="1">
-                                                <button type="submit">🔓 Mở</button>
-                                            </form>
+                                            <a class="action-btn btn-unlock"
+                                               href="${pageContext.request.contextPath}/admin/user?action=unlock&id=${acc.idAccount}">
+                                                🔓 Mở
+                                            </a>
                                         </c:otherwise>
                                     </c:choose>
 
-                                    <form action="${pageContext.request.contextPath}/admin/user/delete" method="post">
-                                        <input type="hidden" name="id" value="${acc.idAccount}">
-                                        <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xóa user này?')">🗑 Xóa</button>
-                                    </form>
-                                </c:if>
+                                    <a class="action-btn btn-delete btn-delete-trigger"
+                                       href="javascript:void(0);"
+                                       data-url="${pageContext.request.contextPath}/admin/user?action=delete&id=${acc.idAccount}"
+                                       data-message="Bạn có chắc chắn muốn xóa tài khoản này không?">
+                                        🗑️ Xóa
+                                    </a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -100,6 +97,7 @@
     </main>
 
 </div>
+    <jsp:include page="/views/jsp/notification.jsp"/>
 
 </body>
 </html>
