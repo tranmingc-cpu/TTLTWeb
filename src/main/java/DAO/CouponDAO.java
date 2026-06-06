@@ -7,6 +7,7 @@ import java.util.List;
 
 public class CouponDAO {
         public boolean addCoupon(Coupons coupon) {
+
             String sql = "INSERT INTO COUPONS (CODE, DISCOUNTTYPE, DISCOUNTVALUE, MINORDERVALUE, MAXDISCOUNTAMOUNT, QUANTITY, STARTDATE, ENDDATE, STATUS ) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
