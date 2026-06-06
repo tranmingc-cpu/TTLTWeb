@@ -7,10 +7,9 @@ import java.util.List;
 
 public class CouponDAO {
         public boolean addCoupon(Coupons coupon) {
-            System.out.println("==> TEST DAO: " + coupon.getCode());
-            String sql = "INSERT INTO COUPONS (CODE, DISCOUNTTYPE, DISCOUNTVALUE, MINORDERVALUE, "
-                    + "MAXDISCOUNTAMOUNT, QUANTITY, STARTDATE, ENDDATE, STATUS ) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            String sql = "INSERT INTO COUPONS (CODE, DISCOUNTTYPE, DISCOUNTVALUE, MINORDERVALUE, MAXDISCOUNTAMOUNT, QUANTITY, STARTDATE, ENDDATE, STATUS ) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             try (Connection conn = DBConnect.getConnect();
                  PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -143,7 +142,90 @@ public class CouponDAO {
         }
         return null;
     }
-}
+    public Coupons getCouponByCode(String code) {
+        String sql =
+                "SELECT ID, CODE, DISCOUNTTYPE, DISCOUNTVALUE, " +
+                        "MINORDERVALUE, MAXDISCOUNTAMOUNT " +
+                        "FROM COUPONS " +
+                        "WHERE CODE = ? " +
+                        "AND STATUS = 1 " +
+                        "AND QUANTITY > USEDCOUNT " +
+                        "AND GETDATE() BETWEEN STARTDATE AND ENDDATE";
+
+        try (
+                Connection conn = DBConnect.getConnect();
+                PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
+            ps.setString(1, code);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Coupons coupon = new Coupons();
+                coupon.setId(rs.getInt("ID"));
+                coupon.setCode(rs.getString("CODE"));
+                coupon.setDiscountType(rs.getString("DISCOUNTTYPE"));
+                coupon.setDiscountValue(rs.getBigDecimal("DISCOUNTVALUE"));
+                coupon.setMinOrderValue(rs.getBigDecimal("MINORDERVALUE"));
+                coupon.setMaxDiscountAmount(rs.getBigDecimal("MAXDISCOUNTAMOUNT"));
+
+                return coupon;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    public void increaseUsedCount(int id) {
+        String sql = "UPDATE COUPONS " +
+                        "SET USEDCOUNT = USEDCOUNT + 1 " +
+                        "WHERE ID = ?";
+
+        try (
+                Connection conn = DBConnect.getConnect();
+                PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void toggleStatus(int id) {
+        String sql = "UPDATE COUPONS " +
+                        "SET STATUS = CASE " +
+                        "WHEN STATUS = 1 THEN 0 " +
+                        "ELSE 1 END " +
+                        "WHERE ID = ?";
+
+        try (
+                Connection conn = DBConnect.getConnect();
+                PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
+
+            ps.setInt(1, id);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public int coutCoupon ( ){
+            String sql = "SELECT COUNT(ID) FROM COUPONS";
+            try (Connection con =  DBConnect.getConnect();
+            PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery();){
+                 if (rs.next() ) {
+                     return rs.getInt(1);
+                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return 0;
+    }
+    }
+
 
 
 

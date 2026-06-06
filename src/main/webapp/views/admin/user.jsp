@@ -7,26 +7,29 @@
     <meta charset="UTF-8">
     <title>Quản Lý User</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/admin/user.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/views/Shared/notification.css">
+
 </head>
 <body>
 
 <jsp:include page="/views/jsp/demo.jsp"/>
 
 <div class="admin-container">
-
-    <header class="admin-header">
+    <div class="admin-header">
         <h1>ADMIN PANEL</h1>
-        <div class="admin-user">
-            Xin chào, <span>${sessionScope.account.userName}</span>
-            <a href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
-        </div>
-    </header>
+    </div>
 
     <jsp:include page="/views/admin/sidebar.jsp"/>
 
+    <div class="main-content">
     <main class="admin-content">
         <h2>Quản lý tài khoản</h2>
-
+        <c:if test="${not empty sessionScope.successMessage}">
+            <div class="success-message">
+                    ${sessionScope.successMessage}
+            </div>
+            <c:remove var="successMessage" scope="session"/>
+        </c:if>
         <div style="margin-bottom: 20px;">
             <a href="${pageContext.request.contextPath}/admin/user/add-page" style="text-decoration: none;">
                 <button type="button" class="btn-add">➕ Thêm tài khoản</button>
@@ -62,29 +65,33 @@
                                 </c:choose>
                             </td>
                             <td>
-                                <c:if test="${acc.role.toString() != 'admin'}">
                                     <c:choose>
                                         <c:when test="${acc.status == 1}">
-                                            <form action="${pageContext.request.contextPath}/admin/user/status" method="post">
-                                                <input type="hidden" name="id" value="${acc.idAccount}">
-                                                <input type="hidden" name="status" value="0">
-                                                <button type="submit">🔒 Khóa</button>
-                                            </form>
+                                            <a class="action-btn btn-lock"
+                                               href="${pageContext.request.contextPath}/admin/user?action=lock&id=${acc.idAccount}">
+                                                🔒 Khóa
+                                            </a>
                                         </c:when>
+
                                         <c:otherwise>
-                                            <form action="${pageContext.request.contextPath}/admin/user/status" method="post">
-                                                <input type="hidden" name="id" value="${acc.idAccount}">
-                                                <input type="hidden" name="status" value="1">
-                                                <button type="submit">🔓 Mở</button>
-                                            </form>
+                                            <a class="action-btn btn-unlock"
+                                               href="${pageContext.request.contextPath}/admin/user?action=unlock&id=${acc.idAccount}">
+                                                🔓 Mở
+                                            </a>
                                         </c:otherwise>
                                     </c:choose>
-
-                                    <form action="${pageContext.request.contextPath}/admin/user/delete" method="post">
-                                        <input type="hidden" name="id" value="${acc.idAccount}">
-                                        <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xóa user này?')">🗑 Xóa</button>
-                                    </form>
-                                </c:if>
+                                <a class="action-btn"
+                                   style="background:#f59e0b;color:white;"
+                                   href="javascript:void(0);"
+                                   onclick="showChangePass(${acc.idAccount})">
+                                    🔑 Đổi pass
+                                </a>
+                                    <a class="action-btn btn-delete btn-delete-trigger"
+                                       href="javascript:void(0);"
+                                       data-url="${pageContext.request.contextPath}/admin/user?action=delete&id=${acc.idAccount}"
+                                       data-message="Bạn có chắc chắn muốn xóa tài khoản này không?">
+                                        🗑️ Xóa
+                                    </a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -100,6 +107,50 @@
     </main>
 
 </div>
+    <div id="changePassModal"
+         style="display:none;position:fixed;top:0;left:0;width:100%;
+     height:100%;background:rgba(0,0,0,0.5);z-index:9999;">
 
+        <div style="background:white;width:400px;padding:20px;
+         margin:120px auto;border-radius:10px;">
+
+            <h3>Đổi mật khẩu</h3>
+
+            <form action="${pageContext.request.contextPath}/admin/user/change-password"
+                  method="post">
+
+                <input type="hidden" id="userId" name="id">
+
+                <label>Mật khẩu mới:</label><br>
+                <input type="password"
+                       name="newPassword"
+                       required
+                       style="width:100%;padding:8px;margin-top:8px;margin-bottom:15px;">
+
+                <button type="submit" class="btn-add">
+                    Lưu
+                </button>
+
+                <button type="button"
+                        onclick="closeChangePass()"
+                        style="margin-left:10px;">
+                    Hủy
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showChangePass(id) {
+            document.getElementById("userId").value = id;
+            document.getElementById("changePassModal").style.display = "block";
+        }
+
+        function closeChangePass() {
+            document.getElementById("changePassModal").style.display = "none";
+        }
+    </script>
+    <jsp:include page="/views/jsp/notification.jsp"/>
 </body>
 </html>

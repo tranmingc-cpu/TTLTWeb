@@ -44,9 +44,10 @@ public class CouponServlet extends HttpServlet {
         String action = request.getParameter("action");
         if ("add".equals(action)) {
             addCoupon(request, response);
+        } else if ( "toggleStatus".equals(action)){
+            toggleStatus(request,response);
         }
     }
-
     private void showList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<Coupons> coupons = copDao.getAllCounpons();
@@ -87,6 +88,12 @@ public class CouponServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        response.sendRedirect(request.getContextPath() + "/admin/coupon");
+    }
+    private void toggleStatus( HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        copDao.toggleStatus(id);
         response.sendRedirect(request.getContextPath() + "/admin/coupon");
     }
 }

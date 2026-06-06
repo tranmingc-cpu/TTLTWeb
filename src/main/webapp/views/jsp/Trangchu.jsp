@@ -20,7 +20,7 @@
 
 	<div class="nav">
 		<a class="${empty param.action ? 'active' : ''}"
-		   href="${pageContext.request.contextPath}/Trangchu.jsp">Trang Chủ</a>
+		   href="${pageContext.request.contextPath}/Trangchu">Trang Chủ</a>
 
 		<a class="${param.ID == '1' ? 'active' : ''}"
 		   href="${pageContext.request.contextPath}/Trangchu?action=category&ID=1">Món Nước</a>
@@ -41,7 +41,6 @@
 		   href="${pageContext.request.contextPath}/Trangchu?action=category&ID=6">Khác</a>
 	</div>
 
-	<!-- SLIDER -->
 	<div class="promo-slider">
 		<div class="slides" id="slides">
 
@@ -69,7 +68,6 @@
 		</div>
 	</div>
 
-	<!-- CONTENT -->
 	<main class="page-content">
 
 		<div class="section">
@@ -118,7 +116,6 @@
 	<jsp:include page="/views/jsp/footer.jsp" />
 </div>
 
-<!-- JS SLIDER -->
 <script>
 	let index = 0;
 	const slides = document.getElementById("slides");

@@ -12,6 +12,7 @@ import model.Account.Role;
 import DAO.AccountDAO;
 import DAO.UserDAO;
 import model.Account;
+import util.PasswordUtils;
 
 /**
  * Servlet implementation class UserServlet
@@ -31,53 +32,90 @@ public class UserServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		String path = request.getPathInfo();
 		AccountDAO dao = new AccountDAO();
+
+		// Trang thêm user
 		if (path != null && path.equals("/add-page")) {
 			request.getRequestDispatcher("/views/admin/add-user.jsp")
 					.forward(request, response);
 			return;
 		}
+
 		String action = request.getParameter("action");
-		if ("lock".equals(action)) {
+
+		if (action != null) {
 			int id = Integer.parseInt(request.getParameter("id"));
 			Account target = dao.getAccountById(id);
 
-			if (!"admin".equals(target.getRole())) {
-				dao.updateStatus(id, 0);
+			if (target != null && target.getRole() != Role.ADMIN) {
+
+				if ("delete".equals(action)) {
+					dao.deleteUser(id);
+
+				} else if ("lock".equals(action)) {
+					dao.updateStatus(id, 0);
+
+				} else if ("unlock".equals(action)) {
+					dao.updateStatus(id, 1);
+				}
+			} else if("resetpass".equals(action)){
+				String newPass = request.getParameter("newPassword");
+				dao.updatePassword(id,PasswordUtils.toMD5(newPass ));
 			}
 
 			response.sendRedirect(request.getContextPath() + "/admin/user");
 			return;
 		}
+
 		request.setAttribute("accounts", dao.getAllAccount());
 		request.getRequestDispatcher("/views/admin/user.jsp")
 				.forward(request, response);
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		String path = request.getPathInfo();
-
 		if (path != null && path.equals("/add")) {
 
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
 			String roleStr = request.getParameter("role").toUpperCase();
+			AccountDAO dao = new AccountDAO();
+			if(dao.isUsernameExists((username))){
+				request.setAttribute("error", "Tên đăng nhập đã tồn tại!");
+				request.getRequestDispatcher("/views/admin/add-user.jsp")
+						.forward(request, response);
+				return;
+			}
 			Role roles = Role.valueOf(roleStr);
 
 			Account acc = new Account();
 			acc.setUserName(username);
-			acc.setPassword(password);
+			acc.setPassword(PasswordUtils.toMD5(password));
 			acc.setRole(roles);
 			acc.setStatus(1);
+
 			new AccountDAO().insertUser(acc);
+			request.getSession().setAttribute("successMessage", "Thêm tài khoản thành công!");
+			response.sendRedirect(request.getContextPath() + "/admin/user");
+		}
+		else if (path != null && path.equals("/change-password")) {
+
+			int id = Integer.parseInt(request.getParameter("id"));
+			String newPassword = request.getParameter("newPassword");
+
+			AccountDAO dao = new AccountDAO();
+			dao.updatePassword(id, PasswordUtils.toMD5(newPassword));
+
+			request.getSession().setAttribute("successMessage", "Đổi mật khẩu thành công!");
 
 			response.sendRedirect(request.getContextPath() + "/admin/user");
 		}

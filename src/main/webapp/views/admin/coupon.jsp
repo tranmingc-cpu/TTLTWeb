@@ -86,17 +86,33 @@
                                 <td style="font-size: 12px; max-width: 150px;">
                                     Từ: <fmt:formatDate value="${c.startDate}" pattern="dd/MM/yyyy HH:mm"/><br>
                                     Đến: <fmt:formatDate value="${c.endDate}" pattern="dd/MM/yyyy HH:mm"/>
-                                </td>
                                 <td>
-                                    <c:choose>
-                                        <c:when test="${c.status}">
-                                            <span style="color: #2ecc71; font-weight: bold;">Bật</span>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <span style="color: #e74c3c; font-weight: bold;">Tắt</span>
-                                        </c:otherwise>
-                                    </c:choose>
+                                    <form action="${pageContext.request.contextPath}/admin/coupon"
+                                          method="post"
+                                          style="display:inline;">
+
+                                        <input type="hidden"
+                                               name="action"
+                                               value="toggleStatus">
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="${c.id}">
+
+                                        <label class="switch">
+                                            <input type="checkbox"
+                                                   onchange="this.form.submit()"
+                                                   <c:if test="${c.status}">checked</c:if>>
+                                            <span class="slider round"></span>
+                                        </label>
+
+                                    </form>
+                                    <br>
+                                    <span class="${c.status ? 'status-on' : 'status-off'}">
+                                            ${c.status ? 'Bật' : 'Tắt'}
+                                    </span>
                                 </td>
+
                                 <td>
                                     <a class="action-btn btn-delete btn-delete-trigger"
                                        href="javascript:void(0);"
@@ -111,7 +127,7 @@
                     <c:otherwise>
                         <tr>
                             <td colspan="11" class="empty-text">
-                                🚫 Chưa có mã giảm giá nào td>
+                                🚫 Chưa có mã giảm giá nào </td>
                         </tr>
                     </c:otherwise>
                 </c:choose>

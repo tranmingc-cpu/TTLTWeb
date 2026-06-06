@@ -12,6 +12,7 @@ import jakarta.servlet.http.Part;
 import model.Food;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Paths;
 
 @WebServlet("/admin/food/edit")
@@ -51,7 +52,7 @@ public class EditFoodServlet extends HttpServlet {
 
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
-        double price = Double.parseDouble(request.getParameter("price"));
+        BigDecimal price = new BigDecimal(request.getParameter("price"));
         // String description = request.getParameter("description");
 
         int categoryId = Integer.parseInt(request.getParameter("categoryId"));

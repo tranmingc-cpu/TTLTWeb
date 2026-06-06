@@ -237,3 +237,105 @@ body {
 .btn-add:hover {
 	background: #388e3c;
 }
+.voucher-box{
+	margin: 20px 0;
+	padding: 15px;
+	border: 1px solid #e5e5e5;
+	border-radius: 10px;
+	background: #fafafa;
+}
+
+.voucher-box form{
+	display: flex;
+	gap: 10px;
+}
+
+.voucher-box input[type="text"]{
+	flex: 1;
+	padding: 10px 15px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	outline: none;
+	font-size: 15px;
+}
+
+.voucher-box input[type="text"]:focus{
+	border-color: #ff6b35;
+}
+
+.voucher-box button{
+	padding: 10px 20px;
+	background: #ff6b35;
+	color: white;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+.voucher-box button:hover{
+	background: #e85b28;
+}
+
+.coupon-success{
+	margin-top: 10px;
+	color: #1e8e3e;
+	font-weight: bold;
+}
+
+.coupon-error{
+	margin-top: 10px;
+	color: #d93025;
+	font-weight: bold;
+}
+
+.cart-total{
+	margin-top: 20px;
+	padding: 20px;
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.cart-total p{
+	margin: 8px 0;
+	font-size: 16px;
+}
+
+.discount-row{
+	color: #1e8e3e;
+	font-weight: bold;
+}
+
+.cart-final{
+	margin-top: 15px;
+	padding-top: 15px;
+	border-top: 1px dashed #ccc;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.cart-final span{
+	font-size: 22px;
+	font-weight: bold;
+}
+
+.cart-final strong{
+	color: #e53935;
+	font-size: 24px;
+}
+
+.btn-buy{
+	padding: 12px 28px;
+	background: #28a745;
+	color: white;
+	text-decoration: none;
+	border-radius: 8px;
+	transition: 0.2s;
+}
+
+.btn-buy:hover{
+	background: #218838;
+}
