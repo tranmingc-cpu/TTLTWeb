@@ -210,6 +210,19 @@ public class CouponDAO {
             e.printStackTrace();
         }
     }
+    public int coutCoupon ( ){
+            String sql = "SELECT COUNT(ID) FROM COUPONS";
+            try (Connection con =  DBConnect.getConnect();
+            PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery();){
+                 if (rs.next() ) {
+                     return rs.getInt(1);
+                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return 0;
+    }
     }
 
 

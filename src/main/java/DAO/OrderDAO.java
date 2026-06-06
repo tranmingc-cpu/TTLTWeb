@@ -464,7 +464,7 @@ public class OrderDAO {
         ORDER BY month
     """;
 
-		try (Connection conn = DBConnect.getConnect();   // ✅ sửa ở đây
+		try (Connection conn = DBConnect.getConnect();   //
 		     PreparedStatement ps = conn.prepareStatement(sql);
 		     ResultSet rs = ps.executeQuery()) {
 
@@ -529,4 +529,66 @@ public class OrderDAO {
 
 		return list;
 	}
-}
+	public Order getOrderById(int id) {
+		String sql = "SELECT * FROM ORDERS WHERE ID = ?";
+
+		try (
+				Connection conn = DBConnect.getConnect();
+				PreparedStatement ps = conn.prepareStatement(sql)
+		) {
+			ps.setInt(1, id);
+
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				Order o = new Order();
+
+				o.setOrderId(rs.getInt("ID"));
+				o.setAccountId(rs.getInt("ACCOUNTID"));
+				o.setResId(rs.getInt("RESID"));
+				o.setAddress(rs.getString("ADDRES"));
+				o.setOrderDate(rs.getDate("ORDERDATE"));
+				o.setTotalAmount(rs.getBigDecimal("TOTAL"));
+				o.setStatus(rs.getString("STATUSS"));
+
+				return o;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public Order getOrderDetailByOrderId(int  id) {
+		String sql = "SELECT * FROM ORDERS WHERE ID = ?";
+
+		try (
+				Connection conn = DBConnect.getConnect();
+				PreparedStatement ps = conn.prepareStatement(sql)
+		) {
+			ps.setInt(1, id);
+
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				Order o = new Order();
+				o.setOrderId(rs.getInt("ID"));
+				o.setAccountId(rs.getInt("ACCOUNTID"));
+				o.setResId(rs.getInt("RESID"));
+				o.setTotalAmount(rs.getBigDecimal("TOTAL"));
+				o.setAddress(rs.getString("ADDRES"));
+				o.setOrderDate(rs.getTimestamp("ORDERDATE"));
+				o.setStatus(rs.getString("STATUSS"));
+
+				return o;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	}
