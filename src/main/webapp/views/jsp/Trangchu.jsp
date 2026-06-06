@@ -41,7 +41,6 @@
 		   href="${pageContext.request.contextPath}/Trangchu?action=category&ID=6">Khác</a>
 	</div>
 
-	<!-- SLIDER -->
 	<div class="promo-slider">
 		<div class="slides" id="slides">
 
@@ -117,7 +116,6 @@
 	<jsp:include page="/views/jsp/footer.jsp" />
 </div>
 
-<!-- JS SLIDER -->
 <script>
 	let index = 0;
 	const slides = document.getElementById("slides");

@@ -37,6 +37,10 @@
                 📦 Đơn hàng<br>
                 <b>${totalOrders}</b>
             </div>
+            <div class="stat-box">
+                🎟️ Mã Giảm giá <br>
+                <b>${totalCoupons}</b>
+            </div>
 
             <div class="stat-box">
                 💰 Doanh thu<br>

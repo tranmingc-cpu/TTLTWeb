@@ -63,6 +63,9 @@ public class UserServlet extends HttpServlet {
 				} else if ("unlock".equals(action)) {
 					dao.updateStatus(id, 1);
 				}
+			} else if("resetpass".equals(action)){
+				String newPass = request.getParameter("newPassword");
+				dao.updatePassword(id,PasswordUtils.toMD5(newPass ));
 			}
 
 			response.sendRedirect(request.getContextPath() + "/admin/user");
@@ -102,6 +105,18 @@ public class UserServlet extends HttpServlet {
 
 			new AccountDAO().insertUser(acc);
 			request.getSession().setAttribute("successMessage", "Thêm tài khoản thành công!");
+			response.sendRedirect(request.getContextPath() + "/admin/user");
+		}
+		else if (path != null && path.equals("/change-password")) {
+
+			int id = Integer.parseInt(request.getParameter("id"));
+			String newPassword = request.getParameter("newPassword");
+
+			AccountDAO dao = new AccountDAO();
+			dao.updatePassword(id, PasswordUtils.toMD5(newPassword));
+
+			request.getSession().setAttribute("successMessage", "Đổi mật khẩu thành công!");
+
 			response.sendRedirect(request.getContextPath() + "/admin/user");
 		}
 	}
