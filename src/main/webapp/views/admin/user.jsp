@@ -65,33 +65,45 @@
                                 </c:choose>
                             </td>
                             <td>
-                                    <c:choose>
-                                        <c:when test="${acc.status == 1}">
-                                            <a class="action-btn btn-lock"
-                                               href="${pageContext.request.contextPath}/admin/user?action=lock&id=${acc.idAccount}">
-                                                🔒 Khóa
-                                            </a>
-                                        </c:when>
 
-                                        <c:otherwise>
-                                            <a class="action-btn btn-unlock"
-                                               href="${pageContext.request.contextPath}/admin/user?action=unlock&id=${acc.idAccount}">
-                                                🔓 Mở
-                                            </a>
-                                        </c:otherwise>
-                                    </c:choose>
+                                <a class="action-btn"
+                                   style="background:#3b82f6;color:white;"
+                                   href="${pageContext.request.contextPath}/admin/user?action=view&id=${acc.idAccount}">
+                                    👁️ Xem
+                                </a>
+
+                                <c:choose>
+                                    <c:when test="${acc.status == 1}">
+                                        <a class="action-btn btn-lock"
+                                           href="${pageContext.request.contextPath}/admin/user?action=lock&id=${acc.idAccount}">
+                                            🔒 Khóa
+                                        </a>
+                                    </c:when>
+
+                                    <c:otherwise>
+                                        <a class="action-btn btn-unlock"
+                                           href="${pageContext.request.contextPath}/admin/user?action=unlock&id=${acc.idAccount}">
+                                            🔓 Mở
+                                        </a>
+                                    </c:otherwise>
+                                </c:choose>
+
                                 <a class="action-btn"
                                    style="background:#f59e0b;color:white;"
                                    href="javascript:void(0);"
                                    onclick="showChangePass(${acc.idAccount})">
                                     🔑 Đổi pass
                                 </a>
-                                    <a class="action-btn btn-delete btn-delete-trigger"
-                                       href="javascript:void(0);"
-                                       data-url="${pageContext.request.contextPath}/admin/user?action=delete&id=${acc.idAccount}"
-                                       data-message="Bạn có chắc chắn muốn xóa tài khoản này không?">
-                                        🗑️ Xóa
-                                    </a>
+
+                                <span style="display:inline-block; width:15px;"></span>
+
+                                <a class="action-btn btn-delete btn-delete-trigger"
+                                   href="javascript:void(0);"
+                                   data-url="${pageContext.request.contextPath}/admin/user?action=delete&id=${acc.idAccount}"
+                                   data-message="Bạn có chắc chắn muốn xóa tài khoản này không?">
+                                    🗑️ Xóa
+                                </a>
+
                             </td>
                         </tr>
                     </c:forEach>
