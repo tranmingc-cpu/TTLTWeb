@@ -80,7 +80,12 @@
                                             </a>
                                         </c:otherwise>
                                     </c:choose>
-
+                                <a class="action-btn"
+                                   style="background:#f59e0b;color:white;"
+                                   href="javascript:void(0);"
+                                   onclick="showChangePass(${acc.idAccount})">
+                                    🔑 Đổi pass
+                                </a>
                                     <a class="action-btn btn-delete btn-delete-trigger"
                                        href="javascript:void(0);"
                                        data-url="${pageContext.request.contextPath}/admin/user?action=delete&id=${acc.idAccount}"
@@ -102,7 +107,50 @@
     </main>
 
 </div>
-    <jsp:include page="/views/jsp/notification.jsp"/>
+    <div id="changePassModal"
+         style="display:none;position:fixed;top:0;left:0;width:100%;
+     height:100%;background:rgba(0,0,0,0.5);z-index:9999;">
 
+        <div style="background:white;width:400px;padding:20px;
+         margin:120px auto;border-radius:10px;">
+
+            <h3>Đổi mật khẩu</h3>
+
+            <form action="${pageContext.request.contextPath}/admin/user/change-password"
+                  method="post">
+
+                <input type="hidden" id="userId" name="id">
+
+                <label>Mật khẩu mới:</label><br>
+                <input type="password"
+                       name="newPassword"
+                       required
+                       style="width:100%;padding:8px;margin-top:8px;margin-bottom:15px;">
+
+                <button type="submit" class="btn-add">
+                    Lưu
+                </button>
+
+                <button type="button"
+                        onclick="closeChangePass()"
+                        style="margin-left:10px;">
+                    Hủy
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showChangePass(id) {
+            document.getElementById("userId").value = id;
+            document.getElementById("changePassModal").style.display = "block";
+        }
+
+        function closeChangePass() {
+            document.getElementById("changePassModal").style.display = "none";
+        }
+    </script>
+    <jsp:include page="/views/jsp/notification.jsp"/>
 </body>
 </html>

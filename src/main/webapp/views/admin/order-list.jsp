@@ -73,16 +73,16 @@
                         </c:choose>
                     </td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/admin/order-detail?id=${order.orderId}"
-                           class="btn-view">🔍 Xem</a>
+                        <a href="${pageContext.request.contextPath}/admin/order?action=view&id=${order.orderId}"
+                           class="btn-view">
+                            🔍 Xem
+                        </a>
                     </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-
     </main>
 </div>
-
 </body>
 </html>

@@ -14,9 +14,8 @@
     <div class="admin-header">
         <h1>ADMIN PANEL</h1>
     </div>
-
     <jsp:include page="/views/admin/sidebar.jsp"/>
-
+<div class = "admin-content">
     <main class="admin-content">
         <div class="card-form"> <h2>Thêm tài khoản</h2>
             <c:if test="${not empty error}">
@@ -72,5 +71,6 @@
         }
     }
 </script>
+</div>
 </body>
 </html>
