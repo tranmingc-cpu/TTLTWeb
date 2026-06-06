@@ -130,7 +130,6 @@ public class AccountDAO {
         }
     }
 
-    // ===== GOOGLE LOGIN =====
     public Account findByEmail(String email) {
         String sql = "SELECT * FROM ACCOUNT WHERE EMAIL = ?";
 
@@ -218,23 +217,45 @@ public class AccountDAO {
         return false;
     }
 
-    public boolean insertUser(Account acc) {
-        String sql = "INSERT INTO ACCOUNT (USERNAME, PASS, ROLES, STATUS) VALUES (?, ?, ?, ?)";
+    public void insertUser(Account acc) {
+        String sql = """
+        INSERT INTO Account
+        (USERNAME, PASS, ROLES, STATUS, EMAIL)
+        VALUES (?, ?, ?, ?, ?)
+        """;
 
-        try (
-                Connection con = DBConnect.getConnect();
-                PreparedStatement ps = con.prepareStatement(sql)
-        ) {
+        try (Connection conn = DBConnect.getConnect();
+             PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
             ps.setString(1, acc.getUserName());
             ps.setString(2, acc.getPassword());
             ps.setString(3, acc.getRole().name());
             ps.setInt(4, acc.getStatus());
+            ps.setString(5, acc.getEmail());
 
-            return ps.executeUpdate() > 0;
+            ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+
+            if (rs.next()) {
+
+                int accountId = rs.getInt(1);
+                String sqlProfile = """
+                INSERT INTO USERProfile
+                (ACCID, FULLNAME, ADDRESS, NUMBER)
+                VALUES (?, '', '', '')
+                """;
+
+                try (PreparedStatement ps2 = conn.prepareStatement(sqlProfile)) {
+
+                    ps2.setInt(1, accountId);
+                    ps2.executeUpdate();
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     public boolean deleteUser(int id) {
@@ -266,4 +287,21 @@ public class AccountDAO {
         }
         return false;
     }
+    public void updateEmail(int id, String email) {
+
+        String sql = "UPDATE Account SET EMAIL = ? WHERE ID = ?";
+
+        try (Connection conn = DBConnect.getConnect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+            ps.setInt(2, id);
+
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

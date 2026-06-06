@@ -41,7 +41,7 @@ public class ProfileServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-// ktra account
+        // ktra account
         Object obj = session.getAttribute("account");
         if (!(obj instanceof Account)) {
             session.invalidate();
@@ -69,12 +69,14 @@ public class ProfileServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
+
         if (session == null || !(session.getAttribute("account") instanceof Account)) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
 
         Account acc = (Account) session.getAttribute("account");
+
         request.setCharacterEncoding("UTF-8");
 
         String fullName = request.getParameter("fullName");
@@ -82,29 +84,45 @@ public class ProfileServlet extends HttpServlet {
         String number = request.getParameter("number");
         String address = request.getParameter("address");
         String password = request.getParameter("password");
+
         UserDAO userDAO = new UserDAO();
+        AccountDAO accountDAO = new AccountDAO();
+
         User profile = userDAO.getProfileByAccId(acc.getIdAccount());
 
+        // Chưa có profile thì tạo mới
         if (profile == null) {
+
             profile = new User();
             profile.setAccid(acc.getIdAccount());
             profile.setFullname(fullName);
-            profile.setEmail(email);
             profile.setNumber(number);
             profile.setAddress(address);
+
             userDAO.insertProfile(profile);
-        } else {
+
+        }
+        // Đã có thì cập nhật
+        else {
+
             profile.setFullname(fullName);
-            profile.setEmail(email);
             profile.setNumber(number);
             profile.setAddress(address);
+
             userDAO.updateProfile(profile);
         }
 
-        // đổi mật khẩu
+        // Email lưu ở bảng Account
+        accountDAO.updateEmail(acc.getIdAccount(), email);
+
+        // Đổi mật khẩu nếu có nhập
         if (password != null && !password.trim().isEmpty()) {
-            AccountDAO accDAO = new AccountDAO();
-            accDAO.updatePassword(acc.getIdAccount(), password);
+
+            accountDAO.updatePassword(
+                    acc.getIdAccount(),
+                    util.PasswordUtils.toMD5(password)
+            );
+
             session.invalidate();
             response.sendRedirect(request.getContextPath() + "/login");
             return;
@@ -112,5 +130,4 @@ public class ProfileServlet extends HttpServlet {
 
         response.sendRedirect(request.getContextPath() + "/profile");
     }
-
 }
