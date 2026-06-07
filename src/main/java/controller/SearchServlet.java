@@ -46,8 +46,12 @@ public class SearchServlet extends HttpServlet {
 
 		List<Food> result = foodao.searchAdvanced(keyword, categoryId, minPrice, maxPrice);
 		// gợi ý 5 tên liên quan
-		List<Food> suggest = foodao.findByName(keyword).stream().limit(5).collect(Collectors.toList());
+		List<Food> suggest = foodao.findByName(keyword)
+				.stream()
+				.limit(5)
+				.collect(Collectors.toList());
 		request.setAttribute("foodlist", result);
+
 		request.setAttribute("suggestList", suggest);
 		request.getRequestDispatcher("/views/jsp/Trangchu.jsp").forward(request, response);
 	}

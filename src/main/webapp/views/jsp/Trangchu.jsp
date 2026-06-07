@@ -109,6 +109,13 @@
 				</c:forEach>
 
 			</div>
+			<c:if test="${title eq 'Món ăn nổi bật'}">
+				<div class="view-all">
+					<a href="${pageContext.request.contextPath}/Trangchu?action=all">
+						Xem tất cả →
+					</a>
+				</div>
+			</c:if>
 		</div>
 
 	</main>
