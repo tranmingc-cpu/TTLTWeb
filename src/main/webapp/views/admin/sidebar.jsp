@@ -13,7 +13,7 @@
         <a href="${pageContext.request.contextPath}/admin/product">🍔 Quản lý món ăn</a>
         <a href="${pageContext.request.contextPath}/admin/order">📦 Quản lý đơn hàng</a>
         <a href="${pageContext.request.contextPath}/admin/user">👤 Quản lý user</a>
-        <a href="${pageContext.request.contextPath}/admin/coupon"> Quản lý Coupon</a>
+        <a href="${pageContext.request.contextPath}/admin/coupon">🎟️ Quản lý Coupon</a>
 
     </aside>
 </header>

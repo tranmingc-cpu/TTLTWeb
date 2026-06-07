@@ -224,7 +224,48 @@ public class CouponDAO {
             }
             return 0;
     }
+
+    public boolean updateCoupon(Coupons coupon) {
+
+        String sql = """
+        UPDATE COUPONS
+        SET
+            CODE = ?,
+            DISCOUNT_TYPE = ?,
+            DISCOUNT_VALUE = ?,
+            MIN_ORDER_VALUE = ?,
+            MAX_DISCOUNT_AMOUNT = ?,
+            QUANTITY = ?,
+            START_DATE = ?,
+            END_DATE = ?
+        WHERE ID = ?
+        """;
+
+        try (
+                Connection conn = DBConnect.getConnect(); // sửa theo DBContext của mày
+                PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
+
+            ps.setString(1, coupon.getCode());
+            ps.setString(2, coupon.getDiscountType());
+            ps.setBigDecimal(3, coupon.getDiscountValue());
+            ps.setBigDecimal(4, coupon.getMinOrderValue());
+            ps.setBigDecimal(5, coupon.getMaxDiscountAmount());
+            ps.setInt(6, coupon.getQuantity());
+            ps.setTimestamp(7, coupon.getStartDate());
+            ps.setTimestamp(8, coupon.getEndDate());
+
+            ps.setInt(9, coupon.getId());
+
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
+}
 
 
 

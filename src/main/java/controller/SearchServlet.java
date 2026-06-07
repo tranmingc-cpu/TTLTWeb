@@ -6,10 +6,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Food;
-import java.util.stream.Collectors;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import DAO.FoodDAOimpl;
 
