@@ -18,10 +18,9 @@
 
 	<jsp:include page="/views/jsp/demo.jsp" />
 
-	<!-- NAV -->
 	<div class="nav">
 		<a class="${empty param.action ? 'active' : ''}"
-		   href="${pageContext.request.contextPath}/Trangchu.jsp">Trang Chủ</a>
+		   href="${pageContext.request.contextPath}/Trangchu">Trang Chủ</a>
 
 		<a class="${param.ID == '1' ? 'active' : ''}"
 		   href="${pageContext.request.contextPath}/Trangchu?action=category&ID=1">Món Nước</a>
@@ -42,7 +41,6 @@
 		   href="${pageContext.request.contextPath}/Trangchu?action=category&ID=6">Khác</a>
 	</div>
 
-	<!-- SLIDER -->
 	<div class="promo-slider">
 		<div class="slides" id="slides">
 
@@ -70,7 +68,6 @@
 		</div>
 	</div>
 
-	<!-- CONTENT -->
 	<main class="page-content">
 
 		<div class="section">
@@ -88,8 +85,8 @@
 
 						<a class="product-link"
 						   href="${pageContext.request.contextPath}/product-detail?id=${f.id}">
-							<img src="${pageContext.request.contextPath}/images/${f.image}"
-								 onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'">
+							<img src="${f.image}"
+							     onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'">
 							<h3 class="product-name">${f.name}</h3>
 						</a>
 
@@ -112,15 +109,20 @@
 				</c:forEach>
 
 			</div>
+			<c:if test="${title eq 'Món ăn nổi bật'}">
+				<div class="view-all">
+					<a href="${pageContext.request.contextPath}/Trangchu?action=all">
+						Xem tất cả →
+					</a>
+				</div>
+			</c:if>
 		</div>
 
 	</main>
 
 	<jsp:include page="/views/jsp/footer.jsp" />
-
 </div>
 
-<!-- JS SLIDER -->
 <script>
 	let index = 0;
 	const slides = document.getElementById("slides");
