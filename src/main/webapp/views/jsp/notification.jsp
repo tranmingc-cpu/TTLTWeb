@@ -70,7 +70,6 @@
         }
 
 
-        // --- XỬ LÝ TỰ ĐỘNG HIỆN TOAST THÀNH CÔNG (KHI THÊM/SỬA/XÓA XONG) ---
 
         // Kiểm tra xem JSTL có nhận được thông báo thành công từ Session không
         const hasMessage = "${not empty sessionScope.successMessage}" === "true";
