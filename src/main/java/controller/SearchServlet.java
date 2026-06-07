@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Food;
+import java.util.stream.Collectors;
 
 import java.io.IOException;
 import java.util.List;
@@ -45,7 +46,10 @@ public class SearchServlet extends HttpServlet {
 
 		List<Food> result = foodao.searchAdvanced(keyword, categoryId, minPrice, maxPrice);
 		// gợi ý 5 tên liên quan
-		List<Food>suggest = foodao.findByName(keyword).stream().limit(5).toList();
+		List<Food> suggest = foodao.findByName(keyword)
+				.stream()
+				.limit(5)
+				.collect(Collectors.toList());
 		request.setAttribute("foodlist", result);
 
 		request.setAttribute("suggestList", suggest);

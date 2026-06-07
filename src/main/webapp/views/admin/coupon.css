@@ -230,8 +230,7 @@ body {
 .btn-delete-confirm {
     background: red;
     color: white;
-}
-/* Switch Button */
+
 
 .switch {
     position: relative;
@@ -294,4 +293,5 @@ input:checked + .slider:before {
     color: #e74c3c;
     font-weight: bold;
     font-size: 13px;
+
 }
