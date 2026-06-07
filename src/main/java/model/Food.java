@@ -1,12 +1,15 @@
 package model;
 
+import java.math.BigDecimal;
+
 public class Food {
 	private  int id;
 	private String name;
-	private double price;
+	private BigDecimal price;
 	private String description;
 	private String image;
 	private int ResID;
+	private BigDecimal quantity;
 	private int categoryId;
 	public int getCATEGORYId() {
 		return categoryId;
@@ -25,7 +28,8 @@ public class Food {
 
 	public Food() {
 	}
-
+     public BigDecimal getQuantity(){ return quantity;}
+	public void setQuantity(BigDecimal quantity){this.quantity = quantity; }
 	public String getImage() {
 		return image;
 	}
@@ -44,10 +48,10 @@ public class Food {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
-	public void setPrice(double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 

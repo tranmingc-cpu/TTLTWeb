@@ -6,7 +6,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+import model.Order;
+import java.util.List;
 import DAO.OrderDAO;
 
 /**
@@ -31,16 +32,14 @@ public class AdminOrderServlet extends HttpServlet {
 
 		OrderDAO orderDAO = new OrderDAO();
 		int totalOrders = orderDAO.countOrder();
-
+		List<Order> orderList = orderDAO.getAllOrders();
+		request.setAttribute("orderList",orderList);
 		request.setAttribute("totalOrders", totalOrders);
 		request.setAttribute("orders", new OrderDAO().getAllOrders());
 
 		request.getRequestDispatcher("/views/admin/order-list.jsp")
 				.forward(request, response);
 	}
-
-
-
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

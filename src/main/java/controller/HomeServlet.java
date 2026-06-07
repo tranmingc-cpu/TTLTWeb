@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.Food;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import DAO.CategoryDAO;
@@ -91,18 +92,16 @@ public class HomeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
-
-
         if ("insert".equals(action)) {
 
             Food f = new Food();
             f.setName(request.getParameter("FNAME"));
-            f.setPrice(Double.parseDouble(request.getParameter("PRICE")));
+            f.setPrice(new BigDecimal(request.getParameter("PRICE")));
             f.setDescription(request.getParameter("DESCRIPTIONS"));
             f.setImage(request.getParameter("IMAGES"));
             f.setId(Integer.parseInt(request.getParameter("RESID")));
 
-            dao.insert(f);
+            dao.insertFood(f);
             response.sendRedirect("product-detail?action=list");
         }
 
@@ -110,9 +109,8 @@ public class HomeServlet extends HttpServlet {
         else if ("update".equals(action)) {
 
             Food f = new Food();
-            f.setId(Integer.parseInt(request.getParameter("ID")));
             f.setName(request.getParameter("FNAME"));
-            f.setPrice(Double.parseDouble(request.getParameter("PRICE")));
+            f.setPrice(new BigDecimal(request.getParameter("PRICE")));
             f.setDescription(request.getParameter("DESCRIPTIONS"));
             f.setImage(request.getParameter("IMAGES"));
 

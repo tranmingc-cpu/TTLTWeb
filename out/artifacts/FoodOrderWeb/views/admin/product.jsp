@@ -47,7 +47,7 @@
 
                             <td>
                                 <img class="food-img"
-                                     src="${pageContext.request.contextPath}/image/${f.image}"
+                                     src="${pageContext.request.contextPath}/images/${f.image}"
                                      alt="${f.name}">
                             </td>
 

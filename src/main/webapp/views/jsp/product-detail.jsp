@@ -26,7 +26,6 @@
 <div class="page-container">
 
 	<jsp:include page="/views/jsp/demo.jsp" />
-
 	<main class="content">
 
 		<c:if
@@ -48,9 +47,9 @@
 			<div class="food-detail">
 
 				<div class="food-image">
-					<img src="${pageContext.request.contextPath}/images/${food.image}"
-						 onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'"
-						 alt="${food.name}">
+					<img src="${food.image}"
+					     onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'"
+					     alt="${food.name}">
 				</div>
 
 				<div class="food-info">
@@ -100,7 +99,6 @@
 	</main>
 
 	<jsp:include page="/views/jsp/footer.jsp" />
-
 </div>
 
 </body>

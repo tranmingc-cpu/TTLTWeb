@@ -137,3 +137,87 @@ body{
         width:100%;
     }
 }
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.order-table th,
+.order-table td {
+    border: 1px solid #e0e0e0;
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.order-table thead tr {
+    background-color: #f0f4f8;
+}
+
+.order-table th {
+    font-weight: 600;
+    color: #333;
+}
+
+.order-table tbody tr:hover {
+    background-color: #f9fbff;
+    transition: background-color 0.2s ease;
+}
+
+.section-title {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #444;
+    font-weight: 600;
+}
+
+.total-count {
+    font-size: 36px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-top: 8px;
+}
+
+.status {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-done {
+    background-color: #d1f2d1;
+    color: #1a6e1a;
+}
+
+.status-canceled {
+    background-color: #fde8e8;
+    color: #c0392b;
+}
+
+.btn-view {
+    display: inline-block;
+    padding: 5px 12px;
+    background-color: #3498db;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-view:hover {
+    background-color: #2176ae;
+}

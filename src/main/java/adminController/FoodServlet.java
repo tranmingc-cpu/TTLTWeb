@@ -30,7 +30,29 @@ public class FoodServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		request.setAttribute("foods", new FoodDAOimpl().findALL());
+		FoodDAOimpl dao = new FoodDAOimpl();
+
+		int page = 1;
+		int pageSize = 8;
+
+		String pageParam = request.getParameter("page");
+		if (pageParam != null) {
+			try {
+				page = Integer.parseInt(pageParam);
+			} catch (Exception e) {
+				page = 1;
+			}
+		}
+
+
+		int totalFoods = dao.countFood();
+		int totalPages = (int) Math.ceil((double) totalFoods / pageSize);
+		if (page < 1) page = 1;
+		if (page > totalPages) page = totalPages;
+
+		request.setAttribute("foods", dao.findByPage(page, pageSize));
+		request.setAttribute("currentPage", page);
+		request.setAttribute("totalPages", totalPages);
 		request.getRequestDispatcher("/views/admin/product.jsp")
 				.forward(request, response);
 	}

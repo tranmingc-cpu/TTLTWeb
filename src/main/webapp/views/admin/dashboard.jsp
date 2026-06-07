@@ -2,7 +2,6 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
 
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -12,23 +11,14 @@
           href="${pageContext.request.contextPath}/views/admin/dashboard.css">
 </head>
 <body>
+
 <jsp:include page="/views/jsp/demo.jsp"/>
+
 <div class="admin-container">
     <header class="admin-header">
         <h1>ADMIN PANEL</h1>
-        <div class="admin-user">
-            Xin chào <b>${adminName}</b> |
-            <a href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
-        </div>
     </header>
-
-    <aside class="admin-sidebar">
-        <a href="${pageContext.request.contextPath}/admin/dashboard">🏠 Dashboard</a>
-        <a href="${pageContext.request.contextPath}/admin/product">🍔 Quản lý món ăn</a>
-        <a href="${pageContext.request.contextPath}/admin/order">📦 Quản lý đơn hàng</a>
-        <a href="${pageContext.request.contextPath}/admin/user">👤 Quản lý user</a>
-    </aside>
-
+    <jsp:include page="/views/admin/sidebar.jsp"/>
     <main class="admin-content">
         <h2>Thống kê nhanh</h2>
 
@@ -56,9 +46,55 @@
             </div>
         </div>
 
+        <div class="card">
+            <h3>Biểu đồ doanh thu</h3>
+            <canvas id="revenueChart"></canvas>
+        </div>
     </main>
-
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    fetch("<%=request.getContextPath()%>/admin/revenue-by-month")
+        .then(res => res.json())
+        .then(data => {
+
+            const months = [...new Set(data.map(item => item.month))];
+            const stores = [...new Set(data.map(item => item.resid))];
+
+            const datasets = stores.map(storeId => ({
+                label: "Cửa hàng " + storeId,
+                data: months.map(month => {
+                    const item = data.find(d => d.month === month && d.resid === storeId);
+                    return item ? item.revenue : 0;
+                }),
+                borderWidth: 1
+            }));
+
+            const labels = months.map(m => "Tháng " + m);
+
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+        })
+        .catch(err => console.error("Lỗi load dữ liệu:", err));
+</script>
 
 </body>
 </html>

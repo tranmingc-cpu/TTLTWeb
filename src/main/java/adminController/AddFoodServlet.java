@@ -3,6 +3,8 @@ package adminController;
 import DAO.CategoryDAO;
 import DAO.FoodDAOimpl;
 import DAO.SellerDAO;
+import Upload.CloudinaryConfig;
+import com.cloudinary.Cloudinary;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,10 +17,15 @@ import model.Category;
 import model.Food;
 import model.Restaurant;
 
+import java.math.BigDecimal;
+import java.util.stream.Collectors;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/admin/food/add")
 @MultipartConfig(
@@ -33,81 +40,94 @@ public class AddFoodServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        String searchRes = request.getParameter("searchRes");
+        String searchCat = request.getParameter("searchCat");
         CategoryDAO categoryDAO = new CategoryDAO();
         List<Category> categories = categoryDAO.findAll();
+        if (searchCat != null && !searchCat.isBlank()) {
+            String keyword = searchCat.toLowerCase().trim();
+            categories = categories.stream()
+                    .filter(c -> c.getName().toLowerCase().contains(keyword))
+                    .collect(Collectors.toList()); // Đổi chỗ này
+        }
+        SellerDAO sellerDAO = new SellerDAO();
+        List<Restaurant> restaurants = sellerDAO.getAll();
+        if (searchRes != null && !searchRes.isBlank()) {
+            String keyword = searchRes.toLowerCase().trim();
+            restaurants = restaurants.stream()
+                    .filter(r -> r.getName().toLowerCase().contains(keyword))
+                    .collect(Collectors.toList()); // Đổi chỗ này
+        }
 
         request.setAttribute("categories", categories);
-        request.getRequestDispatcher("/views/seller/addFood.jsp").forward(request, response);
+        request.setAttribute("restaurants", restaurants);
+        request.setAttribute("searchRes", searchRes);
+        request.setAttribute("searchCat", searchCat);
 
-
+        request.getRequestDispatcher("/views/admin/addFood.jsp").forward(request, response);
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getParameterMap().forEach((k, v) -> {
-            System.out.println(k + " = " + String.join(",", v));
-        });
         request.setCharacterEncoding("UTF-8");
-
         Account acc = (Account) request.getSession().getAttribute("account");
         if (acc == null) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
 
-        SellerDAO sellerDAO = new SellerDAO();
-        Restaurant restaurant = sellerDAO.getByAccountId(acc.getIdAccount());
-        if (restaurant == null) {
-            response.sendRedirect(request.getContextPath() + "/seller/food");
-            return;
-        }
-
-        int restaurantId = restaurant.getResId();
-
-        String name = request.getParameter("name");
-        double price = Double.parseDouble(request.getParameter("price"));
-        String description = request.getParameter("description");
-        String idRaw = request.getParameter("id");
+        String resIdRaw = request.getParameter("restaurantId");
         String categoryRaw = request.getParameter("categoryId");
+        String name = request.getParameter("name");
+        String priceStr = request.getParameter("price");
+        String description = request.getParameter("description");
+        String quantityRaw = request.getParameter("quantity");
 
-        if (idRaw == null || idRaw.isEmpty()
-                || categoryRaw == null || categoryRaw.isEmpty()) {
-            System.out.println("raw"+categoryRaw);
-            response.sendRedirect(request.getContextPath() + "/seller/food/add");
+        if (resIdRaw == null || resIdRaw.isEmpty()
+                || categoryRaw == null || categoryRaw.isEmpty()
+                || priceStr == null || priceStr.isEmpty()
+                || quantityRaw == null || quantityRaw.isEmpty()) {
+            response.sendRedirect(request.getContextPath() + "/admin/food/add");
             return;
-
         }
 
-        int foodId = Integer.parseInt(idRaw);
-        System.out.println("food id"+foodId);
-        int categoryId = Integer.parseInt(categoryRaw);
-        System.out.println("category id"+categoryId);
+        int restaurantId = Integer.parseInt(resIdRaw);
+        int categoryId   = Integer.parseInt(categoryRaw);
+        BigDecimal price = new BigDecimal(priceStr);
+        BigDecimal quantity  = new BigDecimal(quantityRaw);
+
         Part filePart = request.getPart("image");
-        String fileName = null;
+        String imageUrl = null;
 
         if (filePart != null && filePart.getSize() > 0) {
-            fileName = Paths.get(filePart.getSubmittedFileName())
-                    .getFileName().toString();
+            try (InputStream is = filePart.getInputStream()) {
 
-            String uploadPath = "D:/upload/food/";
-            File dir = new File(uploadPath);
-            if (!dir.exists()) dir.mkdirs();
+                Map<String, Object> options = new HashMap<>();
+                options.put("folder", "food");
 
-            filePart.write(uploadPath + fileName);
+                Cloudinary cloudinary = CloudinaryConfig.getInstance();
+                Map uploadResult = cloudinary.uploader().upload(is.readAllBytes(), options);
+                imageUrl = (String) uploadResult.get("secure_url");
+                System.out.println(" Upload Cloudinary success: " + imageUrl);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                imageUrl = null;
+            }
         }
 
-
         Food food = new Food();
-        food.setId(foodId);
         food.setName(name);
         food.setPrice(price);
         food.setDescription(description);
-        food.setImage(fileName);
+        food.setImage(imageUrl);
         food.setResID(restaurantId);
         food.setCATEGORYId(categoryId);
+        food.setQuantity(quantity);
 
-        foodDAO.insert(food);
+        foodDAO.insertFood(food);
 
-        response.sendRedirect(request.getContextPath() + "/seller/food");
+        response.sendRedirect(request.getContextPath() + "/admin/product");
     }
 }

@@ -1,5 +1,4 @@
 package controller;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,16 +9,11 @@ import model.Account;
 import model.Order;
 import model.User;
 import util.EmailUtil;
-
 import java.io.IOException;
 import java.util.List;
-
 import DAO.OrderDAO;
 import DAO.UserDAO;
 
-/**
- * Servlet implementation class OrderSuccessServlet
- */
 @WebServlet("/orderSuccess")
 public class OrderSuccessServlet extends HttpServlet {
 
