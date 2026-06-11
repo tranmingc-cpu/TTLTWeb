@@ -10,7 +10,7 @@ public class Account {
 	public Account() {
 
 	}public enum Role {
-		ADMIN, SELLER, USER
+		ADMIN, SELLER, USER,SUPER_ADMIN
 	}
 public int getStatus(){return status;}
 	public void setStatus(int status){

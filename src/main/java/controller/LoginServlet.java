@@ -61,16 +61,14 @@ public class LoginServlet extends HttpServlet {
         session.setAttribute("account", acc);
 
         // Nếu là ADMIN thì load quyền
-        if (acc.getRole() == Role.ADMIN) {
+        if (acc.getRole() == Role.ADMIN|| acc.getRole()== Role.SUPER_ADMIN) {
 
-            AdminPermission permission =
-                    permissionDAO.getByAccountId(acc.getIdAccount());
+            AdminPermission permission = permissionDAO.getByAccountId(acc.getIdAccount());
 
             // Trường hợp chưa có bản ghi phân quyền
             if (permission == null) {
                 permissionDAO.insert(acc.getIdAccount());
-                permission =
-                        permissionDAO.getByAccountId(acc.getIdAccount());
+                permission = permissionDAO.getByAccountId(acc.getIdAccount());
             }
 
             session.setAttribute("permission", permission);
@@ -78,29 +76,19 @@ public class LoginServlet extends HttpServlet {
 
         cartDAO.getOrCreateCart(acc.getIdAccount());
 
-        String redirect =
-                (String) session.getAttribute("redirectAfterLogin");
+        String redirect = (String) session.getAttribute("redirectAfterLogin");
 
         if (redirect != null) {
             session.removeAttribute("redirectAfterLogin");
-            response.sendRedirect(
-                    request.getContextPath() + redirect);
+            response.sendRedirect(request.getContextPath() + redirect);
             return;
         }
 
-        if (acc.getRole() == Role.ADMIN) {
-            response.sendRedirect(
-                    request.getContextPath() + "/admin/dashboard");
+        if (acc.getRole() == Role.ADMIN || acc.getRole() == Role.SUPER_ADMIN) {
+            response.sendRedirect(request.getContextPath() + "/admin/dashboard");
             return;
         }
 
-        if (acc.getRole() == Role.SELLER) {
-            response.sendRedirect(
-                    request.getContextPath() + "/seller/food");
-            return;
-        }
-
-        response.sendRedirect(
-                request.getContextPath() + "/Trangchu");
+        response.sendRedirect(request.getContextPath() + "/Trangchu");
     }
 }
