@@ -36,7 +36,7 @@ public class HomeServlet extends HttpServlet {
 
         switch (action) {
             case "list" :{
-                List<Food> foodlist = dao.findLimit(8);
+                List<Food> foodlist = dao.findLimit(10);
                 request.setAttribute("foodlist", foodlist);
                 request.setAttribute("title", "Món ăn nổi bật");
                 request.getRequestDispatcher("/views/jsp/Trangchu.jsp").forward(request, response);
