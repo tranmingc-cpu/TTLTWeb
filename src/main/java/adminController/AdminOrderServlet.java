@@ -24,7 +24,6 @@ public class AdminOrderServlet extends HttpServlet {
 
 		String action = request.getParameter("action");
 
-		// Trang chi tiết đơn hàng
 		if (action != null && action.equals("view")) {
 
 			int id = Integer.parseInt(request.getParameter("id"));

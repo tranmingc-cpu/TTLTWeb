@@ -16,6 +16,7 @@ import model.Account;
 import model.Category;
 import model.Food;
 import model.Restaurant;
+import util.PermissionUtil;
 
 import java.math.BigDecimal;
 import java.util.stream.Collectors;
@@ -41,6 +42,9 @@ public class AddFoodServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        if (PermissionUtil.deny(request, request.getSession(), response, "ADD_PRODUCT")) {
+            return;
+        }
         String searchRes = request.getParameter("searchRes");
         String searchCat = request.getParameter("searchCat");
         CategoryDAO categoryDAO = new CategoryDAO();
@@ -70,6 +74,9 @@ public class AddFoodServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if (PermissionUtil.deny(request, request.getSession(), response, "ADD_PRODUCT")) {
+            return;
+        }
         request.setCharacterEncoding("UTF-8");
         Account acc = (Account) request.getSession().getAttribute("account");
         if (acc == null) {

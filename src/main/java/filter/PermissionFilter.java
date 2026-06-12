@@ -26,7 +26,7 @@ public class PermissionFilter implements Filter {
         }
         Account account = (Account) session.getAttribute("account");
         if (account.getRole() != Account.Role.ADMIN && account.getRole() != Account.Role.SUPER_ADMIN) {
-            resp.sendRedirect(req.getContextPath() + "/Trangchu");
+            resp.sendRedirect(req.getContextPath() + "/admin/dashboard");
             return;
         }
 

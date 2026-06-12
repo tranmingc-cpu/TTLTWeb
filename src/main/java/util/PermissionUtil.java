@@ -1,5 +1,6 @@
 package util;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -23,7 +24,6 @@ public class PermissionUtil {
         }
 
         switch (permissionType) {
-
 
             case "VIEW_USER":
                 return p.isViewUser();
@@ -68,10 +68,15 @@ public class PermissionUtil {
         return false;
     }
 
-    public static boolean deny(HttpServletRequest request, HttpSession session, HttpServletResponse response, String permission) throws IOException {
+    public static boolean deny(HttpServletRequest request, HttpSession session, HttpServletResponse response, String permission)
+            throws ServletException, IOException {
 
         if (!hasPermission(session, permission)) {
-            response.sendRedirect(request.getContextPath()+"/Trangchu");
+
+            request.setAttribute("errorMessage", "Bạn không có quyền truy cập chức năng này!"
+            );
+
+            request.getRequestDispatcher("/views/admin/access-denied.jsp").forward(request, response);
             return true;
         }
         return false;

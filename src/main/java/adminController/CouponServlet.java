@@ -21,8 +21,7 @@ public class CouponServlet extends HttpServlet {
     private CouponDAO copDao = new CouponDAO();
 
     @Override
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String action = request.getParameter("action");
@@ -185,7 +184,6 @@ public class CouponServlet extends HttpServlet {
             BigDecimal minOrderValue = new BigDecimal(request.getParameter("minOrderValue"));
             String maxDiscountStr = request.getParameter("maxDiscountAmount");
             BigDecimal maxDiscountAmount = (maxDiscountStr != null && !maxDiscountStr.trim().isEmpty()) ? new BigDecimal(maxDiscountStr) : BigDecimal.ZERO;
-
             int quantity = Integer.parseInt(request.getParameter("quantity"));
 
             Timestamp startDate = Timestamp.valueOf(request.getParameter("startDate").replace("T", " ") + ":00");
