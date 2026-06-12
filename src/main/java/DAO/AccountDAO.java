@@ -303,5 +303,34 @@ public class AccountDAO {
             e.printStackTrace();
         }
     }
+    public List<Account> getAllAdmins() {
+
+        List<Account> list = new ArrayList<>();
+
+        String sql = " SELECT * FROM ACCOUNT WHERE ROLES = 'ADMIN' ";
+
+        try (
+                Connection con = DBConnect.getConnect();
+                PreparedStatement ps = con.prepareStatement(sql)
+        ) {
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                Account acc = new Account();
+
+                acc.setIdAccount(rs.getInt("ID"));
+                acc.setUserName(rs.getString("USERNAME"));
+                acc.setRole(Account.Role.valueOf(rs.getString("ROLES")));
+
+                list.add(acc);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 
 }

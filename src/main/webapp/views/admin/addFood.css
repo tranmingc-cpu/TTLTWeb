@@ -4,6 +4,13 @@ body {
     background: linear-gradient(135deg, #eef2ff, #f8fafc);
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
+.admin-container {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    grid-template-rows: 56px 1fr;
+    height: 100vh;
+}
+
 
 .form-page {
     min-height: calc(100vh - 100px);

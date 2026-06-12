@@ -13,9 +13,10 @@
 <body>
 <jsp:include page="/views/jsp/demo.jsp"/>
 
+<div class="admin-container">
+    <jsp:include page="/views/admin/sidebar.jsp"/>
 <div class="form-page">
     <div class="seller-content">
-
         <h2>➕ Thêm món ăn mới</h2>
 
         <c:if test="${not empty error}">
@@ -93,6 +94,7 @@
         </form>
 
     </div>
+</div>
 </div>
 </body>
 </html>

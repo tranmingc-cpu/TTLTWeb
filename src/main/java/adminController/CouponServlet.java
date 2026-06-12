@@ -34,7 +34,7 @@ public class CouponServlet extends HttpServlet {
         switch (action) {
 
             case "list":
-                if (PermissionUtil.deny(request.getSession(),
+                if (PermissionUtil.deny(request,request.getSession(),
                         response, "VIEW_COUPON"))
                     return;
 
@@ -42,7 +42,7 @@ public class CouponServlet extends HttpServlet {
                 break;
 
             case "add":
-                if (PermissionUtil.deny(request.getSession(),
+                if (PermissionUtil.deny(request,request.getSession(),
                         response, "ADD_COUPON"))
                     return;
 
@@ -50,7 +50,7 @@ public class CouponServlet extends HttpServlet {
                 break;
 
             case "edit":
-                if (PermissionUtil.deny(request.getSession(),
+                if (PermissionUtil.deny(request,request.getSession(),
                         response, "EDIT_COUPON"))
                     return;
 
@@ -58,7 +58,7 @@ public class CouponServlet extends HttpServlet {
                 break;
 
             case "delete":
-                if (PermissionUtil.deny(request.getSession(),
+                if (PermissionUtil.deny(request,request.getSession(),
                         response, "DELETE_COUPON"))
                     return;
 
@@ -77,20 +77,20 @@ public class CouponServlet extends HttpServlet {
         String action = request.getParameter("action");
 
         if ("add".equals(action)) {
-            if (PermissionUtil.deny(request.getSession(), response, "ADD_COUPON")) return;
+            if (PermissionUtil.deny(request,request.getSession(), response, "ADD_COUPON")) return;
 
             addCoupon(request, response);
 
         } else if ("toggleStatus".equals(action)) {
 
-            if (PermissionUtil.deny(request.getSession(), response, "EDIT_COUPON"))
+            if (PermissionUtil.deny(request,request.getSession(), response, "EDIT_COUPON"))
                 return;
 
             toggleStatus(request, response);
 
         } else if ("edit".equals(action)) {
 
-            if (PermissionUtil.deny(request.getSession(), response, "EDIT_COUPON"))
+            if (PermissionUtil.deny(request,request.getSession(), response, "EDIT_COUPON"))
                 return;
 
             updateCoupon(request, response);
@@ -114,21 +114,13 @@ public class CouponServlet extends HttpServlet {
 
             String code = request.getParameter("code");
             String discountType = request.getParameter("discountType");
-
             BigDecimal discountValue = new BigDecimal(request.getParameter("discountValue"));
-
             BigDecimal minOrderValue = new BigDecimal(request.getParameter("minOrderValue"));
-
             String maxDiscountStr = request.getParameter("maxDiscountAmount");
-
             BigDecimal maxDiscountAmount = (maxDiscountStr != null && !maxDiscountStr.trim().isEmpty()) ? new BigDecimal(maxDiscountStr) : BigDecimal.ZERO;
-
             int quantity = Integer.parseInt(request.getParameter("quantity"));
-
             Timestamp startDate = Timestamp.valueOf(request.getParameter("startDate").replace("T", " ") + ":00");
-
             Timestamp endDate = Timestamp.valueOf(request.getParameter("endDate").replace("T", " ") + ":00");
-
             Coupons coupon = new Coupons();
 
             coupon.setCode(code);
@@ -177,36 +169,22 @@ public class CouponServlet extends HttpServlet {
     private void showEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         int id = Integer.parseInt(request.getParameter("id"));
-
         Coupons coupon = copDao.getCouponById(id);
-
         request.setAttribute("coupon", coupon);
-
         request.getRequestDispatcher("/views/admin/edit-coupon.jsp").forward(request, response);
     }
-    private void updateCoupon(HttpServletRequest request,
-                              HttpServletResponse response)
+    private void updateCoupon(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         try {
 
             int id = Integer.parseInt(request.getParameter("id"));
-
             String code = request.getParameter("code");
-
             String discountType = request.getParameter("discountType");
-
             BigDecimal discountValue = new BigDecimal(request.getParameter("discountValue"));
-
             BigDecimal minOrderValue = new BigDecimal(request.getParameter("minOrderValue"));
-
             String maxDiscountStr = request.getParameter("maxDiscountAmount");
-
-            BigDecimal maxDiscountAmount =
-                    (maxDiscountStr != null
-                            && !maxDiscountStr.trim().isEmpty())
-                            ? new BigDecimal(maxDiscountStr)
-                            : BigDecimal.ZERO;
+            BigDecimal maxDiscountAmount = (maxDiscountStr != null && !maxDiscountStr.trim().isEmpty()) ? new BigDecimal(maxDiscountStr) : BigDecimal.ZERO;
 
             int quantity = Integer.parseInt(request.getParameter("quantity"));
 

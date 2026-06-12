@@ -29,22 +29,17 @@ public class OrderSuccessServlet extends HttpServlet {
             return;
         }
 
-        // 1. Lấy Object từ session ra trước (chưa ép kiểu vội)
         Object sessionOrderIds = session.getAttribute("orderIds");
         List<Integer> orderIds = new ArrayList<>();
 
-        // 2. Check xem Object đó có phải là một List không
         if (sessionOrderIds instanceof List<?>) {
-            // Quét qua từng phần tử trong List đó
             for (Object obj : (List<?>) sessionOrderIds) {
-                // Đảm bảo phần tử bên trong đúng là kiểu Integer mới add vào list chính
                 if (obj instanceof Integer) {
                     orderIds.add((Integer) obj);
                 }
             }
         }
 
-        // 3. Nếu không có dữ liệu hợp lệ thì đá về cart
         if (orderIds.isEmpty()) {
             response.sendRedirect(request.getContextPath() + "/cart");
             return;

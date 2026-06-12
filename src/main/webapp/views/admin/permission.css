@@ -1,0 +1,109 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+
+.admin-container {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    grid-template-rows: 56px 1fr;
+    height: 100vh;
+}
+.main-content {
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.permission-table{
+    width:100%;
+    border-collapse:collapse;
+    background:#fff;
+}
+
+.permission-table th,
+.permission-table td{
+    border:1px solid #ddd;
+    padding:12px;
+    text-align:center;
+}
+
+.permission-table th{
+    background:#f3f4f6;
+}
+
+.role-badge{
+    background:#3b82f6;
+    color:white;
+    padding:5px 10px;
+    border-radius:20px;
+}
+
+.action-btn{
+    text-decoration:none;
+    padding:8px 14px;
+    border-radius:6px;
+    color:white;
+}
+
+.btn-edit{
+    background:#f59e0b;
+}
+
+.btn-save{
+    background:#10b981;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.btn-back{
+    background:#6b7280;
+    color:white;
+    text-decoration:none;
+    padding:10px 20px;
+    border-radius:6px;
+    margin-left:10px;
+}
+
+.btn-group{
+    margin-top:20px;
+}
+
+.admin-info{
+    margin-bottom:20px;
+}
+.permission-cell {
+    min-width: 140px;
+    text-align: left;
+    padding: 10px;
+}
+
+.permission-cell label {
+    display: block;
+    margin: 5px 0;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.permission-cell input[type="checkbox"] {
+    margin-right: 6px;
+}
+
+.btn-edit {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-edit:hover {
+    opacity: 0.9;
+}
