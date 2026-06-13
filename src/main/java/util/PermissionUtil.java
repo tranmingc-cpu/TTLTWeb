@@ -1,5 +1,6 @@
 package util;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -10,9 +11,7 @@ import java.io.IOException;
 
 public class PermissionUtil {
 
-    public static boolean hasPermission(
-            HttpSession session,
-            String permissionType) {
+    public static boolean hasPermission(HttpSession session, String permissionType) {
         Account acc = (Account)session.getAttribute("account");
         if(acc !=null && acc.getRole()== Account.Role.SUPER_ADMIN){
             return true;
@@ -26,7 +25,6 @@ public class PermissionUtil {
 
         switch (permissionType) {
 
-            // USER
             case "VIEW_USER":
                 return p.isViewUser();
             case "ADD_USER":
@@ -36,7 +34,7 @@ public class PermissionUtil {
             case "DELETE_USER":
                 return p.isDeleteUser();
 
-            // ORDER
+
             case "VIEW_ORDER":
                 return p.isViewOrder();
             case "ADD_ORDER":
@@ -46,7 +44,7 @@ public class PermissionUtil {
             case "DELETE_ORDER":
                 return p.isDeleteOrder();
 
-            // PRODUCT
+
             case "VIEW_PRODUCT":
                 return p.isViewProduct();
             case "ADD_PRODUCT":
@@ -56,7 +54,7 @@ public class PermissionUtil {
             case "DELETE_PRODUCT":
                 return p.isDeleteProduct();
 
-            // COUPON
+
             case "VIEW_COUPON":
                 return p.isViewCoupon();
             case "ADD_COUPON":
@@ -70,10 +68,15 @@ public class PermissionUtil {
         return false;
     }
 
-    public static boolean deny(HttpServletRequest request, HttpSession session, HttpServletResponse response, String permission) throws IOException {
+    public static boolean deny(HttpServletRequest request, HttpSession session, HttpServletResponse response, String permission)
+            throws ServletException, IOException {
 
         if (!hasPermission(session, permission)) {
-            response.sendRedirect(request.getContextPath()+"/Trangchu");
+
+            request.setAttribute("errorMessage", "Bạn không có quyền truy cập chức năng này!"
+            );
+
+            request.getRequestDispatcher("/views/admin/access-denied.jsp").forward(request, response);
             return true;
         }
         return false;

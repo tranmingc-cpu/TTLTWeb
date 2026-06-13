@@ -4,25 +4,21 @@ public class AdminPermission {
 
     private int accountId;
 
-    // User
     private boolean viewUser;
     private boolean addUser;
     private boolean editUser;
     private boolean deleteUser;
 
-    // Order
     private boolean viewOrder;
     private boolean addOrder;
     private boolean editOrder;
     private boolean deleteOrder;
 
-    // Product
     private boolean viewProduct;
     private boolean addProduct;
     private boolean editProduct;
     private boolean deleteProduct;
 
-    // Coupon
     private boolean viewCoupon;
     private boolean addCoupon;
     private boolean editCoupon;

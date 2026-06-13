@@ -8,6 +8,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
 
+import jakarta.servlet.http.HttpSession;
+import util.PermissionUtil;
+import model.AdminPermission;
 import model.Account.Role;
 import DAO.AccountDAO;
 import DAO.UserDAO;
@@ -36,54 +39,81 @@ public class UserServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		if (PermissionUtil.deny(request, request.getSession(),
+				response, "VIEW_USER")) {
+			return;
+		}
 		String path = request.getPathInfo();
 		AccountDAO dao = new AccountDAO();
 
-		// Trang thêm user
 		if (path != null && path.equals("/add-page")) {
-			request.getRequestDispatcher("/views/admin/add-user.jsp")
-					.forward(request, response);
+
+			if (PermissionUtil.deny(request, request.getSession(),
+					response, "ADD_USER")) {
+				return;
+			}
+
+			request.getRequestDispatcher("/views/admin/add-user.jsp").forward(request, response);
 			return;
 		}
 
 		String action = request.getParameter("action");
 
 		if (action != null) {
+
 			int id = Integer.parseInt(request.getParameter("id"));
 			Account target = dao.getAccountById(id);
 
 			if (target != null && target.getRole() != Role.ADMIN) {
 
 				if ("delete".equals(action)) {
-					if (target != null && target.getRole() != Role.ADMIN) {
-						dao.deleteUser(id);
+
+					if (PermissionUtil.deny(request, request.getSession(), response, "DELETE_USER")) {
+						return;
 					}
+
+					dao.deleteUser(id);
 
 				} else if ("lock".equals(action)) {
-					if (target != null && target.getRole() != Role.ADMIN) {
-						dao.updateStatus(id, 0);
+
+					if (PermissionUtil.deny(request, request.getSession(), response, "EDIT_USER")) {
+						return;
 					}
+
+					dao.updateStatus(id, 0);
 
 				} else if ("unlock".equals(action)) {
-					if (target != null && target.getRole() != Role.ADMIN) {
-						dao.updateStatus(id, 1);
+
+					if (PermissionUtil.deny(request, request.getSession(), response, "EDIT_USER")) {
+						return;
 					}
 
+					dao.updateStatus(id, 1);
+
 				} else if ("resetpass".equals(action)) {
+
+					if (PermissionUtil.deny(request, request.getSession(), response, "EDIT_USER")) {
+						return;
+					}
+
 					String newPass = request.getParameter("newPassword");
 					dao.updatePassword(id, PasswordUtils.toMD5(newPass));
 
 				} else if ("view".equals(action)) {
+
 					UserDAO userdao = new UserDAO();
+
 					request.setAttribute("user", userdao.getUserById(id));
-					request.getRequestDispatcher("/views/admin/viewuser.jsp")
-							.forward(request, response);
+
+					request.getRequestDispatcher("/views/admin/viewuser.jsp").forward(request, response);
 					return;
 				}
 
 				response.sendRedirect(request.getContextPath() + "/admin/user");
+				return;
 			}
 		}
+
 		request.setAttribute("accounts", dao.getAllAccount());
 		request.getRequestDispatcher("/views/admin/user.jsp").forward(request, response);
 	}
@@ -97,8 +127,11 @@ public class UserServlet extends HttpServlet {
 
 		String path = request.getPathInfo();
 
-		// Thêm tài khoản
 		if (path != null && path.equals("/add")) {
+
+			if (PermissionUtil.deny(request, request.getSession(), response, "ADD_USER")) {
+				return;
+			}
 
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
@@ -108,8 +141,7 @@ public class UserServlet extends HttpServlet {
 
 			if (dao.isUsernameExists(username)) {
 				request.setAttribute("error", "Tên đăng nhập đã tồn tại!");
-				request.getRequestDispatcher("/views/admin/add-user.jsp")
-						.forward(request, response);
+				request.getRequestDispatcher("/views/admin/add-user.jsp").forward(request, response);
 				return;
 			}
 
@@ -120,21 +152,22 @@ public class UserServlet extends HttpServlet {
 			acc.setPassword(PasswordUtils.toMD5(password));
 			acc.setRole(role);
 			acc.setStatus(1);
-			acc.setEmail("");      // email mặc định
+			acc.setEmail("");
 
 			dao.insertUser(acc);
 
-			request.getSession().setAttribute(
-					"successMessage",
-					"Thêm tài khoản thành công!"
+			request.getSession().setAttribute("successMessage", "Thêm tài khoản thành công!"
 			);
 
 			response.sendRedirect(request.getContextPath() + "/admin/user");
 			return;
 		}
 
-		// Đổi mật khẩu
 		if (path != null && path.equals("/change-password")) {
+
+			if (PermissionUtil.deny(request, request.getSession(), response, "EDIT_USER")) {
+				return;
+			}
 
 			int id = Integer.parseInt(request.getParameter("id"));
 			String newPassword = request.getParameter("newPassword");
@@ -142,8 +175,7 @@ public class UserServlet extends HttpServlet {
 			AccountDAO dao = new AccountDAO();
 			dao.updatePassword(id, PasswordUtils.toMD5(newPassword));
 
-			request.getSession().setAttribute("successMessage", "Đổi mật khẩu thành công!"
-			);
+			request.getSession().setAttribute("successMessage", "Đổi mật khẩu thành công!");
 
 			response.sendRedirect(request.getContextPath() + "/admin/user");
 		}

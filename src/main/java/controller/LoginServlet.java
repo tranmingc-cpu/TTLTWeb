@@ -41,7 +41,6 @@ public class LoginServlet extends HttpServlet {
 
         Account acc = accountDAO.login(username, password);
 
-        // Login thất bại
         if (acc == null) {
             request.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu");
             request.getRequestDispatcher("/views/jsp/login.jsp")
@@ -60,12 +59,10 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         session.setAttribute("account", acc);
 
-        // Nếu là ADMIN thì load quyền
         if (acc.getRole() == Role.ADMIN|| acc.getRole()== Role.SUPER_ADMIN) {
 
             AdminPermission permission = permissionDAO.getByAccountId(acc.getIdAccount());
 
-            // Trường hợp chưa có bản ghi phân quyền
             if (permission == null) {
                 permissionDAO.insert(acc.getIdAccount());
                 permission = permissionDAO.getByAccountId(acc.getIdAccount());

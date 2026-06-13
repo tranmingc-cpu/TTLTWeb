@@ -13,11 +13,7 @@
 <body>
 
 <jsp:include page="/views/jsp/demo.jsp"/>
-
 <div class="admin-container">
-    <header class="admin-header">
-        <h1>ADMIN PANEL</h1>
-    </header>
     <jsp:include page="/views/admin/sidebar.jsp"/>
     <main class="admin-content">
         <h2>Thống kê nhanh</h2>

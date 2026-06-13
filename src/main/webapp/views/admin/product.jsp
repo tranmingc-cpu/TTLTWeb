@@ -11,24 +11,14 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/Shared/notification.css">
 
 </head>
-
 <body>
-
 <jsp:include page="/views/jsp/demo.jsp"/>
-
 <div class="admin-container">
-    <div class="admin-header">
-        <h1>ADMIN PANEL</h1>
-    </div>
 
     <jsp:include page="/views/admin/sidebar.jsp"/>
-
     <div class="main-content">
-
         <c:if test="${not empty sessionScope.success}">
-            <div class="alert-success">
-                    ${sessionScope.success}
-            </div>
+            <div class="alert-success">${sessionScope.success}</div>
             <c:remove var="success" scope="session"/>
         </c:if>
 
@@ -39,7 +29,6 @@
                 ➕ Thêm món mới
             </a>
         </div>
-
         <div class="table-wrapper">
             <table class="food-table">
                 <thead>

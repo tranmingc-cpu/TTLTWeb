@@ -17,13 +17,12 @@
 
 <div class="container">
     <h2>🍽️ Chỉnh sửa món ăn</h2>
+    <jsp:include page="/views/admin/sidebar.jsp"/>
 
     <form action="${pageContext.request.contextPath}/admin/food/edit"
           method="post"
           enctype="multipart/form-data"
           class="edit-form">
-
-
         <input type="hidden" name="id" value="${food.id}">
 
         <input type="hidden" name="oldImage" value="${food.image}">
