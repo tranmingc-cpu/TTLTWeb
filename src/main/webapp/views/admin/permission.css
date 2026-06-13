@@ -94,16 +94,16 @@
 .permission-cell input[type="checkbox"] {
     margin-right: 6px;
 }
-
-.btn-edit {
-    background: #2563eb;
-    color: white;
-    border: none;
-    padding: 8px 14px;
+.btn-save-all {
+    background-color: #28a745 !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px 20px;
     border-radius: 6px;
+    font-weight: 600;
     cursor: pointer;
 }
 
-.btn-edit:hover {
-    opacity: 0.9;
+.btn-save-all:hover {
+    background-color: #218838 !important;
 }

@@ -33,16 +33,28 @@ public class AdminPermissionServlet extends HttpServlet {
             return;
         }
         List<Account> admins = accountDAO.getAllAdmins();
+        HttpSession session = request.getSession();
 
         Map<Integer, AdminPermission> permissionMap = new HashMap<>();
+        Map<Integer, AdminPermission> tempPermissions = (Map<Integer, AdminPermission>) session.getAttribute("tempPermissions");
+
 
         for (Account admin : admins) {
 
-            AdminPermission permission =
-                    permissionDAO.getPermissionByAccountId(admin.getIdAccount());
+            AdminPermission permission = null;
 
-            if (permission == null) {
-                permission = new AdminPermission();
+            if (tempPermissions != null && tempPermissions.containsKey(admin.getIdAccount())) {
+
+                permission = tempPermissions.get(admin.getIdAccount());
+
+            } else {
+
+                permission = permissionDAO.getPermissionByAccountId(admin.getIdAccount());
+
+                if (permission == null) {
+                    permission = new AdminPermission();
+                    permission.setAccountId(admin.getIdAccount());
+                }
             }
 
             permissionMap.put(admin.getIdAccount(), permission);
@@ -93,7 +105,18 @@ public class AdminPermissionServlet extends HttpServlet {
         p.setEditCoupon(request.getParameter("editCoupon") != null);
         p.setDeleteCoupon(request.getParameter("deleteCoupon") != null);
 
-        permissionDAO.saveOrUpdate(p);
+        HttpSession session = request.getSession();
+
+        Map<Integer, AdminPermission> tempPermissions = (Map<Integer, AdminPermission>) session.getAttribute("tempPermissions");
+
+        if (tempPermissions == null) {
+            tempPermissions = new HashMap<>();
+        }
+
+        tempPermissions.put(accountId, p);
+
+        session.setAttribute("tempPermissions", tempPermissions
+        );
 
         response.sendRedirect(request.getContextPath() + "/admin/permission");
     }

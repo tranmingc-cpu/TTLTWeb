@@ -45,7 +45,6 @@ public class SearchServlet extends HttpServlet {
 		FoodDAOimpl foodao = new FoodDAOimpl();
 
 		List<Food> result = foodao.searchAdvanced(keyword, categoryId, minPrice, maxPrice);
-		// gợi ý 5 tên liên quan
 		List<Food> suggest = foodao.findByName(keyword)
 				.stream()
 				.limit(5)

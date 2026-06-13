@@ -17,10 +17,6 @@
 
 <div class="admin-container">
 
-    <div class="admin-header">
-        <h1>ADMIN PANEL</h1>
-    </div>
-
     <jsp:include page="/views/admin/sidebar.jsp"/>
 
     <div class="main-content">

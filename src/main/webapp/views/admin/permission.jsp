@@ -17,9 +17,14 @@
     <jsp:include page="/views/admin/sidebar.jsp"/>
 
     <div class="main-content">
-
             <h2>Quản lý phân quyền Admin</h2>
-
+        <div class="save-all-container">
+            <button type="button"
+                    id="saveAllBtn"
+                    class="action-btn btn-save-all">
+                Lưu tất cả
+            </button>
+        </div>
             <table class="permission-table">
 
                 <thead>
@@ -43,16 +48,10 @@
                     <c:if test="${admin.role.toString() eq 'ADMIN'}">
 
                         <c:set var="p" value="${permissionMap[admin.idAccount]}" />
-
-                        <tr>
-
-                            <form method="post"
-                                  action="${pageContext.request.contextPath}/admin/permission">
-
-                                <input type="hidden"
-                                       name="accountId"
-                                       value="${admin.idAccount}" />
-
+                <form method="post" action="${pageContext.request.contextPath}/admin/permission" class="permission-form" data-accountid="${admin.idAccount}">
+                    <input type="hidden" name="accountId" value="${admin.idAccount}" />
+                    <tr class="permission-row"
+                        data-accountid="${admin.idAccount}">
                                 <td>${admin.idAccount}</td>
 
                                 <td>
@@ -64,28 +63,32 @@
                                     <label>
                                         <input type="checkbox"
                                                name="viewUser"
-                                            ${p.viewUser ? 'checked' : ''}>
+                                               data-accountid="${admin.idAccount}"
+                                        ${p.viewUser ? 'checked' : ''}>
                                         View
                                     </label>
 
                                     <label>
                                         <input type="checkbox"
                                                name="addUser"
-                                            ${p.addUser ? 'checked' : ''}>
+                                               data-accountid="${admin.idAccount}"
+                                        ${p.addUser ? 'checked' : ''}>
                                         Add
                                     </label>
 
                                     <label>
                                         <input type="checkbox"
                                                name="editUser"
-                                            ${p.editUser ? 'checked' : ''}>
+                                               data-accountid="${admin.idAccount}"
+                                        ${p.editUser ? 'checked' : ''}>
                                         Edit
                                     </label>
 
                                     <label>
                                         <input type="checkbox"
                                                name="deleteUser"
-                                            ${p.deleteUser ? 'checked' : ''}>
+                                               data-accountid="${admin.idAccount}"
+                                        ${p.deleteUser ? 'checked' : ''}>
                                         Delete
                                     </label>
 
@@ -96,28 +99,32 @@
                                     <label>
                                         <input type="checkbox"
                                                name="viewOrder"
-                                            ${p.viewOrder ? 'checked' : ''}>
+                                               data-accountid="${admin.idAccount}"
+                                        ${p.viewOrder ? 'checked' : ''}>
                                         View
                                     </label>
 
                                     <label>
                                         <input type="checkbox"
                                                name="addOrder"
-                                            ${p.addOrder ? 'checked' : ''}>
+                                               data-accountid="${admin.idAccount}"
+                                        ${p.addOrder ? 'checked' : ''}>
                                         Add
                                     </label>
 
                                     <label>
                                         <input type="checkbox"
                                                name="editOrder"
-                                            ${p.editOrder ? 'checked' : ''}>
+                                               data-accountid="${admin.idAccount}"
+                                        ${p.editOrder ? 'checked' : ''}>
                                         Edit
                                     </label>
 
                                     <label>
                                         <input type="checkbox"
                                                name="deleteOrder"
-                                            ${p.deleteOrder ? 'checked' : ''}>
+                                               data-accountid="${admin.idAccount}"
+                                        ${p.deleteOrder ? 'checked' : ''}>
                                         Delete
                                     </label>
 
@@ -128,28 +135,32 @@
                                     <label>
                                         <input type="checkbox"
                                                name="viewProduct"
-                                            ${p.viewProduct ? 'checked' : ''}>
+                                               data-accountid="${admin.idAccount}"
+                                        ${p.viewProduct ? 'checked' : ''}>
                                         View
                                     </label>
 
                                     <label>
                                         <input type="checkbox"
                                                name="addProduct"
-                                            ${p.addProduct ? 'checked' : ''}>
+                                               data-accountid="${admin.idAccount}"
+                                        ${p.addProduct ? 'checked' : ''}>
                                         Add
                                     </label>
 
                                     <label>
                                         <input type="checkbox"
                                                name="editProduct"
-                                            ${p.editProduct ? 'checked' : ''}>
+                                               data-accountid="${admin.idAccount}"
+                                        ${p.editProduct ? 'checked' : ''}>
                                         Edit
                                     </label>
 
                                     <label>
                                         <input type="checkbox"
                                                name="deleteProduct"
-                                            ${p.deleteProduct ? 'checked' : ''}>
+                                               data-accountid="${admin.idAccount}"
+                                        ${p.deleteProduct ? 'checked' : ''}>
                                         Delete
                                     </label>
 
@@ -160,28 +171,32 @@
                                     <label>
                                         <input type="checkbox"
                                                name="viewCoupon"
-                                            ${p.viewCoupon ? 'checked' : ''}>
+                                               data-accountid="${admin.idAccount}"
+                                        ${p.viewCoupon ? 'checked' : ''}>
                                         View
                                     </label>
 
                                     <label>
                                         <input type="checkbox"
                                                name="addCoupon"
-                                            ${p.addCoupon ? 'checked' : ''}>
+                                               data-accountid="${admin.idAccount}"
+                                        ${p.addCoupon ? 'checked' : ''}>
                                         Add
                                     </label>
 
                                     <label>
                                         <input type="checkbox"
                                                name="editCoupon"
-                                            ${p.editCoupon ? 'checked' : ''}>
+                                               data-accountid="${admin.idAccount}"
+                                        ${p.editCoupon ? 'checked' : ''}>
                                         Edit
                                     </label>
 
                                     <label>
                                         <input type="checkbox"
                                                name="deleteCoupon"
-                                            ${p.deleteCoupon ? 'checked' : ''}>
+                                               data-accountid="${admin.idAccount}"
+                                        ${p.deleteCoupon ? 'checked' : ''}>
                                         Delete
                                     </label>
 
@@ -192,10 +207,8 @@
                                         Lưu quyền
                                     </button>
                                 </td>
-
-                            </form>
-
                         </tr>
+                </form>
 
                     </c:if>
 
@@ -212,6 +225,61 @@
     </div>
 
 </div>
+<script>
 
+    document.getElementById("saveAllBtn")
+        .addEventListener("click", function () {
+            const rows = document.querySelectorAll(".permission-row");
+            const permissions = [];
+            rows.forEach(row => {
+                permissions.push({
+                    accountId: parseInt(row.dataset.accountid),
+                    viewUser: row.querySelector('[name="viewUser"]')?.checked || false,
+                    addUser: row.querySelector('[name="addUser"]')?.checked || false,
+                    editUser: row.querySelector('[name="editUser"]')?.checked || false,
+                    deleteUser: row.querySelector('[name="deleteUser"]')?.checked || false,
+                    viewOrder: row.querySelector('[name="viewOrder"]')?.checked || false,
+                    addOrder: row.querySelector('[name="addOrder"]')?.checked || false,
+                    editOrder: row.querySelector('[name="editOrder"]')?.checked || false,
+                    deleteOrder: row.querySelector('[name="deleteOrder"]')?.checked || false,
+                    viewProduct: row.querySelector('[name="viewProduct"]')?.checked || false,
+                    addProduct: row.querySelector('[name="addProduct"]')?.checked || false,
+                    editProduct: row.querySelector('[name="editProduct"]')?.checked || false,
+                    deleteProduct: row.querySelector('[name="deleteProduct"]')?.checked || false,
+                    viewCoupon: row.querySelector('[name="viewCoupon"]')?.checked || false,
+                    addCoupon: row.querySelector('[name="addCoupon"]')?.checked || false,
+                    editCoupon: row.querySelector('[name="editCoupon"]')?.checked || false,
+                    deleteCoupon: row.querySelector('[name="deleteCoupon"]')?.checked || false
+                });
+
+            });
+
+            console.log(permissions);
+
+            fetch(
+                "${pageContext.request.contextPath}/admin/permission/save-all",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(permissions)
+                }
+            )
+                .then(response => response.text())
+                .then(data => {
+                    alert("Lưu tất cả thành công");
+                    location.reload();
+
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert("Có lỗi xảy ra");
+
+                });
+
+        });
+
+</script>
 </body>
 </html>

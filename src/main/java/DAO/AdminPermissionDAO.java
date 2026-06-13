@@ -292,4 +292,52 @@ public class AdminPermissionDAO {
 
         return updatePermission(p);
     }
+
+    public AdminPermission getByAdminId(int adminId) {
+
+        String sql = "SELECT * FROM ADMINPERMISSON WHERE ACCOUNTID = ?";
+
+        try (
+                Connection conn = DBConnect.getConnect();
+                PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
+            ps.setInt(1, adminId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                AdminPermission p = new AdminPermission();
+
+                p.setAccountId(rs.getInt("ACCOUNTID"));
+
+                p.setAddUser(rs.getBoolean("ADDUSER"));
+                p.setViewUser(rs.getBoolean("VIEWUSER"));
+                p.setEditUser(rs.getBoolean("EDITUSER"));
+                p.setDeleteUser(rs.getBoolean("DELETEUSER"));
+
+                p.setAddOrder(rs.getBoolean("ADDORDER"));
+                p.setViewOrder(rs.getBoolean("VIEWORDER"));
+                p.setEditOrder(rs.getBoolean("EDITORDER"));
+                p.setDeleteOrder(rs.getBoolean("DELETEORDER"));
+
+                p.setAddProduct(rs.getBoolean("ADDPRODUCT"));
+                p.setViewProduct(rs.getBoolean("VIEWPRODUCT"));
+                p.setEditProduct(rs.getBoolean("EDITPRODUCT"));
+                p.setDeleteProduct(rs.getBoolean("DELETEPRODUCT"));
+
+                p.setAddCoupon(rs.getBoolean("ADDCOUPON"));
+                p.setViewCoupon(rs.getBoolean("VIEWCOUPON"));
+                p.setEditCoupon(rs.getBoolean("EDITCOUPON"));
+                p.setDeleteCoupon(rs.getBoolean("DELETECOUPON"));
+
+
+                return p;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
