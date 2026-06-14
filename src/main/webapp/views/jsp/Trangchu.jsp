@@ -119,7 +119,32 @@
 		</div>
 
 	</main>
+	<c:if test="${totalPages > 1}">
+		<div class="pagination">
 
+			<c:if test="${currentPage > 1}">
+				<a href="${pageContext.request.contextPath}/Trangchu?action=${param.action}&ID=${param.ID}&page=${currentPage-1}">
+					«
+				</a>
+			</c:if>
+
+			<c:forEach
+					begin="${currentPage - 2 < 1 ? 1 : currentPage - 2}"
+					end="${currentPage + 2 > totalPages ? totalPages : currentPage + 2}"
+					var="i">				<a href="${pageContext.request.contextPath}/Trangchu?action=${param.action}&ID=${param.ID}&page=${i}"
+				   class="${i == currentPage ? 'active-page' : ''}">
+						${i}
+				</a>
+			</c:forEach>
+
+			<c:if test="${currentPage < totalPages}">
+				<a href="${pageContext.request.contextPath}/Trangchu?action=${param.action}&ID=${param.ID}&page=${currentPage+1}">
+					»
+				</a>
+			</c:if>
+
+		</div>
+	</c:if>
 	<jsp:include page="/views/jsp/footer.jsp" />
 </div>
 

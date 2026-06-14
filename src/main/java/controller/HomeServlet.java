@@ -21,6 +21,25 @@ import DAO.FoodDAOimpl;
 public class HomeServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private FoodDAOimpl dao = new FoodDAOimpl();
+    private static final int PAGE_SIZE = 10 ;
+    private int getPage(HttpServletRequest request) {
+        try {
+            return Integer.parseInt(request.getParameter("page"));
+        } catch (Exception e) {
+            return 1;
+        }
+    }
+    private List<Food> paginate(List<Food> list, int page) {
+        int start = (page - 1) * PAGE_SIZE;
+        int end = Math.min(start + PAGE_SIZE, list.size());
+
+        if (start >= list.size()) {
+            start = 0;
+            end = Math.min(PAGE_SIZE, list.size());
+        }
+
+        return list.subList(start, end);
+    }
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -36,19 +55,30 @@ public class HomeServlet extends HttpServlet {
 
         switch (action) {
             case "list" :{
-                List<Food> foodlist = dao.findLimit(10);
+                int page = getPage(request);
+                List<Food> allFoods = dao.findLimit(10);
+                int totalPages = (int) Math.ceil((double) allFoods.size() / PAGE_SIZE);
+                List<Food> foodlist = paginate(allFoods, page);
                 request.setAttribute("foodlist", foodlist);
                 request.setAttribute("title", "Món ăn nổi bật");
+                request.setAttribute("currentPage", page);
+                request.setAttribute("totalPages", totalPages);
                 request.getRequestDispatcher("/views/jsp/Trangchu.jsp").forward(request, response);
-                break;
 
+                break;
             }
             case "all": {
-                List<Food> foodlist = dao.findALL();
+                int page = getPage(request);
+                List<Food> allFoods = dao.findALL();
+                int totalPages = (int) Math.ceil((double) allFoods.size() / PAGE_SIZE);
+                List<Food> foodlist = paginate(allFoods, page);
                 request.setAttribute("foodlist", foodlist);
                 request.setAttribute("title", "Tất cả món ăn");
+                request.setAttribute("currentPage", page);
+                request.setAttribute("totalPages", totalPages);
                 request.getRequestDispatcher("/views/jsp/Trangchu.jsp")
                         .forward(request, response);
+
                 break;
             }
             case "detail": {
@@ -72,18 +102,23 @@ public class HomeServlet extends HttpServlet {
             }
 
             case "category": {
+
                 int category = Integer.parseInt(request.getParameter("ID"));
-                List<Food> foodlist = dao.findByCategory(category);
+                int page = getPage(request);
+                List<Food> allFoods = dao.findByCategory(category);
+                int totalPages = (int) Math.ceil((double) allFoods.size() / PAGE_SIZE);
+                List<Food> foodlist = paginate(allFoods, page);
                 CategoryDAO cdao = new CategoryDAO();
                 String categoryName = cdao.getNameById(category);
                 request.setAttribute("foodlist", foodlist);
                 request.setAttribute("title", categoryName);
-                request.getRequestDispatcher("/views/jsp/Trangchu.jsp")
-                        .forward(request, response);
+                request.setAttribute("currentPage", page);
+                request.setAttribute("totalPages", totalPages);
+
+                request.getRequestDispatcher("/views/jsp/Trangchu.jsp").forward(request, response);
 
                 break;
             }
-
             default:
                 response.sendRedirect("Trangchu");
         }
