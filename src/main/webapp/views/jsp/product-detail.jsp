@@ -101,6 +101,10 @@
 		</c:if>
 
 	</main>
+	<p class="stock">
+		Số lượng còn:
+		<b>${food.quantity}</b>
+	</p>
 
 	<jsp:include page="/views/jsp/footer.jsp" />
 </div>
