@@ -60,7 +60,9 @@
 					</p>
 
 					<div class="price">
-						<span class="new-price">${food.price} ₫</span>
+						<span class="new-price">
+    <fmt:formatNumber value="${food.price}" type="number"/> ₫
+</span>
 						<span class="old-price">
     <fmt:formatNumber value="${food.price * 1.2}" type="number" maxFractionDigits="0"/> ₫
 </span>
