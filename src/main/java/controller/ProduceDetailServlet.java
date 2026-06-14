@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 import DAO.FoodDAOimpl;
 
@@ -57,6 +58,15 @@ public class ProduceDetailServlet extends HttpServlet {
 			request.setAttribute("error", "Sản phẩm không tồn tại");
 		} else {
 			request.setAttribute("food", food);
+
+			// Lấy sản phẩm cùng danh mục
+			List<Food> relatedFoods =
+					dao.findByCategory(food.getCATEGORYId());
+
+			// Loại bỏ chính sản phẩm đang xem
+			relatedFoods.removeIf(f -> f.getId() == food.getId());
+
+			request.setAttribute("relatedFoods", relatedFoods);
 		}
 
 		request.getRequestDispatcher("/views/jsp/product-detail.jsp").forward(request, response);
@@ -69,6 +79,7 @@ public class ProduceDetailServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+
 
 	}
 

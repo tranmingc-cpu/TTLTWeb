@@ -27,6 +27,7 @@ public class FoodDAOimpl implements FoodDAO {
                 f.setPrice(rs.getBigDecimal("PRICE"));
                 f.setDescription(rs.getString("DESCRIPTIONS"));
                 f.setImage(rs.getString("IMAGES"));
+                f.setCATEGORYId(rs.getInt("CATEGORYID"));
                 f.setResID(rs.getInt("RESID"));
                 f.setQuantity(rs.getBigDecimal("QUANTITY"));
                 return f;
