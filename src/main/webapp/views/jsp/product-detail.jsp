@@ -2,7 +2,7 @@
 		 pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c"%>
 <%@ taglib uri="jakarta.tags.functions" prefix="fn"%>
-
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -60,8 +60,10 @@
 					</p>
 
 					<div class="price">
-						<span class="new-price">${food.price} ₫</span> <span
-							class="old-price">${food.price + 10000} ₫</span>
+						<span class="new-price">${food.price} ₫</span>
+						<span class="old-price">
+    <fmt:formatNumber value="${food.price * 1.2}" type="number" maxFractionDigits="0"/> ₫
+</span>
 					</div>
 					<div class="description">
 						<h3>Mô tả món ăn</h3>
