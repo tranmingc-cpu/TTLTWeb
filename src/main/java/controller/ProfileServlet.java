@@ -133,6 +133,9 @@ public class ProfileServlet extends HttpServlet {
         // Email lưu ở bảng Account
         accountDAO.updateEmail(acc.getIdAccount(), email);
 
+        acc.setEmail(email);
+        session.setAttribute("account", acc);
+
         // Đổi mật khẩu nếu có nhập
         if (password != null && !password.trim().isEmpty()) {
             String regex =
