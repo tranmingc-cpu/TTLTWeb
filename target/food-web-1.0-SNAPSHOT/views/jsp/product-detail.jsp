@@ -114,6 +114,97 @@
 				flex-direction:column;
 			}
 		}
+		.related-products{
+			margin-top:40px;
+			background:#fff;
+			padding:30px;
+			border-radius:20px;
+			box-shadow:0 8px 30px rgba(0,0,0,.08);
+		}
+
+		.related-products h2{
+			margin-bottom:25px;
+			font-size:28px;
+			color:#1f2937;
+		}
+
+		.related-list{
+			display:grid;
+			grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+			gap:20px;
+		}
+
+		.related-item{
+			background:#fff;
+			border:1px solid #e5e7eb;
+			border-radius:16px;
+			overflow:hidden;
+			transition:.3s;
+		}
+
+		.related-item:hover{
+			transform:translateY(-5px);
+			box-shadow:0 10px 25px rgba(0,0,0,.12);
+		}
+
+		.related-item a{
+			text-decoration:none;
+			color:inherit;
+			display:block;
+		}
+
+		.related-item img{
+			width:100%;
+			height:180px;
+			object-fit:cover;
+		}
+
+		.related-item h4{
+			padding:12px 15px 6px;
+			font-size:17px;
+			color:#111827;
+
+			overflow:hidden;
+			text-overflow:ellipsis;
+			white-space:nowrap;
+		}
+
+		.related-item p{
+			padding:0 15px 15px;
+			font-size:18px;
+			font-weight:700;
+			color:#e63946;
+		}
+
+		/* Mobile */
+
+		@media(max-width:768px) {
+
+			.related-products {
+				padding: 20px;
+			}
+
+			.related-products h2 {
+				font-size: 22px;
+			}
+
+			.related-list {
+				grid-template-columns:repeat(2, 1fr);
+				gap: 15px;
+			}
+
+			.related-item img {
+				height: 140px;
+			}
+
+			.related-item h4 {
+				font-size: 15px;
+			}
+
+			.related-item p {
+				font-size: 16px;
+			}
+		}
 
 	</style>
 </head>
@@ -233,26 +324,26 @@
 				</div>
 			</div>
 		</c:if>
-<%--		<c:if test="${not empty relatedFoods}">--%>
-<%--			<section class="related-products">--%>
-<%--				<h2>Sản phẩm liên quan</h2>--%>
-<%--				<div class="related-list">--%>
-<%--					<c:forEach items="${relatedFoods}" var="item">--%>
-<%--						<div class="related-item">--%>
-<%--							<a href="${pageContext.request.contextPath}/product-detail?id=${item.id}">--%>
-<%--								<img src="${item.image}"--%>
-<%--									 alt="${item.name}"--%>
-<%--									 width="150">--%>
-<%--								<h4>${item.name}</h4>--%>
-<%--								<p>--%>
-<%--									<fmt:formatNumber value="${item.price}" type="number"/> ₫--%>
-<%--								</p>--%>
-<%--							</a>--%>
-<%--						</div>--%>
-<%--					</c:forEach>--%>
-<%--				</div>--%>
-<%--			</section>--%>
-<%--		</c:if>--%>
+		<c:if test="${not empty relatedFoods}">
+			<section class="related-products">
+				<h2>Sản phẩm liên quan</h2>
+				<div class="related-list">
+					<c:forEach items="${relatedFoods}" var="item">
+						<div class="related-item">
+							<a href="${pageContext.request.contextPath}/product-detail?id=${item.id}">
+								<img src="${item.image}"
+									 alt="${item.name}"
+									 width="150">
+								<h4>${item.name}</h4>
+								<p>
+									<fmt:formatNumber value="${item.price}" type="number"/> ₫
+								</p>
+							</a>
+						</div>
+					</c:forEach>
+				</div>
+			</section>
+		</c:if>
 	</main>
 
 	<jsp:include page="/views/jsp/footer.jsp" />
