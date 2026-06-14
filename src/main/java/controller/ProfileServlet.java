@@ -91,6 +91,15 @@ public class ProfileServlet extends HttpServlet {
             return;
         }
         String number = request.getParameter("number");
+        if(number == null ||
+                !number.matches("^0\\d{9}$")) {
+
+            request.setAttribute("error",
+                    "Số điện thoại phải gồm 10 số");
+
+            doGet(request,response);
+            return;
+        }
         String address = request.getParameter("address");
         String password = request.getParameter("password");
 

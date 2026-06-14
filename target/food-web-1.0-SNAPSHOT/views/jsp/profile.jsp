@@ -37,6 +37,12 @@
 				<c:remove var="success" scope="session"/>
 			</c:if>
 
+			<c:if test="${not empty error}">
+				<div class="error-message">
+						${error}
+				</div>
+			</c:if>
+
 			<div class="form-group">
 				<label>Tên đăng nhập</label> <input type="text"
 													value="${sessionScope.account.userName}" disabled>

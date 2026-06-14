@@ -165,10 +165,12 @@ body {
     border-radius:8px;
     margin-bottom:15px;
 }
+
 .error-message{
-    background:#f8d7da;
-    color:#721c24;
-    padding:12px;
-    border-radius:8px;
-    margin-bottom:15px;
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c2c7;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
 }
