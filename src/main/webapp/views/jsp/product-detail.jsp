@@ -87,7 +87,7 @@
 						<input type="hidden" name="foodId" value="${food.id}">
 
 						<div class="quantity">
-							<input type="number" name="quantity" value="1" min="1">
+							<input type="number" name="quantity" value="1" min="1"  max="${food.quantity}">
 						</div>
 						<button type="submit" name="action" value="add" class="btn-cart">
 							THÊM VÀO GIỎ</button>
