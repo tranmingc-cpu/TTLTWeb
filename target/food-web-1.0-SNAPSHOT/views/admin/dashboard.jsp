@@ -2,7 +2,6 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
 
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -12,21 +11,13 @@
           href="${pageContext.request.contextPath}/views/admin/dashboard.css">
 </head>
 <body>
-<jsp:include page="${pageContext.request.contextPath}/views/jsp/demo.jsp"/>
+
+<jsp:include page="/views/jsp/demo.jsp"/>
 <div class="admin-container">
-    <header class="admin-header">
-        <h1>ADMIN PANEL</h1>
-    </header>
-
-    <aside class="admin-sidebar">
-        <a href="${pageContext.request.contextPath}/admin/dashboard">🏠 Dashboard</a>
-        <a href="${pageContext.request.contextPath}/admin/product">🍔 Quản lý món ăn</a>
-        <a href="${pageContext.request.contextPath}/admin/order">📦 Quản lý đơn hàng</a>
-        <a href="${pageContext.request.contextPath}/admin/user">👤 Quản lý user</a>
-    </aside>
-
+    <jsp:include page="/views/admin/sidebar.jsp"/>
     <main class="admin-content">
         <h2>Thống kê nhanh</h2>
+
         <div class="stats">
             <div class="stat-box">
                 👤 Users<br>
@@ -42,6 +33,10 @@
                 📦 Đơn hàng<br>
                 <b>${totalOrders}</b>
             </div>
+            <div class="stat-box">
+                🎟️ Mã Giảm giá <br>
+                <b>${totalCoupons}</b>
+            </div>
 
             <div class="stat-box">
                 💰 Doanh thu<br>
@@ -50,17 +45,15 @@
                 </b>
             </div>
         </div>
+
         <div class="card">
-            <h3>Biểu đồ doanh thu </h3>
+            <h3>Biểu đồ doanh thu</h3>
             <canvas id="revenueChart"></canvas>
         </div>
     </main>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<canvas id="revenueChart"></canvas>
 
 <script>
     fetch("<%=request.getContextPath()%>/admin/revenue-by-month")
@@ -70,26 +63,38 @@
             const months = [...new Set(data.map(item => item.month))];
             const stores = [...new Set(data.map(item => item.resid))];
 
-            const datasets = stores.map(storeId => {
-                return {
-                    label: "Cửa hàng " + storeId,
-                    data: months.map(month => {
-                        const item = data.find(d => d.month === month && d.resid === storeId);
-                        return item ? item.revenue : 0;
-                    })
-                };
-            });
+            const datasets = stores.map(storeId => ({
+                label: "Cửa hàng " + storeId,
+                data: months.map(month => {
+                    const item = data.find(d => d.month === month && d.resid === storeId);
+                    return item ? item.revenue : 0;
+                }),
+                borderWidth: 1
+            }));
 
             const labels = months.map(m => "Tháng " + m);
 
-            new Chart(document.getElementById('revenueChart'), {
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+
+            new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: labels,
                     datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
                 }
             });
 
-        });
-</script></body>
+        })
+        .catch(err => console.error("Lỗi load dữ liệu:", err));
+</script>
+
+</body>
 </html>

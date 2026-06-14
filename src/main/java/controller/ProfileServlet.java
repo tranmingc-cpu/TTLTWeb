@@ -81,6 +81,15 @@ public class ProfileServlet extends HttpServlet {
 
         String fullName = request.getParameter("fullName");
         String email = request.getParameter("email");
+        if(email == null ||
+                !email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+
+            request.setAttribute("error",
+                    "Email không hợp lệ");
+
+            doGet(request,response);
+            return;
+        }
         String number = request.getParameter("number");
         String address = request.getParameter("address");
         String password = request.getParameter("password");
@@ -128,6 +137,10 @@ public class ProfileServlet extends HttpServlet {
             return;
         }
 
-        response.sendRedirect(request.getContextPath() + "/profile");
+        session.setAttribute("success",
+                "Cập nhật thông tin thành công!");
+
+        response.sendRedirect(
+                request.getContextPath() + "/profile");
     }
 }

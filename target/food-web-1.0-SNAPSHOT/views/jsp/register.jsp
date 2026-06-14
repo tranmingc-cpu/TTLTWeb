@@ -44,7 +44,7 @@
 
             <input type="text" name="phone"
                    placeholder="Số điện thoại"
-                   value="${param.number}" required>
+                   value="${param.phone}" required>
 
             <input type="text" name="address"
                    placeholder="Địa chỉ"
@@ -52,7 +52,10 @@
 
             <button type="submit">Đăng ký</button>
         </form>
-
+        <c:if test="${not empty sessionScope.success}">
+            <p class="success">${sessionScope.success}</p>
+            <c:remove var="success" scope="session"/>
+        </c:if>
         <p style="margin-top: 14px;">
             Đã có tài khoản?
             <a href="login">Đăng nhập</a>
