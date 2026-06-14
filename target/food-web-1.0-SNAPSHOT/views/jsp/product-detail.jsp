@@ -98,11 +98,25 @@
 						<div class="quantity">
 							<input type="number" name="quantity" value="1" min="1"  max="${food.quantity}">
 						</div>
-						<button type="submit" name="action" value="add" class="btn-cart">
-							THÊM VÀO GIỎ</button>
+						<c:choose>
 
-						<button type="submit" name="action" value="buy" class="btn-buy">
-							MUA NGAY</button>
+							<c:when test="${food.quantity > 0}">
+								<button type="submit" name="action" value="add" class="btn-cart">
+									THÊM VÀO GIỎ
+								</button>
+
+								<button type="submit" name="action" value="buy" class="btn-buy">
+									MUA NGAY
+								</button>
+							</c:when>
+
+							<c:otherwise>
+								<button class="btn-cart" disabled>
+									HẾT HÀNG
+								</button>
+							</c:otherwise>
+
+						</c:choose>
 
 					</form>
 				</div>
