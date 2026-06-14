@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -8,23 +9,11 @@
           href="${pageContext.request.contextPath}/views/admin/order-list.css">
 </head>
 <body>
-<jsp:include page="${pageContext.request.contextPath}/views/jsp/demo.jsp"/>
+<jsp:include page="/views/jsp/demo.jsp"/>
+
 <div class="admin-container">
 
-    <header class="admin-header">
-        <h1>ADMIN PANEL</h1>
-        <div class="admin-user">
-            Xin chào <b>${adminName}</b> |
-            <a href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
-        </div>
-    </header>
-
-    <aside class="admin-sidebar">
-        <a href="${pageContext.request.contextPath}/admin/dashboard">🏠 Dashboard</a>
-        <a href="${pageContext.request.contextPath}/admin/product">🍔 Quản lý món ăn</a>
-        <a href="${pageContext.request.contextPath}/admin/order">📦 Quản lý đơn hàng</a>
-        <a href="${pageContext.request.contextPath}/admin/user">👤 Quản lý user</a>
-    </aside>
+    <jsp:include page="/views/admin/sidebar.jsp"/>
 
     <main class="admin-content">
 
@@ -41,9 +30,56 @@
             </p>
         </div>
 
+        <h3 class="section-title">Chi tiết tất cả đơn hàng</h3>
+
+        <table class="order-table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Mã đơn</th>
+                <th>Khách hàng</th>
+                <th>Nhà hàng </th>
+                <th>Địa chỉ</th>
+                <th>Ngày đặt</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="order" items="${orderList}" varStatus="loop">
+                <tr>
+                    <td>${loop.index + 1}</td>
+                    <td>${order.orderId}</td>
+                    <td>${order.accountId}</td>
+                    <td>${order.resId}</td>
+                    <td>${order.address}</td>
+                    <td>${order.orderDate}</td>
+                    <td>${order.totalAmount} VNĐ</td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${order.status == 'Đang xử lý'}">
+                                <span class="status status-pending">${order.status}</span>
+                            </c:when>
+                            <c:when test="${order.status == 'Hoàn thành'}">
+                                <span class="status status-done">${order.status}</span>
+                            </c:when>
+                            <c:otherwise>
+                                <span class="status status-canceled">${order.status}</span>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/admin/order?action=view&id=${order.orderId}"
+                           class="btn-view">
+                            🔍 Xem
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
     </main>
-
 </div>
-
 </body>
 </html>

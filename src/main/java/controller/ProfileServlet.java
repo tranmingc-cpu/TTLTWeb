@@ -81,7 +81,25 @@ public class ProfileServlet extends HttpServlet {
 
         String fullName = request.getParameter("fullName");
         String email = request.getParameter("email");
+        if(email == null ||
+                !email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+
+            request.setAttribute("error",
+                    "Email không hợp lệ");
+
+            doGet(request,response);
+            return;
+        }
         String number = request.getParameter("number");
+        if(number == null ||
+                !number.matches("^0\\d{9}$")) {
+
+            request.setAttribute("error",
+                    "Số điện thoại phải gồm 10 số");
+
+            doGet(request,response);
+            return;
+        }
         String address = request.getParameter("address");
         String password = request.getParameter("password");
 
@@ -115,8 +133,22 @@ public class ProfileServlet extends HttpServlet {
         // Email lưu ở bảng Account
         accountDAO.updateEmail(acc.getIdAccount(), email);
 
+        acc.setEmail(email);
+        session.setAttribute("account", acc);
+
         // Đổi mật khẩu nếu có nhập
         if (password != null && !password.trim().isEmpty()) {
+            String regex =
+                    "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$";
+
+            if(!password.matches(regex)) {
+
+                request.setAttribute("error",
+                        "Mật khẩu phải có ít nhất 8 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt");
+
+                doGet(request,response);
+                return;
+            }
 
             accountDAO.updatePassword(
                     acc.getIdAccount(),
@@ -128,6 +160,10 @@ public class ProfileServlet extends HttpServlet {
             return;
         }
 
-        response.sendRedirect(request.getContextPath() + "/profile");
+        session.setAttribute("success",
+                "Cập nhật thông tin thành công!");
+
+        response.sendRedirect(
+                request.getContextPath() + "/profile");
     }
 }

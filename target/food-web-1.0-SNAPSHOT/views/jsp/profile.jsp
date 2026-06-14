@@ -7,15 +7,12 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Thông tin cá nhân</title>
-
-
 	<link rel="stylesheet"
 		  href="${pageContext.request.contextPath}/views/Shared/profile.css">
-
 </head>
 <body>
 
-<jsp:include page="${pageContext.request.contextPath}/views/jsp/demo.jsp" />
+<jsp:include page="/views/jsp/demo.jsp" />
 <div class="Account"> TÀI KHOẢN </div>
 <div class="profile-wrapper">
 
@@ -27,12 +24,24 @@
 			<h3>${sessionScope.account.userName}</h3>
 		</div>
 
-		<!-- FORM -->
 		<form action="${pageContext.request.contextPath}/profile"
 			  method="post" class="profile-form">
 
 			<input type="hidden" name="idAccount"
 				   value="${sessionScope.account.idAccount}">
+
+			<c:if test="${not empty success}">
+				<div class="success-message">
+						${success}
+				</div>
+				<c:remove var="success" scope="session"/>
+			</c:if>
+
+			<c:if test="${not empty error}">
+				<div class="error-message">
+						${error}
+				</div>
+			</c:if>
 
 			<div class="form-group">
 				<label>Tên đăng nhập</label> <input type="text"
@@ -69,6 +78,6 @@
 	</div>
 
 </div>
-<jsp:include page="${pageContext.request.contextPath}/views/jsp/footer.jsp" />
+<jsp:include page="/views/jsp/footer.jsp" />
 </body>
 </html>
