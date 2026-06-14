@@ -56,7 +56,16 @@
 					<h1>${food.name}</h1>
 
 					<p class="status">
-						Tình trạng: <span class="in-stock">Còn hàng</span>
+						Tình trạng:
+						<c:choose>
+							<c:when test="${food.quantity > 0}">
+								<span class="in-stock">Còn hàng</span>
+							</c:when>
+
+							<c:otherwise>
+								<span class="out-stock">Hết hàng</span>
+							</c:otherwise>
+						</c:choose>
 					</p>
 
 					<div class="price">
@@ -87,7 +96,7 @@
 						<input type="hidden" name="foodId" value="${food.id}">
 
 						<div class="quantity">
-							<input type="number" name="quantity" value="1" min="1">
+							<input type="number" name="quantity" value="1" min="1"  max="${food.quantity}">
 						</div>
 						<button type="submit" name="action" value="add" class="btn-cart">
 							THÊM VÀO GIỎ</button>
