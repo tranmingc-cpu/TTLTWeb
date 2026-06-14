@@ -135,6 +135,17 @@ public class ProfileServlet extends HttpServlet {
 
         // Đổi mật khẩu nếu có nhập
         if (password != null && !password.trim().isEmpty()) {
+            String regex =
+                    "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$";
+
+            if(!password.matches(regex)) {
+
+                request.setAttribute("error",
+                        "Mật khẩu phải có ít nhất 8 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt");
+
+                doGet(request,response);
+                return;
+            }
 
             accountDAO.updatePassword(
                     acc.getIdAccount(),
