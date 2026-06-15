@@ -13,7 +13,7 @@ public class FoodDAOimpl implements FoodDAO {
 
     @Override
     public Food infomation(int id) {
-        String sql = "SELECT * FROM Food WHERE id = ?";
+        String sql = "SELECT * FROM FOOD WHERE ID = ?";
         try (Connection con = DBConnect.getConnect();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -30,6 +30,7 @@ public class FoodDAOimpl implements FoodDAO {
                 f.setCATEGORYId(rs.getInt("CATEGORYID"));
                 f.setResID(rs.getInt("RESID"));
                 f.setQuantity(rs.getBigDecimal("QUANTITY"));
+                f.setDiscount(rs.getInt("DISCOUNT"));
                 return f;
             }
 
@@ -454,4 +455,12 @@ public class FoodDAOimpl implements FoodDAO {
         }
         return list;
     }
+
+    @Override
+    public List<Food> getDiscount() {
+
+        return List.of();
+    }
+
+
 }

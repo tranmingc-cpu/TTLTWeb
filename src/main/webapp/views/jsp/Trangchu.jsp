@@ -8,8 +8,7 @@
 	<meta charset="UTF-8">
 	<title>Food Online</title>
 
-	<link rel="stylesheet"
-		  href="${pageContext.request.contextPath}/views/Shared/index.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/views/Shared/index.css">
 </head>
 
 <body>
@@ -46,24 +45,49 @@
 
 			<div class="slide">
 				<div class="overlay">
-					<h2>🍜 Giảm 30% món bún</h2>
-					<p>Ăn ngon mỗi ngày</p>
+					<div class="overlay-left">
+						<div class="badge">🔥 Ưu đãi hôm nay</div>
+						<h2>Giảm 20% món bún</h2>
+						<p>Thưởng thức hương vị đậm đà — ưu đãi có hạn trong ngày!</p>
+						<a href="${pageContext.request.contextPath}/product-detail?id=18" class="promo-btn">Đặt ngay →</a>
+					</div>
+					<div class="discount-pill">
+						<div class="pct">-20%</div>
+					</div>
 				</div>
 			</div>
 
 			<div class="slide">
 				<div class="overlay">
-					<h2>🍛 Cơm chỉ từ 35K</h2>
-					<p>No bụng giá mềm</p>
+					<div class="overlay-left">
+						<div class="badge">🌿 Combo tiết kiệm</div>
+						<h2>Cơm chỉ từ 35K</h2>
+						<p>No bụng giá mềm — combo cơm + nước siêu hời!</p>
+						<a href="${pageContext.request.contextPath}/product-detail?id=32" class="promo-btn">Đặt ngay →</a>
+					</div>
+					<div class="discount-pill">
+						<div class="pct">-20%</div>
+						<div class="lbl">Combo cơm + nước</div>
+					</div>
 				</div>
 			</div>
 
 			<div class="slide">
 				<div class="overlay">
-					<h2>🔥 Combo hấp dẫn</h2>
-					<p>Giảm đến 40%</p>
+					<div class="overlay-left">
+						<div class="badge">⚡ Cuối tuần đặc biệt</div>
+						<h2>Combo hấp dẫn</h2>
+						<p>Giảm đến 30% — càng đông càng vui, càng tiết kiệm!</p>
+						<a href="${pageContext.request.contextPath}/product-detail?id=67" class="promo-btn">Đặt ngay →</a>
+					</div>
+					<div class="discount-pill">
+						<div class="pct">-30%</div>
+						<div class="lbl">Từ 2 người trở lên</div>
+					</div>
 				</div>
 			</div>
+
+		</div>
 
 		</div>
 	</div>
@@ -156,8 +180,7 @@
 	setInterval(() => {
 		index++;
 		if(index >= total) index = 0;
-		slides.style.transform = "translateX(-" + (index * 100) + "%)";
-	}, 3000);
+		slides.style.transform = "translateX(-" + (index * 100) + "%)";}, 3000);
 </script>
 
 </body>
