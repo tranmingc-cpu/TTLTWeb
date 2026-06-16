@@ -24,6 +24,11 @@ public class AdminPermission {
     private boolean editCoupon;
     private boolean deleteCoupon;
 
+    private boolean viewBanner;
+    private boolean addBanner;
+    private boolean editBanner;
+    private boolean deleteBanner;
+
     public AdminPermission() {
     }
 
@@ -162,4 +167,13 @@ public class AdminPermission {
     public void setDeleteCoupon(boolean deleteCoupon) {
         this.deleteCoupon = deleteCoupon;
     }
+    public boolean isViewBanner (){ return viewBanner;}
+    public void setViewBanner(boolean viewBanner) { this.viewBanner = viewBanner;}
+    public boolean isAddBanner(){return addBanner;}
+    public void setAddBanner(boolean addBanner) { this.addBanner = addBanner;}
+    public boolean isEditBanner(){return editBanner;}
+    public void setEditBanner(boolean editBanner) { this.editBanner = editBanner;}
+    public boolean isDeleteBanner(){return deleteBanner;}
+    public void setDeleteBanner(boolean deleteBanner) { this.deleteBanner = deleteBanner;}
+
 }

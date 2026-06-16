@@ -461,6 +461,31 @@ public class FoodDAOimpl implements FoodDAO {
 
         return List.of();
     }
+    public List<Food> getDisountFood (){
+        String sql = "SELECT ID ,FNAME , PRICE , IMAGES , QUANTITY,  DISCOUNT FROM FOOD WHERE ID =? ";
+        List<Food> list = new ArrayList<>();
 
+        try (
+                Connection con = DBConnect.getConnect();
+                PreparedStatement ps = con.prepareStatement(sql);
+                )
+      {
+            ResultSet rs = ps.executeQuery();
+           while( rs.next()){
+               Food f = new Food();
+               f.setId(rs.getInt("ID"));
+               f.setName(rs.getString("FNAME"));
+               f.setPrice(rs.getBigDecimal("PRICE"));
+               f.setImage(rs.getString("IMAGES"));
+               f.setQuantity(rs.getBigDecimal("QUANTITY"));
+               f.setDiscount(rs.getInt("DISCOUNT"));
+               list.add(f);
+           }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+                    return list ;
+    }
 
 }
