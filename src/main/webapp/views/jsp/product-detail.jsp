@@ -176,8 +176,6 @@
 			color:#e63946;
 		}
 
-		/* Mobile */
-
 		@media(max-width:768px) {
 
 			.related-products {
@@ -267,13 +265,17 @@
 						Số lượng còn:
 						<b>${food.quantity}</b>
 					</p>
-					<div class="price">
-						<span class="new-price">
-    <fmt:formatNumber value="${food.price}" type="number"/> ₫
-</span>
-						<span class="old-price">
-    <fmt:formatNumber value="${food.price * 1.2}" type="number" maxFractionDigits="0"/> ₫
-</span>
+					<div class="product-price">
+    <span class="new-price">
+        <fmt:formatNumber value="${newPrice}" type="number"/> đ
+    </span>
+
+						<c:if test="${food.discount > 0}">
+        <span class="old-price">
+            <fmt:formatNumber value="${food.price}" type="number"/> đ
+        </span>
+							<span class="discount-badge">-${food.discount}%</span>
+						</c:if>
 					</div>
 					<div class="description">
 						<h3>Mô tả món ăn</h3>

@@ -11,6 +11,7 @@ public class Food {
 	private int ResID;
 	private BigDecimal quantity;
 	private int categoryId;
+	private int discount;
 	public int getCATEGORYId() {
 		return categoryId;
 	}
@@ -60,6 +61,12 @@ public class Food {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
+	public int getDiscount() {
+		return discount;
 	}
 	@Override
 	public String toString() {
