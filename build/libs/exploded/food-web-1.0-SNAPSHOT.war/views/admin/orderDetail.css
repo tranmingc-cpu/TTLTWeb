@@ -1,0 +1,173 @@
+@charset "UTF-8";
+body{
+    margin:0;
+    background:#f5f7fb;
+    font-family:'Segoe UI',sans-serif;
+    color:#2c3e50;
+}
+
+.admin-container{
+    display:flex;
+    min-height:100vh;
+}
+
+.admin-content{
+    flex:1;
+    padding:30px;
+}
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.page-header h2{
+    margin:0;
+    font-size:30px;
+    font-weight:700;
+    color:#1e293b;
+}
+
+.btn-back{
+    text-decoration:none;
+    background:#3498db;
+    color:white;
+    padding:10px 18px;
+    border-radius:10px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.btn-back:hover{
+    background:#2980b9;
+    transform:translateY(-2px);
+}
+
+.detail-card{
+    background:white;
+    border-radius:18px;
+    padding:28px;
+    margin-bottom:25px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.detail-card h3{
+    margin-top:0;
+    margin-bottom:20px;
+    color:#1e293b;
+    font-size:22px;
+}
+
+.info-row{
+    display:flex;
+    padding:12px 0;
+    border-bottom:1px solid #eef2f7;
+}
+
+.info-row:last-child{
+    border-bottom:none;
+}
+
+.info-label{
+    width:220px;
+    font-weight:600;
+    color:#64748b;
+}
+
+.total-money{
+    color:#e74c3c;
+    font-size:18px;
+    font-weight:700;
+}
+
+.detail-divider{
+    border:none;
+    border-top:1px solid #e5e7eb;
+    margin:25px 0;
+}
+
+.status{
+    padding:6px 14px;
+    border-radius:30px;
+    font-size:13px;
+    font-weight:700;
+}
+
+.status-pending{
+    background:#fff7e6;
+    color:#f39c12;
+}
+
+.status-done{
+    background:#eafaf1;
+    color:#27ae60;
+}
+
+.status-cancel{
+    background:#ffeaea;
+    color:#e74c3c;
+}
+
+.order-table{
+    width:100%;
+    border-collapse:collapse;
+    overflow:hidden;
+    border-radius:12px;
+}
+
+.order-table thead{
+    background:#34495e;
+    color:white;
+}
+
+.order-table th{
+    padding:14px;
+    text-align:left;
+    font-weight:600;
+}
+
+.order-table td{
+    padding:14px;
+    border-bottom:1px solid #edf2f7;
+}
+
+.order-table tbody tr{
+    transition:.2s;
+}
+
+.order-table tbody tr:hover{
+    background:#f8fafc;
+}
+
+.order-table tbody tr:nth-child(even){
+    background:#fcfcfc;
+}
+
+@media(max-width:768px){
+
+    .admin-content{
+        padding:15px;
+    }
+
+    .page-header{
+        flex-direction:column;
+        gap:15px;
+        align-items:flex-start;
+    }
+
+    .info-row{
+        flex-direction:column;
+        gap:5px;
+    }
+
+    .info-label{
+        width:100%;
+    }
+
+    .order-table{
+        display:block;
+        overflow-x:auto;
+    }
+}

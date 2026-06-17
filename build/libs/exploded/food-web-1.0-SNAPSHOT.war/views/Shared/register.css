@@ -1,0 +1,128 @@
+@charset "UTF-8";
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #fce4dc;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.header-title {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.header-title h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 800;
+    color: #e63946;
+    letter-spacing: 1px;
+}
+
+.header-title small {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.register-container {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    padding: 35px 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.register-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #000;
+}
+
+.register-container input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.register-container input:focus {
+    border-color: #e63946;
+}
+
+.register-container button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background-color: #e63946;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.register-container button:hover {
+    background-color: #d62839;
+}
+
+.register-container p {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 13px;
+    color: #666;
+}
+
+.register-container a {
+    color: #e63946;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-container a:hover {
+    text-decoration: underline;
+}
+
+.error, .success {
+    font-size: 13px;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.error {
+    color: #e63946;
+    background: #fff1f0;
+    border: 1px solid #ffa39e;
+}
+
+.success {
+    color: #52c41a;
+    background: #f6ffed;
+    border: 1px solid #b7eb8f;
+}
