@@ -44,8 +44,7 @@ public class OrderHistoryServlet extends HttpServlet {
 
         Account acc = (Account) session.getAttribute("account");
 
-        List<Order> orders =
-                orderDAO.getActiveOrdersByAccount(acc.getIdAccount());
+        List<Order> orders = orderDAO.getActiveOrdersByAccount(acc.getIdAccount());
 
         request.setAttribute("orders", orders);
         request.getRequestDispatcher("/views/jsp/orderHistory.jsp")
