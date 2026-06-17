@@ -76,10 +76,40 @@ public class ProduceDetailServlet extends HttpServlet {
 			request.setAttribute("newPrice", newPrice);
 
 			List<Food> relatedFoods = dao.findByCategory(food.getCATEGORYId());
-
 			relatedFoods.removeIf(f -> f.getId() == food.getId());
 
-			request.setAttribute("relatedFoods", relatedFoods);
+			int page = 1;
+
+			String pageStr = request.getParameter("page");
+
+			if (pageStr != null) {
+				try {
+					page = Integer.parseInt(pageStr);
+				} catch (Exception e) {
+					page = 1;
+				}
+			}
+
+			int pageSize = 10;
+			int totalItems = relatedFoods.size();
+			int totalPages = (int) Math.ceil((double) totalItems / pageSize);
+			if(page < 1){
+				page = 1;
+			}
+
+			if(page > totalPages && totalPages > 0){
+				page = totalPages;
+			}
+
+			int start = (page - 1) * pageSize;
+
+			int end = Math.min(start + pageSize, totalItems);
+
+			List<Food> pageFoods = relatedFoods.subList(start, end);
+
+			request.setAttribute("relatedFoods", pageFoods);
+			request.setAttribute("currentPage", page);
+			request.setAttribute("totalPages", totalPages);
 		}
 
 		request.getRequestDispatcher("/views/jsp/product-detail.jsp").forward(request, response);

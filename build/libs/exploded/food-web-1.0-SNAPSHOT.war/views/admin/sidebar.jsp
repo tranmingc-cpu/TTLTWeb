@@ -18,6 +18,7 @@
         <a href="${pageContext.request.contextPath}/admin/order">📦 Quản lý đơn hàng</a>
         <a href="${pageContext.request.contextPath}/admin/user">👤 Quản lý user</a>
         <a href="${pageContext.request.contextPath}/admin/coupon">🎟️ Quản lý Coupon</a>
+        <a href="${pageContext.request.contextPath}/admin/banner"> 🖼️ Quản lý Banner</a>
         <c:if test="${sessionScope.account.role == 'SUPER_ADMIN'}">
             <li>
                 <a href="${pageContext.request.contextPath}/admin/permission">Phân quyền Admin</a>

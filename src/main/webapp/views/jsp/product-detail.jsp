@@ -345,6 +345,32 @@
 					</c:forEach>
 				</div>
 			</section>
+			<c:if test="${totalPages > 1}">
+				<div class="pagination">
+
+					<c:if test="${currentPage > 1}">
+						<a href="${pageContext.request.contextPath}/product-detail?id=${food.id}&page=${currentPage-1}">
+							←
+						</a>
+					</c:if>
+
+					<c:forEach begin="1" end="${totalPages}" var="i">
+
+						<a href="${pageContext.request.contextPath}/product-detail?id=${food.id}&page=${i}"
+						   class="${i==currentPage?'active':''}">
+								${i}
+						</a>
+
+					</c:forEach>
+
+					<c:if test="${currentPage < totalPages}">
+						<a href="${pageContext.request.contextPath}/product-detail?id=${food.id}&page=${currentPage+1}">
+							→
+						</a>
+					</c:if>
+
+				</div>
+			</c:if>
 		</c:if>
 	</main>
 

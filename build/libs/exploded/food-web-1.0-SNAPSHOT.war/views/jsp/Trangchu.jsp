@@ -9,8 +9,7 @@
 	<meta charset="UTF-8">
 	<title>Food Online</title>
 
-	<link rel="stylesheet"
-		  href="${pageContext.request.contextPath}/views/Shared/index.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/views/Shared/index.css">
 </head>
 
 <body>
@@ -88,7 +87,6 @@
 					</div>
 				</div>
 			</div>
-
 	</div>
 </div>
 	<main class="page-content">
