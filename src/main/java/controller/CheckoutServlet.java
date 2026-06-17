@@ -103,7 +103,7 @@ public class CheckoutServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		CouponDAO coupondao = new CouponDAO();
-		FoodDAOimpl foodDAO = new FoodDAOimpl(); // 2. KHỞI TẠO ĐỐI TƯỢNG FOOD DAO TẠI ĐÂY
+		FoodDAOimpl foodDAO = new FoodDAOimpl();
 
 		HttpSession session = request.getSession(false);
 		if (session == null || session.getAttribute("account") == null) {
@@ -112,6 +112,15 @@ public class CheckoutServlet extends HttpServlet {
 		}
 
 		Account acc = (Account) session.getAttribute("account");
+
+		String paymentMethod = request.getParameter("paymentMethod");
+		if (paymentMethod == null || paymentMethod.trim().isEmpty()) {
+			paymentMethod = "cash";
+		}
+		String orderStatus = "PENDING";
+		if ("bank_transfer".equalsIgnoreCase(paymentMethod)) {
+			orderStatus = "UNPAID";
+		}
 
 		int cartId = cartDAO.getCartIdByAccount(acc.getIdAccount());
 		List<CartItem> cart = cartDAO.getCartItems(cartId);
@@ -192,7 +201,8 @@ public class CheckoutServlet extends HttpServlet {
 					receiverPhone,
 					districtId,
 					wardCode,
-					shipFeePerRes
+					shipFeePerRes,
+					orderStatus
 			);
 			if (orderId <= 0) {
 				System.out.println("❌ Không thể tạo đơn hàng cho nhà hàng ID: " + entry.getKey());
@@ -249,6 +259,17 @@ public class CheckoutServlet extends HttpServlet {
 			coupondao.increaseUsedCount(cp.getId());
 			session.removeAttribute("coupon");
 		}
-		response.sendRedirect(request.getContextPath() + "/orderSuccess");
+		if ("bank_transfer".equalsIgnoreCase(paymentMethod)) {
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < orderIds.size(); i++) {
+				sb.append(orderIds.get(i));
+				if (i < orderIds.size() - 1) {
+					sb.append(",");
+				}
+			}
+			response.sendRedirect(request.getContextPath() + "/payment?orderIds=" + sb.toString());
+		} else {
+			response.sendRedirect(request.getContextPath() + "/orderSuccess");
+		}
 	}
 }
