@@ -7,17 +7,7 @@
     <meta charset="UTF-8">
     <title>Thông tin đặt hàng</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/views/Shared/order.css">
-    <style>
-        .order-form select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-            box-sizing: border-box;
-        }
-    </style>
+
 </head>
 <body>
 

@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import DAO.FoodDAOimpl;
-
+import DAO.ReviewDAO;
 /**
  * Servlet implementation class ProduceDetailServlet
  */
@@ -19,13 +19,13 @@ import DAO.FoodDAOimpl;
 public class ProduceDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private FoodDAOimpl dao = new FoodDAOimpl();
+	private ReviewDAO reviewDAO = new ReviewDAO();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public ProduceDetailServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -66,10 +66,7 @@ public class ProduceDetailServlet extends HttpServlet {
 			if (discount > 0) {
 				BigDecimal discountPercent = new BigDecimal(discount);
 				BigDecimal oneHundred = new BigDecimal(100);
-				newPrice = oldPrice.subtract(oldPrice.multiply(new java.math.BigDecimal(discount)).divide(new java.math.BigDecimal(100), 2, java.math.RoundingMode.HALF_UP));			}
-               System.out.println(" old price"+ oldPrice);
-			System.out.println(" old price"+ oldPrice);
-			System.out.println(" discount "+ food.getDiscount());
+				newPrice = oldPrice.subtract(oldPrice.multiply(new java.math.BigDecimal(discount)).divide(new java.math.BigDecimal(100), 2, java.math.RoundingMode.HALF_UP));        }
 
 			request.setAttribute("oldPrice", oldPrice);
 			request.setAttribute("discount", discount);
@@ -77,44 +74,13 @@ public class ProduceDetailServlet extends HttpServlet {
 
 			List<Food> relatedFoods = dao.findByCategory(food.getCATEGORYId());
 			relatedFoods.removeIf(f -> f.getId() == food.getId());
-
-			int page = 1;
-
-			String pageStr = request.getParameter("page");
-
-			if (pageStr != null) {
-				try {
-					page = Integer.parseInt(pageStr);
-				} catch (Exception e) {
-					page = 1;
-				}
-			}
-
-			int pageSize = 10;
-			int totalItems = relatedFoods.size();
-			int totalPages = (int) Math.ceil((double) totalItems / pageSize);
-			if(page < 1){
-				page = 1;
-			}
-
-			if(page > totalPages && totalPages > 0){
-				page = totalPages;
-			}
-
-			int start = (page - 1) * pageSize;
-
-			int end = Math.min(start + pageSize, totalItems);
-
-			List<Food> pageFoods = relatedFoods.subList(start, end);
-
-			request.setAttribute("relatedFoods", pageFoods);
-			request.setAttribute("currentPage", page);
-			request.setAttribute("totalPages", totalPages);
+			request.setAttribute("relatedFoods", relatedFoods);
+			List<Review> reviews = reviewDAO.getReviewsByFoodId(id);
+			request.setAttribute("reviews", reviews);
 		}
 
 		request.getRequestDispatcher("/views/jsp/product-detail.jsp").forward(request, response);
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 * response)

@@ -99,6 +99,21 @@
                 <input type="hidden" id="hiddenShipFee" name="shipFee" value="0">
             </div>
 
+            <!-- Payment Method Box -->
+            <div class="payment-box" style="text-align: left; margin-bottom: 20px; background: #f9fbfd; padding: 16px; border-radius: 10px; border-left: 5px solid #007bff; margin-top: 15px;">
+                <h4 style="margin-bottom: 12px; color: #007bff; font-size: 16px; font-weight: 600;">💳 Phương thức thanh toán</h4>
+                <div style="display: flex; gap: 15px; margin-top: 10px;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; background: #fff; padding: 12px 18px; border-radius: 8px; border: 1px solid #ddd; flex: 1; font-weight: 500;">
+                        <input type="radio" name="paymentMethod" value="cash" checked style="accent-color: #007bff; width: 18px; height: 18px;">
+                        💵 Tiền mặt (COD)
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; background: #fff; padding: 12px 18px; border-radius: 8px; border: 1px solid #ddd; flex: 1; font-weight: 500;">
+                        <input type="radio" name="paymentMethod" value="bank_transfer" style="accent-color: #007bff; width: 18px; height: 18px;">
+                        🏦 Chuyển khoản (SePay QR)
+                    </label>
+                </div>
+            </div>
+
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
                 <a href="${pageContext.request.contextPath}/order" class="btn-back">← Quay lại chỉnh sửa</a>
                 <button type="submit" class="btn-confirm">✅ Xác nhận thanh toán</button>

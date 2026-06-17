@@ -86,8 +86,12 @@
 					</div>
 				</div>
 			</div>
+
+		</div>
+
+		</div>
 	</div>
-</div>
+
 	<main class="page-content">
 
 		<div class="section">
@@ -111,11 +115,8 @@
 						</a>
 
 						<div class="product-price">
-							<fmt:formatNumber value="${f.price}"
-											  type="number"
-											  groupingUsed="true"/> ₫
+							<fmt:formatNumber value="${f.price}" type="number"/> VND
 						</div>
-
 						<div class="btn-group">
 							<a class="btn-cart"
 							   href="${pageContext.request.contextPath}/cart?action=add&foodId=${f.id}&quantity=1">

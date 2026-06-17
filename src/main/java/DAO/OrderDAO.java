@@ -15,7 +15,6 @@ import model.Order;
 import model.OrderDetails;
 
 public class OrderDAO {
-
 	public int createOrder(int accId,
 	                       int resId,
 	                       BigDecimal total,
@@ -24,7 +23,8 @@ public class OrderDAO {
 	                       String receiverPhone,
 	                       int districtId,
 	                       String wardCode,
-	                       BigDecimal shippingFee) {
+	                       BigDecimal shippingFee,
+	                       String status) {
 
 		String sql = """
         INSERT INTO ORDERS (
@@ -51,7 +51,7 @@ public class OrderDAO {
 			ps.setBigDecimal(3, total);
 			ps.setString(4, address);
 
-			ps.setString(5, "PENDING");
+			ps.setString(5, status);
 
 			ps.setString(6, receiverName);
 			ps.setString(7, receiverPhone);
