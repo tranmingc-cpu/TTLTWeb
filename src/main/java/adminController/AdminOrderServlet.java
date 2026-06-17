@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Account;
 import model.Order;
+import service.GhnService;
 import util.PermissionUtil;
 
 import java.io.IOException;
@@ -46,9 +47,27 @@ public class AdminOrderServlet extends HttpServlet {
 		).forward(request, response);
 	}
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String action = request.getParameter("action");
+		if ("confirm".equals(action)) {
+			int orderId = Integer.parseInt(request.getParameter("id"));
+			OrderDAO orderDAO = new OrderDAO();
+			try {
+				Order order = orderDAO.getOrderById(orderId);
+				if (order.getGhnOrderCode() == null || order.getGhnOrderCode().isBlank()) {
+					GhnService ghnService = new GhnService();
+					String ghnCode = ghnService.createOrder(order);
+					orderDAO.updateGHNCode(orderId, ghnCode);
+					orderDAO.updateStatus(orderId, "READY_TO_PICK");
+				}
 
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			response.sendRedirect(request.getContextPath() + "/admin/order"
+			);
+			return;
+		}
 		doGet(request, response);
 	}
 }

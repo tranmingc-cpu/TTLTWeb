@@ -1,5 +1,6 @@
 package DAO;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -304,7 +305,6 @@ public class FoodDAOimpl implements FoodDAO {
     @Override
     public List<Food> getFoodBySeller(int accId) {
         List<Food> list = new ArrayList<>();
-        // Đã sửa lại lỗi chính tả cú pháp SQL (*OD f -> *) và tên bảng RESTAURENT -> RESTAURANT
         String sql = "SELECT f.* FROM Food f JOIN RESTAURANT r ON f.RESID = r.RESID WHERE r.ACCID = ?";
         try (Connection con = DBConnect.getConnect();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -455,12 +455,7 @@ public class FoodDAOimpl implements FoodDAO {
         }
         return list;
     }
-
     @Override
-    public List<Food> getDiscount() {
-
-        return List.of();
-    }
     public List<Food> getDisountFood (){
         String sql = "SELECT ID ,FNAME , PRICE , IMAGES , QUANTITY,  DISCOUNT FROM FOOD WHERE ID =? ";
         List<Food> list = new ArrayList<>();
@@ -487,5 +482,37 @@ public class FoodDAOimpl implements FoodDAO {
         }
                     return list ;
     }
+    public List<Food> getAllFoodNames() {
+        List<Food> list = new ArrayList<>();
+        String sql = "SELECT ID, FNAME FROM FOOD";
 
+        try (Connection conn = DBConnect.getConnect();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Food f = new Food();
+                f.setId(rs.getInt("ID"));
+                f.setName(rs.getString("FNAME"));
+                list.add(f);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    public boolean decreaseFoodStock(int foodId, BigDecimal quantityBought) {
+        String sql = "UPDATE FOOD SET QUANTITY = QUANTITY - ? WHERE ID = ? AND QUANTITY >= ?";
+        try (Connection conn = DBConnect.getConnect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setBigDecimal(1, quantityBought);
+            ps.setInt(2, foodId);
+            ps.setBigDecimal(3, quantityBought);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

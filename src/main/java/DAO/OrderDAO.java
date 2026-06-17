@@ -15,33 +15,62 @@ import model.Order;
 import model.OrderDetails;
 
 public class OrderDAO {
-
-	public int createOrder(int accId, int resId, BigDecimal total, String address) {
+	public int createOrder(int accId,
+	                       int resId,
+	                       BigDecimal total,
+	                       String address,
+	                       String receiverName,
+	                       String receiverPhone,
+	                       int districtId,
+	                       String wardCode,
+	                       BigDecimal shippingFee,
+	                       String status) {
 
 		String sql = """
-				    INSERT INTO ORDERS (ACCOUNTID, RESID, TOTAL, ADDRES, ORDERDATE, STATUSS)
-				    VALUES (?, ?, ?, ?, GETDATE(), ?)
-				""";
+        INSERT INTO ORDERS (
+            ACCOUNTID,
+            RESID,
+            TOTAL,
+            ADDRES,
+            ORDERDATE,
+            STATUSS,
+            RECEIVER_NAME,
+            RECEIVER_PHONE,
+            DISTRICT_ID,
+            WARD_CODE,
+            SHIPPING_FEE
+        )
+        VALUES (?, ?, ?, ?, GETDATE(), ?, ?, ?, ?, ?, ?)
+    """;
 
 		try (Connection con = DBConnect.getConnect();
-			 PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+		     PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
 			ps.setInt(1, accId);
 			ps.setInt(2, resId);
 			ps.setBigDecimal(3, total);
 			ps.setString(4, address);
-			ps.setString(5, "PENDING");
+
+			ps.setString(5, status);
+
+			ps.setString(6, receiverName);
+			ps.setString(7, receiverPhone);
+			ps.setInt(8, districtId);
+			ps.setString(9, wardCode);
+			ps.setBigDecimal(10, shippingFee);
 
 			ps.executeUpdate();
 
 			ResultSet rs = ps.getGeneratedKeys();
+
 			if (rs.next()) {
-				return rs.getInt(1); // ORDER ID
+				return rs.getInt(1);
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		return -1;
 	}
 
@@ -66,7 +95,6 @@ public class OrderDAO {
 		}
 	}
 
-	// đếm số order theo id cửa hàng
 	public int countFoodByRes(int resid) {
 		String sql = "SELECT COUNT(*) FROM FOOD WHERE RESID=?";
 		try (Connection con = DBConnect.getConnect(); PreparedStatement ps = con.prepareStatement(sql)) {
@@ -80,7 +108,6 @@ public class OrderDAO {
 		return 0;
 	}
 
-	// tổng tiền order trong ngày
 	public double totalRevenue() {
 		String sql = "SELECT SUM(TOTAL) FROM ORDERS";
 
@@ -97,7 +124,6 @@ public class OrderDAO {
 		return 0;
 	}
 
-	// lấy tất cả order
 	public List<Order> getAllOrders() {
 
 		List<Order> list = new ArrayList<>();
@@ -113,16 +139,24 @@ public class OrderDAO {
 
 			while (rs.next()) {
 				Order o = new Order();
+
 				o.setOrderId(rs.getInt("ID"));
 				o.setAccountId(rs.getInt("ACCOUNTID"));
 				o.setTotalAmount(rs.getBigDecimal("TOTAL"));
-				o.setResId(rs.getInt(rs.getInt("RESID")));
+				o.setResId(rs.getInt("RESID"));
 				o.setAddress(rs.getString("ADDRES"));
 				o.setOrderDate(rs.getTimestamp("ORDERDATE"));
 				o.setStatus(rs.getString("STATUSS"));
+
+				o.setReceiverName(rs.getString("RECEIVER_NAME"));
+				o.setReceiverPhone(rs.getString("RECEIVER_PHONE"));
+				o.setDistrictId((Integer) rs.getObject("DISTRICT_ID"));
+				o.setWardCode(rs.getString("WARD_CODE"));
+				o.setShippingFee(rs.getDouble("SHIPPING_FEE"));
+				o.setGhnOrderCode(rs.getString("GHN_ORDER_CODE"));
+
 				list.add(o);
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -130,39 +164,44 @@ public class OrderDAO {
 		return list;
 	}
 
-	public List<Order> getOrdersByIds(List<Integer> orderIds) {
-		List<Order> orders = new ArrayList<>();
-
-		if (orderIds == null || orderIds.isEmpty())
-			return orders;
+	public Order getOrderById(int id) {
 
 		String sql = "SELECT * FROM ORDERS WHERE ID = ?";
 
-		try (Connection con = DBConnect.getConnect(); PreparedStatement ps = con.prepareStatement(sql)) {
+		try (
+				Connection conn = DBConnect.getConnect();
+				PreparedStatement ps = conn.prepareStatement(sql)
+		) {
 
-			for (int id : orderIds) {
-				ps.setInt(1, id);
-				ResultSet rs = ps.executeQuery();
+			ps.setInt(1, id);
 
-				if (rs.next()) {
-					Order o = new Order();
-					o.setOrderId(rs.getInt("ID"));
-					o.setAccountId(rs.getInt("ACCOUNTID"));
-					o.setResId(rs.getInt("RESID"));
-					o.setTotalAmount(rs.getBigDecimal("TOTAL"));
-					o.setStatus(rs.getString("STATUSS"));
-					o.setOrderDate(rs.getTimestamp("ORDERDATE"));
-					o.setAddress(rs.getString("ADDRES"));
-					orders.add(o);
-				}
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				Order o = new Order();
+				o.setOrderId(rs.getInt("ID"));
+				o.setAccountId(rs.getInt("ACCOUNTID"));
+				o.setResId(rs.getInt("RESID"));
+				o.setAddress(rs.getString("ADDRES"));
+				o.setOrderDate(rs.getTimestamp("ORDERDATE"));
+				o.setTotalAmount(rs.getBigDecimal("TOTAL"));
+				o.setStatus(rs.getString("STATUSS"));
+				o.setReceiverName(rs.getString("RECEIVER_NAME"));
+				o.setReceiverPhone(rs.getString("RECEIVER_PHONE"));
+				o.setDistrictId((Integer) rs.getObject("DISTRICT_ID"));
+				o.setWardCode(rs.getString("WARD_CODE"));
+				o.setShippingFee(rs.getDouble("SHIPPING_FEE"));
+				o.setGhnOrderCode(rs.getString("GHN_ORDER_CODE"));
+
+				return o;
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return orders;
+
+		return null;
 	}
-	// lấy tình trạng order theo accid
 
 	public List<Order> getActiveOrdersByAccount(int accountId) {
 		List<Order> list = new ArrayList<>();
@@ -197,7 +236,6 @@ public class OrderDAO {
 		return list;
 	}
 
-	/* ===== GET ORDER DETAIL ===== */
 	public List<OrderDetails> getOrderDetails(int orderId) {
 		List<OrderDetails> list = new ArrayList<>();
 
@@ -247,7 +285,7 @@ public class OrderDAO {
 
 
 	public void updateStatus(int orderId, String status) {
-		String sql = "UPDATE ORDERS SET STATUS = ? WHERE ID = ?";
+		String sql = "UPDATE ORDERS SET STATUSS = ? WHERE ID = ?";
 		try (Connection con = DBConnect.getConnect(); PreparedStatement ps = con.prepareStatement(sql)) {
 
 			ps.setString(1, status);
@@ -259,7 +297,6 @@ public class OrderDAO {
 		}
 	}
 
-	// tính tổng số order hôm nay
 	public int countTodayOrders(int resId) {
 
 		String sql = """
@@ -285,7 +322,6 @@ public class OrderDAO {
 		return 0;
 	}
 
-	// tính giá tiền hôm nay thu đc
 	public int sumTodayRevenue(int resId) {
 		String sql = """
 				    SELECT SUM(o.TOTAL)
@@ -305,7 +341,6 @@ public class OrderDAO {
 		return 0;
 	}
 
-	// lấy thông tin món ăn của nhà hàng theo id
 	public List<Order> getRecentOrdersByRestaurant(int resId) {
 
 		List<Order> list = new ArrayList<>();
@@ -346,7 +381,6 @@ public class OrderDAO {
 		return list;
 	}
 
-	// lấy những order theo accid trong khoảng thời gian nhất định
 	public List<Order> getLatestOrdersByAccount(int accountId) {
 
 		List<Order> list = new ArrayList<>();
@@ -384,7 +418,6 @@ public class OrderDAO {
 		return list;
 	}
 
-	// lấy order theo acc
 	public List<Order> getOrdersByAccount(int accountId) {
 		List<Order> list = new ArrayList<>();
 
@@ -451,37 +484,7 @@ public class OrderDAO {
 		}
 		return 0;
 	}
-	/*public List<Map<String, Object>> getRevenueByMonth() {
-		List<Map<String, Object>> list = new ArrayList<>();
 
-		String sql = """
-        SELECT 
-            MONTH(ORDERDATE) AS month,
-            RESID,
-            SUM(TOTAL) AS revenue
-        FROM ORDERS
-        GROUP BY MONTH(ORDERDATE), RESID
-        ORDER BY month
-    """;
-
-		try (Connection conn = DBConnect.getConnect();   //
-		     PreparedStatement ps = conn.prepareStatement(sql);
-		     ResultSet rs = ps.executeQuery()) {
-
-			while (rs.next()) {
-				Map<String, Object> row = new HashMap<>();
-				row.put("month", rs.getInt("month"));
-				row.put("resid", rs.getInt("RESID"));
-				row.put("revenue", rs.getDouble("revenue"));
-				list.add(row);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return list;
-	}*/
 	public List<Map<String, Object>> getRevenueByMonth() {
 		List<Map<String, Object>> list = new ArrayList<>();
 
@@ -529,37 +532,6 @@ public class OrderDAO {
 
 		return list;
 	}
-	public Order getOrderById(int id) {
-		String sql = "SELECT * FROM ORDERS WHERE ID = ?";
-
-		try (
-				Connection conn = DBConnect.getConnect();
-				PreparedStatement ps = conn.prepareStatement(sql)
-		) {
-			ps.setInt(1, id);
-
-			ResultSet rs = ps.executeQuery();
-
-			if (rs.next()) {
-				Order o = new Order();
-
-				o.setOrderId(rs.getInt("ID"));
-				o.setAccountId(rs.getInt("ACCOUNTID"));
-				o.setResId(rs.getInt("RESID"));
-				o.setAddress(rs.getString("ADDRES"));
-				o.setOrderDate(rs.getDate("ORDERDATE"));
-				o.setTotalAmount(rs.getBigDecimal("TOTAL"));
-				o.setStatus(rs.getString("STATUSS"));
-
-				return o;
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return null;
-	}
 
 	public Order getOrderDetailByOrderId(int  id) {
 		String sql = "SELECT * FROM ORDERS WHERE ID = ?";
@@ -590,5 +562,22 @@ public class OrderDAO {
 		}
 
 		return null;
+	}
+	public void updateGHNCode(int orderId, String ghnCode) {
+
+		String sql =
+				"UPDATE ORDERS SET GHN_ORDER_CODE = ? WHERE ID = ?";
+
+		try (Connection con = DBConnect.getConnect();
+		     PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setString(1, ghnCode);
+			ps.setInt(2, orderId);
+
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	}

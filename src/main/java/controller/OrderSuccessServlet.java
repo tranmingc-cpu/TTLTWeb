@@ -45,7 +45,17 @@ public class OrderSuccessServlet extends HttpServlet {
             return;
         }
         OrderDAO orderDAO = new OrderDAO();
-        List<Order> orders = orderDAO.getOrdersByIds(orderIds);
+
+        List<Order> orders = new ArrayList<>();
+
+        for (Integer orderId : orderIds) {
+
+            Order order = orderDAO.getOrderById(orderId);
+
+            if (order != null) {
+                orders.add(order);
+            }
+        }
 
         request.setAttribute("orders", orders);
 

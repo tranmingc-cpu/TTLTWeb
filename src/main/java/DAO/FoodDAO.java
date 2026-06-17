@@ -21,6 +21,6 @@ public interface FoodDAO {
         void deleteFood(int id);
         List<Food> searchAdvanced(String keyword, Integer categoryId, Double minPrice, Double maxPrice);
         List<Food> findByPage(int page, int pageSize);
-        List<Food> getDiscount ();
-    }
+        List<Food> getDisountFood() ;
+}
 

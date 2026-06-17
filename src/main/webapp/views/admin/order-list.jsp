@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+
 
 <!DOCTYPE html>
 <html>
@@ -56,6 +58,7 @@
                     <td>${order.address}</td>
                     <td>${order.orderDate}</td>
                     <td>${order.totalAmount} VNĐ</td>
+
                     <td>
                         <c:choose>
                             <c:when test="${order.status == 'Đang xử lý'}">
@@ -70,10 +73,33 @@
                         </c:choose>
                     </td>
                     <td>
+
                         <a href="${pageContext.request.contextPath}/admin/order?action=view&id=${order.orderId}"
                            class="btn-view">
                             🔍 Xem
                         </a>
+
+                        <c:if test="${empty order.ghnOrderCode}">
+                            <form action="${pageContext.request.contextPath}/admin/order"
+                                  method="post"
+                                  style="display:inline;">
+
+                                <input type="hidden" name="action" value="confirm">
+                                <input type="hidden" name="id" value="${order.orderId}">
+
+                                <button type="submit" class="btn-confirm">
+                                    🚚 Tạo đơn GHN
+                                </button>
+
+                            </form>
+                        </c:if>
+
+                        <c:if test="${not empty order.ghnOrderCode}">
+        <span class="ghn-created">
+            ✅ Đã tạo GHN
+        </span>
+                        </c:if>
+
                     </td>
                 </tr>
             </c:forEach>

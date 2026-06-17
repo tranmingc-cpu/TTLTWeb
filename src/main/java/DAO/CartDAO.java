@@ -55,7 +55,6 @@ public class CartDAO {
 	    return list;
 	} */
 
-	// lấy cart theo accid
 	public int getCartIdByAccount(int accId) {
 		String sql = "SELECT ID FROM CART WHERE ACCID = ?";
 
@@ -73,9 +72,8 @@ public class CartDAO {
 			e.printStackTrace();
 		}
 
-		return -1; // không tồn tại cart
+		return -1;
 	}
-	// lấy cart hoặc tạo cart nếu không có
 	public int getOrCreateCart(int accId) {
 		String select = "SELECT ID FROM CART WHERE ACCID = ?";
 		String insert = "INSERT INTO CART (ACCID) VALUES (?)";
@@ -88,7 +86,6 @@ public class CartDAO {
 			if (rs.next()) {
 				return rs.getInt("ID"); // cartId
 			}
-// tạo cart mới
 			ps = con.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
 			ps.setInt(1, accId);
 			ps.executeUpdate();
@@ -102,7 +99,6 @@ public class CartDAO {
 		}
 		return -1;
 	}
-	// xóa cart 
 	public void clearCartByUser(int accountId) {
 		String sql = """
             DELETE cd
@@ -119,7 +115,6 @@ public class CartDAO {
 		}
 	}
 
-	/* ===== LẤY GIỎ HÀNG ===== */
 
 	public void addCartByUser(int accId, int foodId, int quantity) {
 
@@ -168,7 +163,6 @@ public class CartDAO {
 			e.printStackTrace();
 		}
 	}
-	// đếm số lượng sp có trong cart
 	public int countCartItems(int cartId) {
 		String sql = "SELECT SUM(QUANTITY) FROM CARTDETAIL WHERE CARTID = ?";
 		try (Connection con = DBConnect.getConnect();
@@ -183,7 +177,6 @@ public class CartDAO {
 		}
 		return 0;
 	}
-	/* ===== REMOVE ITEM ===== */
 	public void removeItem(int detailId ) {
 
 		String sql = "DELETE FROM CARTDETAIL WHERE DEATILID = ?";
@@ -199,7 +192,6 @@ public class CartDAO {
 		}
 	}
 
-	// update quantity
 	public void updateQuantity(int detailId, int quantity) {
 
 		if (quantity <= 0) {
@@ -222,7 +214,6 @@ public class CartDAO {
 			e.printStackTrace();
 		}
 	}
-	// lấy danh sách các cartitem trong cart
 	public List<CartItem> getCartItems(int cartId) {
 		List<CartItem> list = new ArrayList<>();
 

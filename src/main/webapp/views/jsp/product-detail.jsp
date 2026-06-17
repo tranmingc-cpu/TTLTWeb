@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-		 pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c"%>
 <%@ taglib uri="jakarta.tags.functions" prefix="fn"%>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
@@ -18,193 +18,8 @@
 	</c:choose></title>
 
 	<link rel="stylesheet"
-		  href="${pageContext.request.contextPath}/views/Shared/product-detail.css">
-	<style>
+	      href="${pageContext.request.contextPath}/views/Shared/product-detail.css">
 
-		.breadcrumb{
-			display:flex;
-			align-items:center;
-			gap:12px;
-			margin-bottom:25px;
-			font-size:15px;
-		}
-
-		.back-link{
-			background:#ff5722;
-			color:white;
-			text-decoration:none;
-			padding:8px 16px;
-			border-radius:8px;
-			font-weight:600;
-		}
-
-		.back-link:hover{
-			background:#e64a19;
-		}
-
-		.food-detail{
-			display:flex;
-			gap:60px;
-			background:white;
-			padding:40px;
-			border-radius:20px;
-			box-shadow:0 8px 30px rgba(0,0,0,.08);
-		}
-
-		.food-image img{
-			width:100%;
-			max-width:520px;
-			border-radius:18px;
-		}
-
-		.food-info h1{
-			font-size:42px;
-			margin-bottom:20px;
-		}
-
-		.quantity{
-			display:flex;
-			align-items:center;
-			gap:12px;
-			margin-bottom:20px;
-		}
-
-		.quantity label{
-			font-weight:600;
-		}
-
-		.quantity input{
-			width:90px;
-			height:42px;
-			text-align:center;
-			border:1px solid #ccc;
-			border-radius:8px;
-		}
-
-		.action-buttons{
-			display:flex;
-			gap:15px;
-			margin-top:20px;
-		}
-
-		.action-buttons button{
-			flex:1;
-			height:52px;
-			border:none;
-			border-radius:12px;
-			color:white;
-			font-weight:700;
-			cursor:pointer;
-		}
-
-		.btn-cart{
-			background:#dc2626;
-		}
-
-		.btn-buy{
-			background:#f97316;
-		}
-
-		@media(max-width:900px){
-			.food-detail{
-				flex-direction:column;
-			}
-
-			.action-buttons{
-				flex-direction:column;
-			}
-		}
-		.related-products{
-			margin-top:40px;
-			background:#fff;
-			padding:30px;
-			border-radius:20px;
-			box-shadow:0 8px 30px rgba(0,0,0,.08);
-		}
-
-		.related-products h2{
-			margin-bottom:25px;
-			font-size:28px;
-			color:#1f2937;
-		}
-
-		.related-list{
-			display:grid;
-			grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-			gap:20px;
-		}
-
-		.related-item{
-			background:#fff;
-			border:1px solid #e5e7eb;
-			border-radius:16px;
-			overflow:hidden;
-			transition:.3s;
-		}
-
-		.related-item:hover{
-			transform:translateY(-5px);
-			box-shadow:0 10px 25px rgba(0,0,0,.12);
-		}
-
-		.related-item a{
-			text-decoration:none;
-			color:inherit;
-			display:block;
-		}
-
-		.related-item img{
-			width:100%;
-			height:180px;
-			object-fit:cover;
-		}
-
-		.related-item h4{
-			padding:12px 15px 6px;
-			font-size:17px;
-			color:#111827;
-
-			overflow:hidden;
-			text-overflow:ellipsis;
-			white-space:nowrap;
-		}
-
-		.related-item p{
-			padding:0 15px 15px;
-			font-size:18px;
-			font-weight:700;
-			color:#e63946;
-		}
-
-		@media(max-width:768px) {
-
-			.related-products {
-				padding: 20px;
-			}
-
-			.related-products h2 {
-				font-size: 22px;
-			}
-
-			.related-list {
-				grid-template-columns:repeat(2, 1fr);
-				gap: 15px;
-			}
-
-			.related-item img {
-				height: 140px;
-			}
-
-			.related-item h4 {
-				font-size: 15px;
-			}
-
-			.related-item p {
-				font-size: 16px;
-			}
-		}
-
-	</style>
 </head>
 
 <body>
@@ -292,7 +107,7 @@
 
 
 					<form action="${pageContext.request.contextPath}/cart"
-						  method="post">
+					      method="post">
 
 						<input type="hidden" name="foodId" value="${food.id}">
 
@@ -303,15 +118,15 @@
 						<c:choose>
 
 							<c:when test="${food.quantity > 0}">
-						<div class="action-buttons">
-								<button type="submit" name="action" value="add" class="btn-cart">
-									THÊM VÀO GIỎ
-								</button>
+								<div class="action-buttons">
+									<button type="submit" name="action" value="add" class="btn-cart">
+										THÊM VÀO GIỎ
+									</button>
 
-								<button type="submit" name="action" value="buy" class="btn-buy">
-									MUA NGAY
-								</button>
-						</div>
+									<button type="submit" name="action" value="buy" class="btn-buy">
+										MUA NGAY
+									</button>
+								</div>
 							</c:when>
 
 							<c:otherwise>
@@ -326,6 +141,77 @@
 				</div>
 			</div>
 		</c:if>
+
+		<section class="review-section">
+			<div class="review-form">
+				<h3>✍️ Viết đánh giá của bạn</h3>
+				<c:choose>
+					<c:when test="${not empty account}">
+						<form action="${pageContext.request.contextPath}/add-review" method="post" enctype="multipart/form-data">
+							<input type="hidden" name="foodId" value="${food.id}">
+
+							<div class="rating-select">
+								<label>Đánh giá số sao:</label>
+								<select name="rating">
+									<option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
+									<option value="4">⭐⭐⭐⭐ (4/5)</option>
+									<option value="3">⭐⭐⭐ (3/5)</option>
+									<option value="2">⭐⭐ (2/5)</option>
+									<option value="1">⭐ (1/5)</option>
+								</select>
+							</div>
+
+							<textarea name="comment" placeholder="Món ăn này có ngon không? Hãy chia sẻ cảm nhận của bạn nhé..." required></textarea>
+
+							<div style="margin-bottom: 15px;">
+								<label style="font-weight: 600; display: block; margin-bottom: 5px;">📸 Đính kèm ảnh thực tế:</label>
+								<input type="file" name="reviewImage" accept="image/*">
+							</div>
+
+							<button type="submit" class="btn-submit-review">Gửi đánh giá</button>
+						</form>
+					</c:when>
+					<c:otherwise>
+						<p>Vui lòng <a href="${pageContext.request.contextPath}/login" style="color: #ff5722; font-weight: bold; text-decoration: none;">Đăng nhập</a> để gửi bình luận đánh giá.</p>
+					</c:otherwise>
+				</c:choose>
+			</div>
+
+			<hr style="margin: 30px 0; border: 0; border-top: 1px solid #e5e7eb;">
+
+			<div class="review-list">
+				<h3>💬 Đánh giá từ khách hàng (${fn:length(reviews)})</h3>
+				<c:choose>
+					<c:when test="${empty reviews}">
+						<p style="color: #666; font-style: italic;">Chưa có đánh giá nào cho món ăn này. Hãy là người đầu tiên review!</p>
+					</c:when>
+					<c:otherwise>
+						<c:forEach items="${reviews}" var="r">
+							<div class="review-item">
+								<div class="review-header">
+									<span class="review-user">👤 ${r.username}</span>
+									<span class="review-stars">
+                               <c:forEach begin="1" end="${r.rating}">★</c:forEach><c:forEach begin="${r.rating + 1}" end="5">☆</c:forEach>
+                            </span>
+								</div>
+								<p class="review-comment">${r.comment}</p>
+
+								<c:if test="${not empty r.imageUrl}">
+									<div class="review-attached-image">
+										<img src="${pageContext.request.contextPath}/${r.imageUrl}" alt="Ảnh review thực tế">
+									</div>
+								</c:if>
+
+								<span class="review-date">
+                            <fmt:formatDate value="${r.createdAt}" pattern="dd/MM/yyyy HH:mm"/>
+                         </span>
+							</div>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</section>
+
 		<c:if test="${not empty relatedFoods}">
 			<section class="related-products">
 				<h2>Sản phẩm liên quan</h2>
@@ -334,8 +220,8 @@
 						<div class="related-item">
 							<a href="${pageContext.request.contextPath}/product-detail?id=${item.id}">
 								<img src="${item.image}"
-									 alt="${item.name}"
-									 width="150">
+								     alt="${item.name}"
+								     width="150">
 								<h4>${item.name}</h4>
 								<p>
 									<fmt:formatNumber value="${item.price}" type="number"/> ₫

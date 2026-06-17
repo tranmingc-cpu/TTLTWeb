@@ -22,7 +22,6 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Lấy các phần tử HTML của Modal Xóa
         const confirmModal = document.getElementById('custom-confirm-modal');
         const cancelBtn = document.getElementById('btn-confirm-cancel');
         const confirmDeleteBtn = document.getElementById('btn-confirm-delete');
@@ -31,39 +30,34 @@
 
         let deleteUrl = "";
 
-        // Lắng nghe sự kiện click trên toàn trang để tìm nút xóa
         document.addEventListener('click', function (e) {
             const triggerBtn = e.target.closest('.btn-delete-trigger');
 
             if (triggerBtn) {
-                e.preventDefault(); // Chặn chuyển hướng trang ngay lập tức
+                e.preventDefault();
 
-                deleteUrl = triggerBtn.getAttribute('data-url'); // Lấy link xóa từ data-url
-                const customMsg = triggerBtn.getAttribute('data-message'); // Lấy tin nhắn riêng nếu có
+                deleteUrl = triggerBtn.getAttribute('data-url');
+                const customMsg = triggerBtn.getAttribute('data-message');
 
                 modalMessage.innerText = customMsg ? customMsg : "Bạn có chắc chắn muốn xóa mục này không? Hành động này không thể hoàn tác.";
-                confirmModal.classList.remove('hidden'); // Mở modal
+                confirmModal.classList.remove('hidden');
             }
         });
 
-        // Bấm Hủy -> Đóng modal
         cancelBtn.addEventListener('click', closeModal);
 
-        // Bấm Ra Ngoài Vùng Trống -> Đóng modal
         confirmModal.addEventListener('click', function (e) {
             if (e.target === confirmModal) {
                 closeModal();
             }
         });
 
-        // Bấm Vẫn Xóa -> Thực hiện chuyển hướng đến Servlet
         confirmDeleteBtn.addEventListener('click', function () {
             if (deleteUrl !== "") {
                 window.location.href = deleteUrl;
             }
         });
 
-        // Hàm đóng modal và reset đường dẫn
         function closeModal() {
             confirmModal.classList.add('hidden');
             deleteUrl = "";
@@ -71,26 +65,21 @@
 
 
 
-        // Kiểm tra xem JSTL có nhận được thông báo thành công từ Session không
         const hasMessage = "${not empty sessionScope.successMessage}" === "true";
 
         if (hasMessage) {
-            // Hiện Toast thành công ở góc phải màn hình
             successToast.classList.remove('hidden');
 
-            // Tạo hiệu ứng tự động biến mất sau 3 giây
             setTimeout(() => {
                 successToast.style.opacity = "0";
                 successToast.style.transform = "translateY(-20px)";
                 setTimeout(() => {
                     successToast.classList.add('hidden');
-                    // Reset lại style để lần sau hiển thị bình thường
                     successToast.style.opacity = "1";
                     successToast.style.transform = "translateY(0)";
                 }, 300);
             }, 3000);
 
-            // Xóa ngay session message bằng mã Java để tránh việc người dùng F5 bị lặp lại thông báo
             <%
                 if (session.getAttribute("successMessage") != null) {
                     session.removeAttribute("successMessage");

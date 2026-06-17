@@ -221,3 +221,22 @@ body{
 .btn-view:hover {
     background-color: #2176ae;
 }
+.btn-confirm{
+    background:#28a745;
+    color:white;
+    border:none;
+    padding:6px 12px;
+    border-radius:6px;
+    cursor:pointer;
+    margin-left:5px;
+}
+
+.btn-confirm:hover{
+    opacity:0.9;
+}
+
+.ghn-created{
+    color:#28a745;
+    font-weight:600;
+    margin-left:8px;
+}
