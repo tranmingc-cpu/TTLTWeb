@@ -17,7 +17,6 @@ html, body {
     flex-direction: column;
 }
 
-
 a{
     text-decoration:none;
     color:inherit;
@@ -310,15 +309,14 @@ a{
 }
 .promo-slider{
     width:100%;
-    max-width:1400px;
-    height:450px;
+    max-width:1600px;
+    height:600px;
     margin:30px auto;
     overflow:hidden;
     border-radius:24px;
     position:relative;
     box-shadow:0 15px 40px rgba(0,0,0,.15);
 }
-
 .slides{
     display:flex;
     width:100%;
@@ -385,7 +383,10 @@ a{
     border-radius:30px;
     margin-bottom:18px;
     font-weight:bold;
+
 }
+.discount-pill .pct { font-size: 32px; font-weight: 800; line-height: 1; }
+.discount-pill .lbl { font-size: 11px; opacity: 0.85; margin-top: 2px; }
 
 .discount-pill{
     width:150px;
@@ -407,7 +408,9 @@ a{
 
 .discount-pill .lbl{
     font-size:14px;
+
 }
+
 
 @keyframes fadeUp{
     from{

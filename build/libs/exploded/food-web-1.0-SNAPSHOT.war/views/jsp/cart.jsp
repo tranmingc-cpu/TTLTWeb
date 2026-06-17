@@ -133,15 +133,6 @@
 							type="number"/> đ
 				</strong>
 			</p>
-			<p>
-				Phí ship:
-				<strong>
-					<fmt:formatNumber
-							value="${shipFee}"
-							type="number"/> đ
-				</strong>
-			</p>
-
 			<c:if test="${discount > 0}">
 				<p class="discount-row">
 					Giảm giá:

@@ -301,3 +301,35 @@ html,body{
         width:100%;
     }
 }
+.pagination{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    margin:30px 0;
+}
+
+.pagination a{
+    width:42px;
+    height:42px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-decoration:none;
+    border:1px solid #ddd;
+    border-radius:8px;
+    color:#333;
+    background:#fff;
+    transition:.3s;
+}
+
+.pagination a:hover{
+    background:#ff6b35;
+    color:#fff;
+}
+
+.pagination a.active{
+    background:#ff6b35;
+    color:#fff;
+    border-color:#ff6b35;
+}
