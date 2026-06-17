@@ -26,7 +26,6 @@ html,body{
     padding:20px;
 }
 
-/* ================= BREADCRUMB ================= */
 
 .breadcrumb{
     display:flex;
@@ -68,7 +67,6 @@ html,body{
     font-weight:700;
 }
 
-/* ================= DETAIL ================= */
 
 .food-detail{
     display:flex;
@@ -112,7 +110,6 @@ html,body{
     margin-bottom:20px;
 }
 
-/* ================= STATUS ================= */
 
 .status{
     margin-bottom:10px;
@@ -133,29 +130,36 @@ html,body{
     color:#dc2626;
     font-weight:700;
 }
-
-/* ================= PRICE ================= */
-
-.price{
-    display:flex;
-    align-items:center;
-    gap:16px;
-    margin:25px 0;
+.product-price {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 15px 0;
 }
 
-.new-price{
-    font-size:42px;
-    font-weight:700;
-    color:#e63946;
+.product-price .new-price {
+    font-size: 28px;
+    font-weight: 700;
+    color: #ff6b35;
 }
 
-.old-price{
-    color:#999;
-    text-decoration:line-through;
-    font-size:18px;
+.product-price .old-price {
+    font-size: 18px;
+    font-weight: 500;
+    color: #000000;
+    opacity: 0.4;
+    text-decoration: line-through;
+    margin-left: 10px;
 }
 
-/* ================= DESCRIPTION ================= */
+.product-price .discount-badge {
+    background: #e53e3e;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
 
 .description{
     background:#f8fafc;
@@ -174,7 +178,6 @@ html,body{
     line-height:1.7;
 }
 
-/* ================= PROMOTION ================= */
 
 .promo-box{
     background:#fff7e6;
@@ -195,7 +198,7 @@ html,body{
     margin-bottom:5px;
 }
 
-/* ================= QUANTITY ================= */
+
 
 .quantity{
     display:flex;
@@ -221,7 +224,6 @@ html,body{
     font-size:15px;
 }
 
-/* ================= BUTTONS ================= */
 
 .action-buttons{
     display:flex;
@@ -273,7 +275,6 @@ html,body{
     transform:scale(.97);
 }
 
-/* ================= RESPONSIVE ================= */
 
 @media(max-width:900px){
 
@@ -299,4 +300,36 @@ html,body{
     .action-buttons .btn-buy{
         width:100%;
     }
+}
+.pagination{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    margin:30px 0;
+}
+
+.pagination a{
+    width:42px;
+    height:42px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-decoration:none;
+    border:1px solid #ddd;
+    border-radius:8px;
+    color:#333;
+    background:#fff;
+    transition:.3s;
+}
+
+.pagination a:hover{
+    background:#ff6b35;
+    color:#fff;
+}
+
+.pagination a.active{
+    background:#ff6b35;
+    color:#fff;
+    border-color:#ff6b35;
 }

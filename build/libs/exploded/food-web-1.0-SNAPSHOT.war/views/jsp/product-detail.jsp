@@ -176,8 +176,6 @@
 			color:#e63946;
 		}
 
-		/* Mobile */
-
 		@media(max-width:768px) {
 
 			.related-products {
@@ -267,13 +265,17 @@
 						Số lượng còn:
 						<b>${food.quantity}</b>
 					</p>
-					<div class="price">
-						<span class="new-price">
-    <fmt:formatNumber value="${food.price}" type="number"/> ₫
-</span>
-						<span class="old-price">
-    <fmt:formatNumber value="${food.price * 1.2}" type="number" maxFractionDigits="0"/> ₫
-</span>
+					<div class="product-price">
+    <span class="new-price">
+        <fmt:formatNumber value="${newPrice}" type="number"/> đ
+    </span>
+
+						<c:if test="${food.discount > 0}">
+        <span class="old-price">
+            <fmt:formatNumber value="${food.price}" type="number"/> đ
+        </span>
+							<span class="discount-badge">-${food.discount}%</span>
+						</c:if>
 					</div>
 					<div class="description">
 						<h3>Mô tả món ăn</h3>
@@ -343,6 +345,32 @@
 					</c:forEach>
 				</div>
 			</section>
+			<c:if test="${totalPages > 1}">
+				<div class="pagination">
+
+					<c:if test="${currentPage > 1}">
+						<a href="${pageContext.request.contextPath}/product-detail?id=${food.id}&page=${currentPage-1}">
+							←
+						</a>
+					</c:if>
+
+					<c:forEach begin="1" end="${totalPages}" var="i">
+
+						<a href="${pageContext.request.contextPath}/product-detail?id=${food.id}&page=${i}"
+						   class="${i==currentPage?'active':''}">
+								${i}
+						</a>
+
+					</c:forEach>
+
+					<c:if test="${currentPage < totalPages}">
+						<a href="${pageContext.request.contextPath}/product-detail?id=${food.id}&page=${currentPage+1}">
+							→
+						</a>
+					</c:if>
+
+				</div>
+			</c:if>
 		</c:if>
 	</main>
 

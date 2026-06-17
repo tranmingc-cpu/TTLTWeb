@@ -11,8 +11,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import DAO.FoodDAOimpl;
-import DAO.ReviewDAO; // 1. IMPORT THÊM REVIEW DAO TẠI ĐÂY
-
+import DAO.ReviewDAO;
 /**
  * Servlet implementation class ProduceDetailServlet
  */
@@ -20,7 +19,7 @@ import DAO.ReviewDAO; // 1. IMPORT THÊM REVIEW DAO TẠI ĐÂY
 public class ProduceDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private FoodDAOimpl dao = new FoodDAOimpl();
-	private ReviewDAO reviewDAO = new ReviewDAO(); // 2. KHỞI TẠO ĐỐI TƯỢNG REVIEW DAO
+	private ReviewDAO reviewDAO = new ReviewDAO();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -55,6 +54,7 @@ public class ProduceDetailServlet extends HttpServlet {
 			return;
 		}
 		Food food = dao.infomation(id);
+
 		if (food == null) {
 			request.setAttribute("error", "Sản phẩm không tồn tại");
 		} else {
