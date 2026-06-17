@@ -1,0 +1,173 @@
+@charset "UTF-8";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+body {
+    background: #f3f4f6;
+    color: #1f2937;
+}
+
+.admin-container{
+    display:grid;
+    grid-template-columns:240px 1fr;
+    grid-template-rows:56px 1fr;
+    height:100vh;
+}
+
+.admin-header h1{
+    font-size:22px;
+    font-weight:600;
+}
+
+.admin-header a{
+    color: #facc15;
+    text-decoration: none;
+}
+
+.admin-content{
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:16px;
+    margin-top:20px;
+}
+
+.stat-box{
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+    font-size:16px;
+}
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100vh;
+    background-color: #1f2d3d;
+}
+
+.sidebar h2 {
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #32465a;
+}
+
+.sidebar ul {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.sidebar ul li {
+    border-bottom: 1px solid #32465a;
+}
+
+.sidebar ul li a {
+    display: block;
+    padding: 14px 20px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.sidebar ul li a:hover {
+    background-color: #32465a;
+}
+
+.main {
+    margin-left: 220px;
+    padding: 20px;
+}
+
+.topbar {
+    background-color: #fff;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    text-align: right;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.topbar a {
+    color: #e74c3c;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.main h2 {
+    margin-bottom: 15px;
+}
+
+.food-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.food-table thead {
+    background-color: #1f2d3d;
+}
+
+.food-table th {
+    padding: 12px;
+    color: #fff;
+    text-align: center;
+    font-size: 15px;
+}
+
+.food-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.food-table tr:last-child td {
+    border-bottom: none;
+}
+
+.food-table tbody tr:hover {
+    background-color: #f0f3f6;
+}
+
+.food-img {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.food-table td[colspan] {
+    padding: 20px;
+    font-style: italic;
+    color: #888;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 180px;
+    }
+
+    .main {
+        margin-left: 180px;
+    }
+
+    .food-img {
+        width: 60px;
+        height: 45px;
+    }
+}

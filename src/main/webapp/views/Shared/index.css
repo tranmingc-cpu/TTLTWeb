@@ -314,93 +314,101 @@ a{
     margin:30px auto;
     overflow:hidden;
     border-radius:24px;
-    box-shadow:0 15px 40px rgba(0,0,0,.15);
     position:relative;
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
 }
 .slides{
     display:flex;
     width:100%;
     height:100%;
-    transition:transform .8s ease-in-out;
+    transition:transform .6s ease-in-out;
 }
 
 .slide{
-    flex:0 0 100%;
-    min-width:33.3333%;
+    min-width:100%;
+    height:100%;
     position:relative;
+    flex-shrink:0;
+}
+
+.slide:nth-child(1){
+    background:
+            linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),
+            url("https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=1600&q=80")
+            center center/cover no-repeat;
+}
+
+.slide:nth-child(2){
+    background:
+            linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),
+            url("https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=1600&q=80")
+            center center/cover no-repeat;
+}
+
+.slide:nth-child(3){
+    background:
+            linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),
+            url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1600&q=80")
+            center center/cover no-repeat;
+}
+
+.overlay{
+    position:absolute;
+    inset:0;
     display:flex;
+    justify-content:space-between;
     align-items:center;
-    padding-left:80px;
+    padding:0 70px;
+    color:#fff;
+}
+
+.overlay-left{
+    max-width:520px;
+}
+
+.overlay h2{
+    font-size:48px;
+    margin-bottom:15px;
+}
+
+.overlay p{
+    font-size:18px;
+    margin-bottom:25px;
+}
+
+.badge{
+    display:inline-block;
+    background:#ff6b35;
+    padding:8px 16px;
+    border-radius:30px;
+    margin-bottom:18px;
+    font-weight:bold;
+
+}
+.discount-pill .pct { font-size: 32px; font-weight: 800; line-height: 1; }
+.discount-pill .lbl { font-size: 11px; opacity: 0.85; margin-top: 2px; }
+
+.discount-pill{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    background:#ff5722;
     color:white;
-    width: 100%;
-    height: 600px;
-    background-color: #1a1a1a;
-    }
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+    box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
 
-    .slide:nth-child(1){
-        background:
-                linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4)),
-                url("https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=1600&q=80")
-                center / 70% no-repeat;
-    }
+.discount-pill .pct{
+    font-size:40px;
+}
 
-    .slide:nth-child(2){
-        background:
-                linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4)),
-                url("https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=1600&q=80")
-                center / 70% no-repeat;
-    }
+.discount-pill .lbl{
+    font-size:14px;
 
-    .slide:nth-child(3){
-        background:
-                linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4)),
-                url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1600&q=80")
-                center / 70% no-repeat;
-    }
-.overlay {
-    width: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
-    padding: 40px 36px 32px;
-    display: flex; align-items: flex-end;
-    justify-content: space-between; gap: 20px;
-}
-.overlay-left { flex: 1; }
-.badge {
-    display: inline-block; font-size: 12px; font-weight: 600;
-    padding: 4px 12px; border-radius: 99px; margin-bottom: 10px;
-    border: 1px solid rgba(255,255,255,0.3);
-    color: #fff; background: rgba(255,255,255,0.12);
-}
-.overlay h2 { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 6px; }
-.overlay p { font-size: 14px; color: rgba(255,255,255,0.75); margin-bottom: 20px; }
-.promo-btn {
-    display: inline-block; padding: 11px 26px;
-    background: #ff6b35; color: #fff;
-    border-radius: 8px; font-size: 14px; font-weight: 600;
-    text-decoration: none;
-}
-.discount-pill {
-    background: #ff6b35; color: #fff;
-    border-radius: 12px; padding: 14px 20px; text-align: center;
-}
-.discount-pill .pct { font-size: 32px; font-weight: 800; line-height: 1; }
-.discount-pill .lbl { font-size: 11px; opacity: 0.85; margin-top: 2px; }
-.promo-btn {
-    display: inline-block; padding: 11px 26px;
-    background: #ff6b35; color: #fff;
-    border-radius: 8px; font-size: 14px; font-weight: 600;
-    text-decoration: none;
-}
-.discount-pill {
-    background: #ff6b35; color: #fff;
-    border-radius: 12px; padding: 14px 20px; text-align: center;
-}
-.discount-pill .pct { font-size: 32px; font-weight: 800; line-height: 1; }
-.discount-pill .lbl { font-size: 11px; opacity: 0.85; margin-top: 2px; }
-
-.promo-btn:hover{
-    background:#ff4b14;
-    transform:translateY(-2px);
 }
 
 
