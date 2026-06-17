@@ -76,8 +76,7 @@ public class HomeServlet extends HttpServlet {
                 request.setAttribute("title", "Tất cả món ăn");
                 request.setAttribute("currentPage", page);
                 request.setAttribute("totalPages", totalPages);
-                request.getRequestDispatcher("/views/jsp/Trangchu.jsp")
-                        .forward(request, response);
+                request.getRequestDispatcher("/views/jsp/Trangchu.jsp").forward(request, response);
 
                 break;
             }
@@ -119,8 +118,7 @@ public class HomeServlet extends HttpServlet {
 
                 break;
             }
-            default:
-                response.sendRedirect("Trangchu");
+            default: response.sendRedirect("Trangchu");
         }
     }
 

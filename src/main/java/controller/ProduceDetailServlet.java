@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import DAO.FoodDAOimpl;
@@ -29,7 +30,7 @@ public class ProduceDetailServlet extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -59,11 +60,23 @@ public class ProduceDetailServlet extends HttpServlet {
 		} else {
 			request.setAttribute("food", food);
 
-			// Lấy sản phẩm cùng danh mục
-			List<Food> relatedFoods =
-					dao.findByCategory(food.getCATEGORYId());
+			BigDecimal oldPrice = food.getPrice();
+			int discount = food.getDiscount();
+			BigDecimal newPrice = oldPrice;
+			if (discount > 0) {
+				BigDecimal discountPercent = new BigDecimal(discount);
+				BigDecimal oneHundred = new BigDecimal(100);
+				newPrice = oldPrice.subtract(oldPrice.multiply(new java.math.BigDecimal(discount)).divide(new java.math.BigDecimal(100), 2, java.math.RoundingMode.HALF_UP));			}
+               System.out.println(" old price"+ oldPrice);
+			System.out.println(" old price"+ oldPrice);
+			System.out.println(" discount "+ food.getDiscount());
 
-			// Loại bỏ chính sản phẩm đang xem
+			request.setAttribute("oldPrice", oldPrice);
+			request.setAttribute("discount", discount);
+			request.setAttribute("newPrice", newPrice);
+
+			List<Food> relatedFoods = dao.findByCategory(food.getCATEGORYId());
+
 			relatedFoods.removeIf(f -> f.getId() == food.getId());
 
 			request.setAttribute("relatedFoods", relatedFoods);
@@ -74,13 +87,10 @@ public class ProduceDetailServlet extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-
-
 	}
-
 }
