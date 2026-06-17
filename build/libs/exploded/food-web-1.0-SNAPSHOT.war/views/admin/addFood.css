@@ -1,0 +1,168 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    color:#333;
+}
+
+.admin-container{
+    display:flex;
+    min-height:100vh;
+}
+
+.form-page{
+    flex:1;
+    padding:40px;
+}
+
+.seller-content{
+    max-width:850px;
+    margin:auto;
+    background:#fff;
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.seller-content h2{
+    text-align:center;
+    margin-bottom:30px;
+    color:#2c3e50;
+    font-size:30px;
+    font-weight:700;
+}
+
+.food-form{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.form-group label{
+    font-weight:600;
+    color:#34495e;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    padding:12px 15px;
+    border:1px solid #dcdfe6;
+    border-radius:12px;
+    font-size:15px;
+    transition:all .3s ease;
+    background:#fff;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    border-color:#3498db;
+    box-shadow:0 0 0 4px rgba(52,152,219,0.15);
+    outline:none;
+}
+
+textarea{
+    resize:vertical;
+    min-height:120px;
+}
+
+input[type="file"]{
+    border:2px dashed #3498db;
+    padding:15px;
+    cursor:pointer;
+    background:#f8fbff;
+}
+
+input[type="file"]:hover{
+    background:#eef7ff;
+}
+
+/* ===== Error ===== */
+#error-message{
+    margin-top:5px;
+    font-size:14px;
+}
+
+/* ===== Buttons ===== */
+.form-actions{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin-top:15px;
+}
+
+.btn-add,
+.btn-cancel{
+    padding:12px 28px;
+    border:none;
+    border-radius:12px;
+    text-decoration:none;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn-add{
+    background:#27ae60;
+    color:white;
+}
+
+.btn-add:hover{
+    background:#219150;
+    transform:translateY(-2px);
+}
+
+.btn-cancel{
+    background:#e74c3c;
+    color:white;
+}
+
+.btn-cancel:hover{
+    background:#c0392b;
+    transform:translateY(-2px);
+}
+
+/* ===== Error Message JSP ===== */
+p[style*="color:red"]{
+    background:#ffeaea;
+    border-left:5px solid #e74c3c;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:20px;
+    font-weight:600;
+}
+
+@media(max-width:768px){
+
+    .form-page{
+        padding:20px;
+    }
+
+    .seller-content{
+        padding:25px;
+    }
+
+    .form-actions{
+        flex-direction:column;
+    }
+
+    .btn-add,
+    .btn-cancel{
+        width:100%;
+        text-align:center;
+    }
+}

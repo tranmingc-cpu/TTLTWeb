@@ -1,0 +1,141 @@
+@charset "UTF-8";
+
+.top-bar{
+    background: linear-gradient(90deg,#ff7a18,#ff4d4f);
+    color:#fff;
+
+    font-size:16px;
+    letter-spacing:0.3px;
+
+    padding:8px 40px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.top-bar a{
+    color:#fff;
+    text-decoration:none;
+    margin:0 8px;
+    font-weight:600;
+}
+
+.top-bar a:hover{
+    text-decoration:underline;
+}
+
+.top-bar-left,
+.top-bar-right{
+    display:flex;
+    align-items:center;
+}
+
+.top-bar span{
+    opacity:0.85;
+    margin:0 8px;
+    font-weight:500;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 40px;
+    background: #ffffff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #ff5722;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:800;
+    letter-spacing:1px;
+    text-transform:uppercase;
+
+    color:#e63946;
+    background:#fff0f1;
+    padding:10px 28px;
+    border-radius:30px;
+
+    box-shadow:0 6px 16px rgba(230,57,70,0.25);
+}
+.logo:hover{
+    transform:scale(1.05);
+    transition:0.3s ease;
+}
+
+.search-box{
+    max-width:1200px;
+    margin:0 auto;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:0 20px;
+}
+
+.search-box input{
+    flex:1;
+    padding:12px 18px;
+    font-size:16px;
+    border-radius:30px;
+    border:1px solid #ddd;
+    outline:none;
+}
+
+.search-box input:focus{
+    border-color:#e63946;
+}
+
+.search-box button{
+    padding:12px 20px;
+    border-radius:30px;
+    border:none;
+    background:#e63946;
+    color:#fff;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.search-box button:hover{
+    background:#d62828;
+}
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-cart {
+    position: relative;
+    font-size: 22px;
+    text-decoration: none;
+    color: #333;
+}
+
+.cart-count {
+    position: absolute;
+    top: -6px;
+    right: -10px;
+    background: red;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 50%;
+}
+
+.header-user img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+}
