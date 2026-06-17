@@ -40,6 +40,8 @@ public class OrderServlet extends HttpServlet {
         String wardCode = request.getParameter("wardCode");
         String detailAddress = request.getParameter("detailAddress");
         String note = request.getParameter("note");
+        String shippingFee = request.getParameter("shippingFee");
+        session.setAttribute("shippingFee", shippingFee);
 
         session.setAttribute("name", name);
         session.setAttribute("phone", phone);

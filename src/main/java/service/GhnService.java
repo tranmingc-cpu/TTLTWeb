@@ -1,10 +1,11 @@
 package service;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import util.FoodConstants;
-
+import model.Order;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -154,5 +155,92 @@ public class GhnService {
             }
         }
         return sb.toString();
+    }
+    public String createOrder(Order order) {
+        JsonObject body = new JsonObject();
+
+        body.addProperty("payment_type_id", 2);
+
+        body.addProperty("from_name", "Food App");
+        body.addProperty("from_phone", "0900000000");
+        body.addProperty("from_address", "Restaurant");
+        body.addProperty("from_ward_code", fromWardCode);
+        body.addProperty("from_district_id", fromDistrictId);
+
+        body.addProperty("to_name", order.getReceiverName());
+        body.addProperty("to_phone", order.getReceiverPhone());
+        body.addProperty("to_address", order.getAddress());
+
+        body.addProperty("to_ward_code", order.getWardCode());
+        body.addProperty("to_district_id", order.getDistrictId());
+
+        body.addProperty("required_note", "KHONGCHOXEMHANG");
+
+        body.addProperty("weight", DEFAULT_WEIGHT);
+        body.addProperty("length", DEFAULT_LENGTH);
+        body.addProperty("width", DEFAULT_WIDTH);
+        body.addProperty("height", DEFAULT_HEIGHT);
+
+        body.addProperty("cod_amount", order.getTotalAmount().longValue());
+        String response = callGhnApi("/v2/shipping-order/create", "POST", body.toString(), true);
+        try {
+            JsonObject json = gson.fromJson(response, JsonObject.class);
+            int code = json.has("code") ? json.get("code").getAsInt() : -1;
+            if (code != 200) {
+                String message = json.has("message") ? json.get("message").getAsString() : "Unknown error";
+                throw new RuntimeException("GHN create order failed: " + message);
+            }
+            JsonObject data = json.getAsJsonObject("data");
+            return data.get("order_code").getAsString();
+        } catch (Exception e) {
+            throw new RuntimeException("Lỗi parse create order response: " + e.getMessage(),e);
+        }
+    }
+    public String getOrderStatus(String orderCode) {
+
+        JsonObject body = new JsonObject();
+        body.addProperty("order_code", orderCode);
+        String response = callGhnApi("/v2/shipping-order/detail", "POST", body.toString(), true);
+        JsonObject json = gson.fromJson(response, JsonObject.class);
+        if (json.get("code").getAsInt() != 200) {
+            return null;
+        }
+
+        JsonObject data = json.getAsJsonObject("data");
+
+        return data.get("status").getAsString();
+    }
+    public boolean cancelOrder(String orderCode) {
+
+        try {
+
+            JsonObject body = new JsonObject();
+
+            JsonArray orderCodes = new JsonArray();
+            orderCodes.add(orderCode);
+            body.add("order_codes", orderCodes);
+
+            String response = callGhnApi(
+                    "/v2/switch-status/cancel",
+                    "POST",
+                    body.toString(),
+                    true
+            );
+
+            JsonObject json = gson.fromJson(response, JsonObject.class);
+
+            int code = json.has("code") ? json.get("code").getAsInt() : -1;
+
+            if (code == 200) {
+                return true;
+            }
+
+            System.out.println("GHN Cancel Error: " + response);
+            return false;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

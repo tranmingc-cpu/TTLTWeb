@@ -14,6 +14,12 @@ public class Order {
 	private String address;
 	private Date orderDate;
 	private String status;
+	private String receiverName;
+	private String receiverPhone;
+	private Integer districtId;
+	private String wardCode;
+	private Double shippingFee;
+	private String ghnOrderCode;
 
 	public Order() {
 
@@ -88,5 +94,52 @@ public class Order {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getReceiverName() {
+		return receiverName;
+	}
+
+	public void setReceiverName(String receiverName) {
+		this.receiverName = receiverName;
+	}
+
+	public String getReceiverPhone() {
+		return receiverPhone;
+	}
+
+	public void setReceiverPhone(String receiverPhone) {
+		this.receiverPhone = receiverPhone;
+	}
+
+	public Integer getDistrictId() {
+		return districtId;
+	}
+
+	public void setDistrictId(Integer districtId) {
+		this.districtId = districtId;
+	}
+
+	public String getWardCode() {
+		return wardCode;
+	}
+
+	public void setWardCode(String wardCode) {
+		this.wardCode = wardCode;
+	}
+
+	public Double getShippingFee() {
+		return shippingFee;
+	}
+
+	public void setShippingFee(Double shippingFee) {
+		this.shippingFee = shippingFee;
+	}
+
+	public String getGhnOrderCode() {
+		return ghnOrderCode;
+	}
+
+	public void setGhnOrderCode(String ghnOrderCode) {
+		this.ghnOrderCode = ghnOrderCode;
 	}
 }

@@ -70,10 +70,33 @@
                         </c:choose>
                     </td>
                     <td>
+
                         <a href="${pageContext.request.contextPath}/admin/order?action=view&id=${order.orderId}"
                            class="btn-view">
                             🔍 Xem
                         </a>
+
+                        <c:if test="${empty order.ghnOrderCode}">
+                            <form action="${pageContext.request.contextPath}/admin/order"
+                                  method="post"
+                                  style="display:inline;">
+
+                                <input type="hidden" name="action" value="confirm">
+                                <input type="hidden" name="id" value="${order.orderId}">
+
+                                <button type="submit" class="btn-confirm">
+                                    🚚 Tạo đơn GHN
+                                </button>
+
+                            </form>
+                        </c:if>
+
+                        <c:if test="${not empty order.ghnOrderCode}">
+        <span class="ghn-created">
+            ✅ Đã tạo GHN
+        </span>
+                        </c:if>
+
                     </td>
                 </tr>
             </c:forEach>

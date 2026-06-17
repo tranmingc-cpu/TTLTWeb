@@ -10,10 +10,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.Account;
-import model.CartItem;
-import model.User;
-import model.Coupons;
+import model.*;
 import util.EmailUtil;
 
 import java.io.IOException;
@@ -119,8 +116,23 @@ public class CheckoutServlet extends HttpServlet {
 			return;
 		}
 
-		String detailAddress = request.getParameter("detailAddress");
-		String paramShipFee = request.getParameter("shipFee");
+		String detailAddress =
+				(String) session.getAttribute("orderDetailAddress");
+
+		String receiverName =
+				(String) session.getAttribute("name");
+
+		String receiverPhone =
+				(String) session.getAttribute("phone");
+
+		String districtIdStr =
+				(String) session.getAttribute("orderDistrictId");
+
+		String wardCode =
+				(String) session.getAttribute("orderWardCode");
+
+		String paramShipFee =
+				request.getParameter("shipFee");
 
 		BigDecimal formShipFee = BigDecimal.ZERO;
 		if (paramShipFee != null && !paramShipFee.trim().isEmpty()) {
@@ -148,7 +160,11 @@ public class CheckoutServlet extends HttpServlet {
 		int totalRestaurants = cartByRes.size();
 
 		BigDecimal shipFeePerRes = (totalRestaurants > 0) ? formShipFee.divide(BigDecimal.valueOf(totalRestaurants), 0, BigDecimal.ROUND_HALF_UP) : BigDecimal.ZERO;
+		Integer districtId = null;
 
+		if (districtIdStr != null && !districtIdStr.isBlank()) {
+			districtId = Integer.parseInt(districtIdStr);
+		}
 		for (var entry : cartByRes.entrySet()) {
 
 			BigDecimal total = entry.getValue().stream()
@@ -172,9 +188,17 @@ public class CheckoutServlet extends HttpServlet {
 				}
 			}
 
-			int orderId = orderDAO.createOrder(acc.getIdAccount(), entry.getKey(), total, fullAddress
+			int orderId = orderDAO.createOrder(
+					acc.getIdAccount(),
+					entry.getKey(),
+					total,
+					fullAddress,
+					receiverName,
+					receiverPhone,
+					districtId,
+					wardCode,
+					shipFeePerRes
 			);
-
 			if (orderId <= 0) {
 				System.out.println("❌ Không thể tạo đơn hàng cho nhà hàng ID: " + entry.getKey());
 				continue;
@@ -212,8 +236,13 @@ public class CheckoutServlet extends HttpServlet {
 
 			orderIds.add(orderId);
 		}
+		session.removeAttribute("name");
+		session.removeAttribute("phone");
+		session.removeAttribute("orderProvinceId");
+		session.removeAttribute("orderDistrictId");
+		session.removeAttribute("orderWardCode");
+		session.removeAttribute("orderDetailAddress");
 
-		session.removeAttribute("orderAddress");
 		session.removeAttribute("orderNote");
 		cartDAO.clearCartByUser(acc.getIdAccount());
 		session.setAttribute("orderIds", orderIds);
