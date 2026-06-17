@@ -9,32 +9,21 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import DAO.FoodDAOimpl;
 import DAO.ReviewDAO;
-/**
- * Servlet implementation class ProduceDetailServlet
- */
+
 @WebServlet("/product-detail")
 public class ProduceDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private FoodDAOimpl dao = new FoodDAOimpl();
 	private ReviewDAO reviewDAO = new ReviewDAO();
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
 	public ProduceDetailServlet() {
 		super();
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 * response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 
@@ -64,9 +53,8 @@ public class ProduceDetailServlet extends HttpServlet {
 			int discount = food.getDiscount();
 			BigDecimal newPrice = oldPrice;
 			if (discount > 0) {
-				BigDecimal discountPercent = new BigDecimal(discount);
-				BigDecimal oneHundred = new BigDecimal(100);
-				newPrice = oldPrice.subtract(oldPrice.multiply(new java.math.BigDecimal(discount)).divide(new java.math.BigDecimal(100), 2, java.math.RoundingMode.HALF_UP));        }
+				newPrice = oldPrice.subtract(oldPrice.multiply(new java.math.BigDecimal(discount)).divide(new java.math.BigDecimal(100), 2, java.math.RoundingMode.HALF_UP));
+			}
 
 			request.setAttribute("oldPrice", oldPrice);
 			request.setAttribute("discount", discount);
@@ -75,16 +63,33 @@ public class ProduceDetailServlet extends HttpServlet {
 			List<Food> relatedFoods = dao.findByCategory(food.getCATEGORYId());
 			relatedFoods.removeIf(f -> f.getId() == food.getId());
 			request.setAttribute("relatedFoods", relatedFoods);
+
+			String resPageParam = request.getParameter("resPage");
+			int resCurrentPage = (resPageParam != null) ? Integer.parseInt(resPageParam) : 1;
+			int recordsPerPage = 4;
+
+			List<Food> allRestaurantFoods = dao.getFoodsByRestaurant(food.getResID());
+			allRestaurantFoods.removeIf(f -> f.getId() == food.getId());
+
+			int totalRecords = allRestaurantFoods.size();
+			int resTotalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+
+			int startIndex = (resCurrentPage - 1) * recordsPerPage;
+			int endIndex = Math.min(startIndex + recordsPerPage, totalRecords);
+
+			List<Food> restaurantFoods = allRestaurantFoods.subList(startIndex, endIndex);
+
+			request.setAttribute("restaurantFoods", restaurantFoods);
+			request.setAttribute("resCurrentPage", resCurrentPage);
+			request.setAttribute("resTotalPages", resTotalPages);
+
 			List<Review> reviews = reviewDAO.getReviewsByFoodId(id);
 			request.setAttribute("reviews", reviews);
 		}
 
 		request.getRequestDispatcher("/views/jsp/product-detail.jsp").forward(request, response);
 	}
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 * response)
-	 */
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);

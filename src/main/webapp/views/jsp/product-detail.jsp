@@ -1,94 +1,49 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c"%>
 <%@ taglib uri="jakarta.tags.functions" prefix="fn"%>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
-
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title><c:choose>
-		<c:when test="${not empty food}">
-			${food.name}
-		</c:when>
-		<c:otherwise>
-			Chi tiết sản phẩm
-		</c:otherwise>
-	</c:choose></title>
-
-	<link rel="stylesheet"
-	      href="${pageContext.request.contextPath}/views/Shared/product-detail.css">
-
+	<title><c:choose><c:when test="${not empty food}">${food.name}</c:when><c:otherwise>Chi tiết sản phẩm</c:otherwise></c:choose></title>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/views/Shared/product-detail.css">
 </head>
-
 <body>
-
 <div class="page-container">
-
 	<jsp:include page="/views/jsp/demo.jsp" />
 	<main class="content">
-
 		<c:if test="${not empty error}">
-			<h2 style="color: red; text-align: center; margin: 40px 0;">
-					${error}</h2>
+			<h2 style="color: red; text-align: center; margin: 40px 0;">${error}</h2>
 		</c:if>
-
 		<c:if test="${not empty food}">
-
 			<div class="breadcrumb">
 				<c:if test="${not empty header.referer}">
-					<a href="${header.referer}" class="back-link">
-						← Quay lại
-					</a>
+					<a href="${header.referer}" class="back-link">← Quay lại</a>
 					<span class="separator">/</span>
 				</c:if>
-
-				<a href="${pageContext.request.contextPath}/Trangchu">
-					Trang chủ
-				</a>
-
+				<a href="${pageContext.request.contextPath}/Trangchu">Trang chủ</a>
 				<span class="separator">/</span>
-
 				<span class="current">${food.name}</span>
 			</div>
-
 			<div class="food-detail">
-
 				<div class="food-image">
-					<img src="${food.image}"
-					     onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'"
-					     alt="${food.name}">
+					<img src="${food.image}" onerror="this.src='${pageContext.request.contextPath}/images/default-food.jpg'" alt="${food.name}">
 				</div>
-
 				<div class="food-info">
 					<h1>${food.name}</h1>
-
 					<p class="status">
 						Tình trạng:
 						<c:choose>
-							<c:when test="${food.quantity > 0}">
-								<span class="in-stock">Còn hàng</span>
-							</c:when>
-
-							<c:otherwise>
-								<span class="out-stock">Hết hàng</span>
-							</c:otherwise>
+							<c:when test="${food.quantity > 0}"><span class="in-stock">Còn hàng</span></c:when>
+							<c:otherwise><span class="out-stock">Hết hàng</span></c:otherwise>
 						</c:choose>
 					</p>
-					<p class="stock">
-						Số lượng còn:
-						<b>${food.quantity}</b>
-					</p>
+					<p class="stock">Số lượng còn: <b>${food.quantity}</b></p>
 					<div class="product-price">
-    <span class="new-price">
-        <fmt:formatNumber value="${newPrice}" type="number"/> đ
-    </span>
-
+						<span class="new-price"><fmt:formatNumber value="${newPrice}" type="number"/> đ</span>
 						<c:if test="${food.discount > 0}">
-        <span class="old-price">
-            <fmt:formatNumber value="${food.price}" type="number"/> đ
-        </span>
+							<span class="old-price"><fmt:formatNumber value="${food.price}" type="number"/> đ</span>
 							<span class="discount-badge">-${food.discount}%</span>
 						</c:if>
 					</div>
@@ -99,44 +54,27 @@
 					<div class="promo-box">
 						🔥 <b>Siêu Ưu Đãi</b>
 						<ul>
-							<li>Nhập mã <b>EGANY</b> giảm 15%
-							</li>
+							<li>Nhập mã <b>EGANY</b> giảm 15%</li>
 							<li>Số lượng có hạn</li>
 						</ul>
 					</div>
-
-
-					<form action="${pageContext.request.contextPath}/cart"
-					      method="post">
-
+					<form action="${pageContext.request.contextPath}/cart" method="post">
 						<input type="hidden" name="foodId" value="${food.id}">
-
 						<div class="quantity">
 							<label for="quantityInput">Số lượng:</label>
-							<input type="number" id="quantityInput" name="quantity" value="1" min="1"  max="${food.quantity}">
+							<input type="number" id="quantityInput" name="quantity" value="1" min="1" max="${food.quantity}">
 						</div>
 						<c:choose>
-
 							<c:when test="${food.quantity > 0}">
 								<div class="action-buttons">
-									<button type="submit" name="action" value="add" class="btn-cart">
-										THÊM VÀO GIỎ
-									</button>
-
-									<button type="submit" name="action" value="buy" class="btn-buy">
-										MUA NGAY
-									</button>
+									<button type="submit" name="action" value="add" class="btn-cart">THÊM VÀO GIỎ</button>
+									<button type="submit" name="action" value="buy" class="btn-buy">MUA NGAY</button>
 								</div>
 							</c:when>
-
 							<c:otherwise>
-								<button class="btn-cart" disabled>
-									HẾT HÀNG
-								</button>
+								<button class="btn-cart" disabled>HẾT HÀNG</button>
 							</c:otherwise>
-
 						</c:choose>
-
 					</form>
 				</div>
 			</div>
@@ -149,7 +87,6 @@
 					<c:when test="${not empty account}">
 						<form action="${pageContext.request.contextPath}/add-review" method="post" enctype="multipart/form-data">
 							<input type="hidden" name="foodId" value="${food.id}">
-
 							<div class="rating-select">
 								<label>Đánh giá số sao:</label>
 								<select name="rating">
@@ -160,14 +97,11 @@
 									<option value="1">⭐ (1/5)</option>
 								</select>
 							</div>
-
 							<textarea name="comment" placeholder="Món ăn này có ngon không? Hãy chia sẻ cảm nhận của bạn nhé..." required></textarea>
-
 							<div style="margin-bottom: 15px;">
 								<label style="font-weight: 600; display: block; margin-bottom: 5px;">📸 Đính kèm ảnh thực tế:</label>
 								<input type="file" name="reviewImage" accept="image/*">
 							</div>
-
 							<button type="submit" class="btn-submit-review">Gửi đánh giá</button>
 						</form>
 					</c:when>
@@ -176,9 +110,7 @@
 					</c:otherwise>
 				</c:choose>
 			</div>
-
 			<hr style="margin: 30px 0; border: 0; border-top: 1px solid #e5e7eb;">
-
 			<div class="review-list">
 				<h3>💬 Đánh giá từ khách hàng (${fn:length(reviews)})</h3>
 				<c:choose>
@@ -195,22 +127,49 @@
                             </span>
 								</div>
 								<p class="review-comment">${r.comment}</p>
-
 								<c:if test="${not empty r.imageUrl}">
 									<div class="review-attached-image">
 										<img src="${pageContext.request.contextPath}/${r.imageUrl}" alt="Ảnh review thực tế">
 									</div>
 								</c:if>
-
-								<span class="review-date">
-                            <fmt:formatDate value="${r.createdAt}" pattern="dd/MM/yyyy HH:mm"/>
-                         </span>
+								<span class="review-date"><fmt:formatDate value="${r.createdAt}" pattern="dd/MM/yyyy HH:mm"/></span>
 							</div>
 						</c:forEach>
 					</c:otherwise>
 				</c:choose>
 			</div>
 		</section>
+
+		<c:if test="${not empty restaurantFoods}">
+			<section class="related-products unique-restaurant-section">
+				<h2>Món ăn cùng nhà hàng</h2>
+				<div class="related-list">
+					<c:forEach items="${restaurantFoods}" var="item">
+						<div class="related-item">
+							<a href="${pageContext.request.contextPath}/product-detail?id=${item.id}">
+								<img src="${item.image}" alt="${item.name}" width="150">
+								<h4>${item.name}</h4>
+								<p><fmt:formatNumber value="${item.price}" type="number"/> ₫</p>
+							</a>
+						</div>
+					</c:forEach>
+				</div>
+
+				<c:if test="${resTotalPages > 1}">
+					<div class="pagination">
+						<c:if test="${resCurrentPage > 1}">
+							<a href="${pageContext.request.contextPath}/product-detail?id=${food.id}&resPage=${resCurrentPage-1}">←</a>
+						</c:if>
+						<c:forEach begin="1" end="${resTotalPages}" var="i">
+							<a href="${pageContext.request.contextPath}/product-detail?id=${food.id}&resPage=${i}" class="${i==resCurrentPage?'active':''}">${i}</a>
+						</c:forEach>
+						<c:if test="${resCurrentPage < resTotalPages}">
+							<a href="${pageContext.request.contextPath}/product-detail?id=${food.id}&resPage=${resCurrentPage+1}">→</a>
+						</c:if>
+					</div>
+				</c:if>
+			</section>
+		</c:if>
 
 		<c:if test="${not empty relatedFoods}">
 			<section class="related-products">
@@ -219,13 +178,9 @@
 					<c:forEach items="${relatedFoods}" var="item">
 						<div class="related-item">
 							<a href="${pageContext.request.contextPath}/product-detail?id=${item.id}">
-								<img src="${item.image}"
-								     alt="${item.name}"
-								     width="150">
+								<img src="${item.image}" alt="${item.name}" width="150">
 								<h4>${item.name}</h4>
-								<p>
-									<fmt:formatNumber value="${item.price}" type="number"/> ₫
-								</p>
+								<p><fmt:formatNumber value="${item.price}" type="number"/> ₫</p>
 							</a>
 						</div>
 					</c:forEach>
@@ -233,35 +188,20 @@
 			</section>
 			<c:if test="${totalPages > 1}">
 				<div class="pagination">
-
 					<c:if test="${currentPage > 1}">
-						<a href="${pageContext.request.contextPath}/product-detail?id=${food.id}&page=${currentPage-1}">
-							←
-						</a>
+						<a href="${pageContext.request.contextPath}/product-detail?id=${food.id}&page=${currentPage-1}">←</a>
 					</c:if>
-
 					<c:forEach begin="1" end="${totalPages}" var="i">
-
-						<a href="${pageContext.request.contextPath}/product-detail?id=${food.id}&page=${i}"
-						   class="${i==currentPage?'active':''}">
-								${i}
-						</a>
-
+						<a href="${pageContext.request.contextPath}/product-detail?id=${food.id}&page=${i}" class="${i==currentPage?'active':''}">${i}</a>
 					</c:forEach>
-
 					<c:if test="${currentPage < totalPages}">
-						<a href="${pageContext.request.contextPath}/product-detail?id=${food.id}&page=${currentPage+1}">
-							→
-						</a>
+						<a href="${pageContext.request.contextPath}/product-detail?id=${food.id}&page=${currentPage+1}">→</a>
 					</c:if>
-
 				</div>
 			</c:if>
 		</c:if>
 	</main>
-
 	<jsp:include page="/views/jsp/footer.jsp" />
 </div>
-
 </body>
 </html>

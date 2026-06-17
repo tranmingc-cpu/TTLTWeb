@@ -113,7 +113,7 @@
 						<div class="product-price">
 							<fmt:formatNumber value="${f.price}"
 											  type="number"
-											  groupingUsed="true"/> ₫
+											  groupingUsed="true"/> VND
 						</div>
 
 						<div class="btn-group">

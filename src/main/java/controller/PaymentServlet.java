@@ -63,8 +63,8 @@ public class PaymentServlet extends HttpServlet {
 
         String bank = "MBBank";
         String accountNo = "0364964685";
-        String accountName = "TRAN MINH CONG";
-        String mem = "DH" + firstOrderId;
+        String accountName = "TRAN NHAT MINH ";
+        String mem = "DH SỐ " + firstOrderId + " CỦA BẠN ";
         
         String qrUrl = String.format("https://qr.sepay.vn/img?acc=%s&bank=%s&amount=%.0f&mem=%s",
                 accountNo, bank, totalAmount, mem);
