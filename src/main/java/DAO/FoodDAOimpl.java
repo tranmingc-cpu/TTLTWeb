@@ -245,7 +245,7 @@ public class FoodDAOimpl implements FoodDAO {
     @Override
     public List<Food> getFoodsByRestaurant(int resid) {
         List<Food> list = new ArrayList<>();
-        String sql = "SELECT * FROM Food WHERE RESID = ?";
+        String sql = "SELECT * FROM FOOD WHERE RESID = ?";
         try (Connection con = DBConnect.getConnect();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, resid);

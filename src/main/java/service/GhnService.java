@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 public class GhnService {
 
     private static final String BASE_URL = "https://dev-online-gateway.ghn.vn/shiip/public-api";
-    private static final int DEFAULT_WEIGHT = 500;
+    private static final int DEFAULT_WEIGHT = 1000;
     private static final int DEFAULT_LENGTH = 20;
     private static final int DEFAULT_WIDTH  = 20;
     private static final int DEFAULT_HEIGHT = 10;
