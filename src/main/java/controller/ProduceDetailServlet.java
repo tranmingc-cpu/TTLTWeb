@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import DAO.FoodDAOimpl;
+import DAO.ReviewDAO; // 1. IMPORT THÊM REVIEW DAO TẠI ĐÂY
 
 /**
  * Servlet implementation class ProduceDetailServlet
@@ -19,13 +20,13 @@ import DAO.FoodDAOimpl;
 public class ProduceDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private FoodDAOimpl dao = new FoodDAOimpl();
+	private ReviewDAO reviewDAO = new ReviewDAO(); // 2. KHỞI TẠO ĐỐI TƯỢNG REVIEW DAO
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public ProduceDetailServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -54,7 +55,6 @@ public class ProduceDetailServlet extends HttpServlet {
 			return;
 		}
 		Food food = dao.infomation(id);
-
 		if (food == null) {
 			request.setAttribute("error", "Sản phẩm không tồn tại");
 		} else {
@@ -66,25 +66,21 @@ public class ProduceDetailServlet extends HttpServlet {
 			if (discount > 0) {
 				BigDecimal discountPercent = new BigDecimal(discount);
 				BigDecimal oneHundred = new BigDecimal(100);
-				newPrice = oldPrice.subtract(oldPrice.multiply(new java.math.BigDecimal(discount)).divide(new java.math.BigDecimal(100), 2, java.math.RoundingMode.HALF_UP));			}
-               System.out.println(" old price"+ oldPrice);
-			System.out.println(" old price"+ oldPrice);
-			System.out.println(" discount "+ food.getDiscount());
+				newPrice = oldPrice.subtract(oldPrice.multiply(new java.math.BigDecimal(discount)).divide(new java.math.BigDecimal(100), 2, java.math.RoundingMode.HALF_UP));        }
 
 			request.setAttribute("oldPrice", oldPrice);
 			request.setAttribute("discount", discount);
 			request.setAttribute("newPrice", newPrice);
 
 			List<Food> relatedFoods = dao.findByCategory(food.getCATEGORYId());
-
 			relatedFoods.removeIf(f -> f.getId() == food.getId());
-
 			request.setAttribute("relatedFoods", relatedFoods);
+			List<Review> reviews = reviewDAO.getReviewsByFoodId(id);
+			request.setAttribute("reviews", reviews);
 		}
 
 		request.getRequestDispatcher("/views/jsp/product-detail.jsp").forward(request, response);
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 * response)

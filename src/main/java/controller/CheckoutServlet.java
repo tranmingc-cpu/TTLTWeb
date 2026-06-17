@@ -4,6 +4,7 @@ import DAO.CouponDAO;
 import DAO.UserDAO;
 import DAO.CartDAO;
 import DAO.OrderDAO;
+import DAO.FoodDAOimpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -25,11 +26,12 @@ public class CheckoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CartDAO cartDAO = new CartDAO();
 	private OrderDAO orderDAO = new OrderDAO();
+	private FoodDAOimpl foodDAO = new FoodDAOimpl();
+
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		HttpSession session = request.getSession(false);
 		if (session == null || session.getAttribute("account") == null) {
 			response.sendRedirect(request.getContextPath() + "/login");
@@ -96,10 +98,13 @@ public class CheckoutServlet extends HttpServlet {
 
 		request.getRequestDispatcher("/views/jsp/checkout.jsp").forward(request, response);
 	}
+
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		CouponDAO coupondao = new CouponDAO();
+		FoodDAOimpl foodDAO = new FoodDAOimpl(); // 2. KHỞI TẠO ĐỐI TƯỢNG FOOD DAO TẠI ĐÂY
+
 		HttpSession session = request.getSession(false);
 		if (session == null || session.getAttribute("account") == null) {
 			response.sendRedirect(request.getContextPath() + "/login");
@@ -116,23 +121,12 @@ public class CheckoutServlet extends HttpServlet {
 			return;
 		}
 
-		String detailAddress =
-				(String) session.getAttribute("orderDetailAddress");
-
-		String receiverName =
-				(String) session.getAttribute("name");
-
-		String receiverPhone =
-				(String) session.getAttribute("phone");
-
-		String districtIdStr =
-				(String) session.getAttribute("orderDistrictId");
-
-		String wardCode =
-				(String) session.getAttribute("orderWardCode");
-
-		String paramShipFee =
-				request.getParameter("shipFee");
+		String detailAddress = (String) session.getAttribute("orderDetailAddress");
+		String receiverName = (String) session.getAttribute("name");
+		String receiverPhone = (String) session.getAttribute("phone");
+		String districtIdStr = (String) session.getAttribute("orderDistrictId");
+		String wardCode = (String) session.getAttribute("orderWardCode");
+		String paramShipFee = request.getParameter("shipFee");
 
 		BigDecimal formShipFee = BigDecimal.ZERO;
 		if (paramShipFee != null && !paramShipFee.trim().isEmpty()) {
@@ -165,6 +159,7 @@ public class CheckoutServlet extends HttpServlet {
 		if (districtIdStr != null && !districtIdStr.isBlank()) {
 			districtId = Integer.parseInt(districtIdStr);
 		}
+
 		for (var entry : cartByRes.entrySet()) {
 
 			BigDecimal total = entry.getValue().stream()
@@ -211,6 +206,8 @@ public class CheckoutServlet extends HttpServlet {
 						item.getQuantity(),
 						item.getFood().getPrice()
 				);
+
+				foodDAO.decreaseFoodStock(item.getFood().getId(), item.getQuantity());
 			}
 
 			if (email != null && !email.trim().isEmpty()) {

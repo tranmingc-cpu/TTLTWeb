@@ -61,8 +61,6 @@ public class CartServlet extends HttpServlet {
 
             return;
         }
-
-        // ================= UPDATE =================
         if ("update".equals(action)) {
 
             String detailIdRaw = request.getParameter("detailId");
@@ -85,8 +83,6 @@ public class CartServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/cart");
             return;
         }
-
-        // ================= DELETE =================
         if ("delete".equals(action)) {
 
             String detailIdRaw = request.getParameter("detailId");
@@ -101,7 +97,6 @@ public class CartServlet extends HttpServlet {
             return;
         }
 
-        // ================= LOAD CART =================
 
         int cartId = cartDAO.getCartIdByAccount(acc.getIdAccount());
 
@@ -117,13 +112,8 @@ public class CartServlet extends HttpServlet {
             }
         }
 
-        // Ship fee
         BigDecimal shipFee = BigDecimal.ZERO;
-
-        // Tổng trước giảm
         BigDecimal total = subTotal.add(shipFee);
-
-        // Giảm giá
         BigDecimal discount = BigDecimal.ZERO;
 
         Coupons coupon = (Coupons) session.getAttribute("coupon");
@@ -134,10 +124,7 @@ public class CartServlet extends HttpServlet {
                 if ("percentage".equalsIgnoreCase(
                         coupon.getDiscountType())) {
 
-                    // giảm theo %
                     discount = total.multiply(coupon.getDiscountValue()).divide(BigDecimal.valueOf(100));
-
-                    // giới hạn mức giảm tối đa
                     if (coupon.getMaxDiscountAmount() != null &&
                             discount.compareTo(coupon.getMaxDiscountAmount()) > 0) {
                         discount = coupon.getMaxDiscountAmount();
@@ -145,13 +132,9 @@ public class CartServlet extends HttpServlet {
 
                 } else if ("fixed".equalsIgnoreCase(
                         coupon.getDiscountType())) {
-
-                    // giảm số tiền cố định
                     discount = coupon.getDiscountValue();
                 }
-
                 total = total.subtract(discount);
-
                 if (total.compareTo(BigDecimal.ZERO) < 0) {
                     total = BigDecimal.ZERO;
                 }
@@ -163,20 +146,15 @@ public class CartServlet extends HttpServlet {
             }
         }
 
-        // Thông tin nhà hàng
         if (!cart.isEmpty()) {
-
-            int restaurantId =
-                    cart.get(0).getFood().getResID();
+            int restaurantId = cart.get(0).getFood().getResID();
 
             SellerDAO rDAO = new SellerDAO();
             FoodDAOimpl fDAO = new FoodDAOimpl();
 
-            request.setAttribute("restaurant", rDAO.getRestaurantById(restaurantId)
-            );
+            request.setAttribute("restaurant", rDAO.getRestaurantById(restaurantId));
 
-            request.setAttribute("restaurantFoods", fDAO.getFoodsByRestaurant(restaurantId)
-            );
+            request.setAttribute("restaurantFoods", fDAO.getFoodsByRestaurant(restaurantId));
         }
 
         request.setAttribute("cart", cart);
