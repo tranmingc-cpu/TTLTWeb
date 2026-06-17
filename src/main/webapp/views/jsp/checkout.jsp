@@ -112,7 +112,10 @@
     document.addEventListener("DOMContentLoaded", function() {
         const districtId = document.getElementById("districtId").value;
         const wardCode = document.getElementById("wardCode").value;
-
+        const contextPath = "${pageContext.request.contextPath}";
+        const subTotal = parseFloat(document.getElementById("sub-total-val").dataset.value);
+        const discountEl = document.getElementById("discount-val");
+        const discount = discountEl ? parseFloat(discountEl.dataset.value) : 0;
         if(!districtId || !wardCode) {
             document.getElementById("ship-fee-val").textContent = "0 đ";
             return;

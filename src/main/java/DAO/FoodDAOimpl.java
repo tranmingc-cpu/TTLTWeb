@@ -487,5 +487,23 @@ public class FoodDAOimpl implements FoodDAO {
         }
                     return list ;
     }
+    public List<Food> getAllFoodNames() {
+        List<Food> list = new ArrayList<>();
+        String sql = "SELECT ID, FNAME FROM FOOD";
 
+        try (Connection conn = DBConnect.getConnect();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Food f = new Food();
+                f.setId(rs.getInt("ID"));
+                f.setName(rs.getString("FNAME"));
+                list.add(f);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
